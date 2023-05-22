@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    username: root
+    password: zzw12345
+    url: jdbc:mysql://localhost:3306/elasticsearch?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+
