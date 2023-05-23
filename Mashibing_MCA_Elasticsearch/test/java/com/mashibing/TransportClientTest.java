@@ -14,6 +14,13 @@ import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
+import org.elasticsearch.search.aggregations.metrics.Avg;
 import org.elasticsearch.transport.Transport;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.elasticsearch.xcontent.XContentFactory;
@@ -23,9 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 @MapperScan(basePackages = {"com.mashibing.transportClient.mapper"})
@@ -66,7 +75,7 @@ public class TransportClientTest {
                                 .field("lv", product.getLv())
                                 .field("type", product.getType())
                                 .field("createtime", df.format(product.getCreatetime()))
-                                .field("tags", product.getTags())
+                                .field("tags", product.getTags().split(","))
                                 .endObject() // 相当于json结束的大括号“}”
                         ).get();
                 /*
@@ -321,6 +330,202 @@ public class TransportClientTest {
                 log.info("_score:" + hit.getScore());
                 log.info("_source(String):" + hit.getSourceAsString());
                 log.info("_source(Map):" + hit.getSourceAsMap());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 按月进行分桶聚合，统计每一个tag的平均价格
+     * get /index17/_search
+     * {
+     *  "query":{
+     *     "range": {
+     *       "price": {
+     *         "gte": 10
+     *       }
+     *     }
+     *   },
+     *   "aggs": {
+     *     "my_date_histogram": {
+     *       "date_histogram": {
+     *         "field": "createtime",
+     *         "interval": "month"
+     *       },
+     *       "aggs": {
+     *         "my_tags_agg": {
+     *           "terms": {
+     *             "field": "tags.keyword"
+     *           },
+     *           "aggs": {
+     *             "my_avg_agg": {
+     *               "avg": {
+     *                 "field": "price"
+     *               }
+     *             }
+     *           }
+     *         }
+     *       }
+     *     }
+     *   }
+     * }
+     *
+     * 查询结果：
+     * {
+     *   ...
+     *   "aggregations" : {
+     *     "my_date_histogram" : {
+     *       "buckets" : [
+     *         {
+     *           "key_as_string" : "2020-05-01T00:00:00.000Z",
+     *           "key" : 1588291200000,
+     *           "doc_count" : 1,
+     *           "my_tags_agg" : {
+     *             "doc_count_error_upper_bound" : 0,
+     *             "sum_other_doc_count" : 0,
+     *             "buckets" : [
+     *               {
+     *                 "key" : "公交卡",
+     *                 "doc_count" : 1,
+     *                 "my_avg_agg" : {
+     *                   "value" : 4999.0
+     *                 }
+     *               },
+     *               ...
+     *             ]
+     *           }
+     *         },
+     *         {
+     *           "key_as_string" : "2020-06-01T00:00:00.000Z",
+     *           "key" : 1590969600000,
+     *           "doc_count" : 2,
+     *           "my_tags_agg" : {
+     *             "doc_count_error_upper_bound" : 0,
+     *             "sum_other_doc_count" : 0,
+     *             "buckets" : [
+     *               {
+     *                 "key" : " 快充",
+     *                 "doc_count" : 1,
+     *                 "my_avg_agg" : {
+     *                   "value" : 2999.0
+     *                 }
+     *               },
+     *               ...
+     *             ]
+     *           }
+     *         },
+     *         {
+     *           "key_as_string" : "2020-07-01T00:00:00.000Z",
+     *           "key" : 1593561600000,
+     *           "doc_count" : 3,
+     *           "my_tags_agg" : {
+     *             "doc_count_error_upper_bound" : 0,
+     *             "sum_other_doc_count" : 0,
+     *             "buckets" : [
+     *               {
+     *                 "key" : "120HZ刷新率",
+     *                 "doc_count" : 1,
+     *                 "my_avg_agg" : {
+     *                   "value" : 5999.0
+     *                 }
+     *               },
+     *               ...
+     *             ]
+     *           }
+     *         },
+     *         {
+     *           "key_as_string" : "2020-08-01T00:00:00.000Z",
+     *           "key" : 1596240000000,
+     *           "doc_count" : 4,
+     *           "my_tags_agg" : {
+     *             "doc_count_error_upper_bound" : 0,
+     *             "sum_other_doc_count" : 0,
+     *             "buckets" : [
+     *               {
+     *                 "key" : "大片",
+     *                 "doc_count" : 2,
+     *                 "my_avg_agg" : {
+     *                   "value" : 2999.0
+     *                 }
+     *               },
+     *               ...
+     *             ]
+     *           }
+     *         },
+     *         {
+     *           "key_as_string" : "2020-09-01T00:00:00.000Z",
+     *           "key" : 1598918400000,
+     *           "doc_count" : 0,
+     *           "my_tags_agg" : {
+     *             "doc_count_error_upper_bound" : 0,
+     *             "sum_other_doc_count" : 0,
+     *             "buckets" : [ ]
+     *           }
+     *         },
+     *         {
+     *           "key_as_string" : "2020-10-01T00:00:00.000Z",
+     *           "key" : 1601510400000,
+     *           "doc_count" : 1,
+     *           "my_tags_agg" : {
+     *             "doc_count_error_upper_bound" : 0,
+     *             "sum_other_doc_count" : 0,
+     *             "buckets" : [
+     *               {
+     *                 "key" : "不卡顿",
+     *                 "doc_count" : 1,
+     *                 "my_avg_agg" : {
+     *                   "value" : 3999.0
+     *                 }
+     *               },
+     *               ...
+     *             ]
+     *           }
+     *         }
+     *       ]
+     *     }
+     *   }
+     * }
+     */
+    @Test
+    public void testAggs() {
+        try(TransportClient client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(new TransportAddress(InetAddress.getLocalHost(), 9300));) {
+            SearchResponse searchResponse = client.prepareSearch("index17")
+                    .setQuery(QueryBuilders.rangeQuery("price").gte(10))
+                    .addAggregation(AggregationBuilders.dateHistogram("my_date_histogram").field("createtime").calendarInterval(DateHistogramInterval.MONTH)
+                            .subAggregation(AggregationBuilders.terms("my_tags_agg").field("tags.keyword")
+                                    .subAggregation(AggregationBuilders.avg("my_avg_agg").field("price")))).get();
+            log.info("searchResponse : " + searchResponse); // 可以看出searchResponse返回的查询结果json和在kibana里面查询出来的结果json一毛一样。
+
+            // 按层级取出结果json中所需要的属性
+            Aggregations aggregations = searchResponse.getAggregations();
+            Map<String, Aggregation> histAggregationMap = aggregations.asMap();
+            Aggregation myDateHistogram = histAggregationMap.get("my_date_histogram");
+            Histogram histogram = (Histogram) myDateHistogram;// 向下转型到Histogram，因为该层级的结果是通过histogram聚合查出来的
+            List<? extends Histogram.Bucket> histogramBuckets = histogram.getBuckets();
+            log.info("histogramBuckets.size = " + histogramBuckets.size());
+
+            for(Histogram.Bucket histBucket : histogramBuckets) {
+                log.info("---------Histogram---------");
+                log.info("key_as_string:" + histBucket.getKeyAsString());
+                log.info("key:" + histBucket.getKey());
+                log.info("doc_count:" + histBucket.getDocCount());
+                Map<String, Aggregation> termAggregationMap = histBucket.getAggregations().asMap();
+                Aggregation myTagsAgg = termAggregationMap.get("my_tags_agg");
+                StringTerms stringTerms = (StringTerms) myTagsAgg;// 向下转型到StringTerms，因为该层级的结果是通过term分桶聚合查出来的
+                log.info("doc_count_error_upper_bound:" + stringTerms.getDocCountError());
+                log.info("sum_other_doc_count:" + stringTerms.getSumOfOtherDocCounts());
+                List<StringTerms.Bucket> stringTermsBuckets = stringTerms.getBuckets();
+
+                for(StringTerms.Bucket termsBucket : stringTermsBuckets) {
+                    log.info("---------Term---------");
+                    log.info("key:" + termsBucket.getKey());
+                    log.info("doc_count:" + termsBucket.getDocCount());
+                    Map<String, Aggregation> avgAggregationMap = termsBucket.getAggregations().asMap();
+                    Aggregation myAvgAgg = avgAggregationMap.get("my_avg_agg");
+                    Avg avg = (Avg) myAvgAgg;// 向下转型到Avg，因为该层级的结果是通过avg聚合查出来的
+                    log.info("value:" + avg.getValue());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
