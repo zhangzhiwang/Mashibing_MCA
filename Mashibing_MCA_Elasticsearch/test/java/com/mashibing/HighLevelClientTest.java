@@ -1,10 +1,20 @@
 package com.mashibing;
 
+import com.alibaba.fastjson.JSONObject;
+import com.mashibing.transportClient.entity.Product;
+import com.mashibing.transportClient.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.bulk.BulkItemResponse;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.*;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
@@ -14,16 +24,31 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.UpdateByQueryRequest;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.elasticsearch.xcontent.XContentBuilder;
 import org.elasticsearch.xcontent.XContentFactory;
+import org.elasticsearch.xcontent.XContentType;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.HashMap;
+import java.util.List;
 
 @SpringBootTest
 @MapperScan(basePackages = {"com.mashibing.transportClient.mapper"})
 @Slf4j
 public class HighLevelClientTest {
+    @Autowired
+    private IProductService productService;
+
+    //-----------------对索引的操作：增、删、查---------------------
     @Test
     public void testCreateIndex() {
         RestHighLevelClient client = null;
@@ -99,6 +124,7 @@ public class HighLevelClientTest {
             // step 4：发送数据
             // 4.1：同步发送数据
             // 创建返回的是CreateIndexResponse
+            // client先调用indices()方法，返回的是IndicesClient对象，IndicesClient封装了对索引的操作（单词indices就是index的复数形式）
 //            CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
             //            boolean acknowledged = createIndexResponse.isAcknowledged();// 是否创建成功
 //            log.info("是否创建成功：" + acknowledged);
@@ -159,6 +185,125 @@ public class HighLevelClientTest {
             AcknowledgedResponse acknowledgedResponse = client.indices().delete(request, RequestOptions.DEFAULT);
 
             log.info("acknowledgedResponse : " + acknowledgedResponse.isAcknowledged());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //-----------------对索引文档的操作：增、删、改、查---------------------
+    @Test
+    public void testInsertData() {
+        try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));) {
+            // 从数据库查询所有数据
+            List<Product> productList = productService.queryAll();
+            // 插入数据用IndexRequest
+            IndexRequest request = new IndexRequest("index17_4");// 如果索引不存在则自动创建
+
+            for (Product product : productList) {
+                request.id(product.getId() + "");
+                request.source(JSONObject.toJSONString(product), XContentType.JSON);// TODO 等有时间研究下为什么不建议使用阿里的fastjson
+                // 插入数据返回IndexResponse
+                IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);// 不需要先调用indices()方法返回IndicesClient对象，因为不是对索引的操作而是对文档数据的操作，所以直接调用index()方法来插入数据
+                log.info("indexResponse : " + indexResponse);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testBulkInsertData() {
+        try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));) {
+            // 批量查询文档数据使用BulkRequest，其实BulkRequest就是往里面添加（add）多个IndexRequest，每一个文档数据都放在一个IndexRequest里面
+            BulkRequest bulkRequest = new BulkRequest("index17_5");// 往index17_5下面批量插入文档数据
+
+            for (int i = 0; i < 10; i++) {// 批量向index17_5索引下面插入10条数据
+                Product product = new Product();
+                product.setId((long) i);
+                product.setName("xiaomi_" + i);
+                product.setDesc("xiaomi desc_" + i);
+
+                IndexRequest indexRequest = new IndexRequest();
+                indexRequest.id(i + "");
+                indexRequest.source(JSONObject.toJSONString(product), XContentType.JSON);
+                bulkRequest.add(indexRequest);
+            }
+
+            // 批量插入返回BulkResponse
+            BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);// 调用client的bulk()方法
+            BulkItemResponse[] items = bulkResponse.getItems();
+            for (BulkItemResponse item : items) {
+                log.info("isFailed : " + item.isFailed());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetById() {
+        try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));) {
+            // 查询单个文档使用GetRequest
+            GetRequest getRequest = new GetRequest("index17_5", "1");// 查询index17_5 id为1的文档
+
+            String[] includes = {"name", "price"};// 只查询name和price两个字段
+            String[] excludes = {"price"};// 不查询price字段，当includes和excludes冲突时以excludes为准
+            FetchSourceContext fetchSourceContext = new FetchSourceContext(true, includes, excludes);
+            getRequest.fetchSourceContext(fetchSourceContext);
+            // 查询单个文档返回GetResponse
+            GetResponse response = client.get(getRequest, RequestOptions.DEFAULT);
+            log.info("response : " + response);
+            log.info("response.source : " + response.getSourceAsString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testMultiGetById() {
+        try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")))) {
+            // 批量查询（根据多个id查询，相当于是多个get）
+            MultiGetRequest multiGetRequest = new MultiGetRequest();
+            // 写法1：
+            multiGetRequest.add("index17_4", "1");
+            multiGetRequest.add("index17_5", "1");// 可以查询多个索引的文档
+            // 写法2：
+            multiGetRequest.add(new MultiGetRequest.Item("index17_4", "2"));
+            multiGetRequest.add(new MultiGetRequest.Item("index17", "3"));
+
+            // 批量查询返回MultiGetResponse
+            MultiGetResponse mget = client.mget(multiGetRequest, RequestOptions.DEFAULT);
+            MultiGetItemResponse[] mgetResponses = mget.getResponses();
+            for (MultiGetItemResponse itemResponse : mgetResponses) {
+                log.info("itemResponse : " + itemResponse.getResponse().getSourceAsString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUpdateByQuery() {
+        try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));) {
+            // 查询完更新
+            UpdateByQueryRequest updateByQueryRequest = new UpdateByQueryRequest("index17_4");// 入参是索引名，对索引index17_4进行update by query操作
+            updateByQueryRequest.setQuery(QueryBuilders.matchQuery("name", "NFC"));// 设置查询条件，查询名称包含NFC的
+            updateByQueryRequest.setScript(new Script(ScriptType.INLINE, "painless", "ctx._source.desc+='aaa';", new HashMap<>()));// 使用脚本
+
+            // 查询更新返回BulkByScrollResponse
+            BulkByScrollResponse bulkByScrollResponse = client.updateByQuery(updateByQueryRequest, RequestOptions.DEFAULT);
+            log.info("bulkByScrollResponse : " + bulkByScrollResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeleteById() {
+        try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));) {
+            DeleteRequest deleteRequest = new DeleteRequest("index17_4", "1");// 删除index17_4 id为1的文档
+            DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
+            log.info("deleteResponse : " + deleteResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }
