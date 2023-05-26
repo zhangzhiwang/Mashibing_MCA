@@ -1,6 +1,7 @@
 package com.mashibing;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mashibing.restClient.util.RestHighLevelClientUtil;
 import com.mashibing.transportClient.entity.Product;
 import com.mashibing.transportClient.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +17,13 @@ import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.*;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
+import org.elasticsearch.client.sniff.SniffOnFailureListener;
+import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
@@ -306,6 +307,124 @@ public class HighLevelClientTest {
             log.info("deleteResponse : " + deleteResponse);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRestHighLevelClientUtil() {
+        try (RestHighLevelClient client = RestHighLevelClientUtil.getRestHighLevelClient();) {
+            DeleteRequest deleteRequest = new DeleteRequest("index1", "1");// 删除index17_4 id为1的文档
+            DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
+            log.info("deleteResponse : " + deleteResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 嗅探机制——给嗅探器一个节点，它能把集群中的其它节点自动识别出来
+     */
+    @Test
+    public void testSniffer() {
+        RestHighLevelClient highLevelClient = null;
+        Sniffer sniffer = null;
+        try {
+            //------------------low-level client设置开始-----------------
+            SniffOnFailureListener sniffOnFailureListener = new SniffOnFailureListener();
+            RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("localhost", 9201, "http"))
+                    .setFailureListener(sniffOnFailureListener);// 设置连接失败监听器，注意：当这里的RestClientBuilder设置SniffOnFailureListener监听器的时候，下面的Sniffer设置setSniffAfterFailureDelayMillis才起作用。
+            RestClient restClient = restClientBuilder.build();
+            // 将low-level clientBuilder放到high-level client里面
+            highLevelClient = new RestHighLevelClient(restClientBuilder);
+
+            // 当使用https协议连接集群的时候要使用NodesSniffer，使用http连接集群无需此设置
+//            NodesSniffer nodesSniffer = new ElasticsearchNodesSniffer(
+//                    restClient, ElasticsearchNodesSniffer.DEFAULT_SNIFF_REQUEST_TIMEOUT, ElasticsearchNodesSniffer.Scheme.HTTPS);
+
+            // sniffer
+            sniffer = Sniffer.builder(highLevelClient.getLowLevelClient())
+                    .setSniffIntervalMillis(1000)// 设置正常情况下两次嗅探之间的间隔，或者说每隔多久嗅探一次
+                    .setSniffAfterFailureDelayMillis(30000)// 在嗅探失败的时候的重试间隔，注意：上面RestClientBuilder必须设置SniffOnFailureListener监听这里才起作用，否则不起作用
+//                    .setNodesSniffer(nodesSniffer)// 使用https连接集群的时候才需要设置
+                    .build();
+
+            // 将嗅探器设置到监听器中
+            sniffOnFailureListener.setSniffer(sniffer);
+            //------------------low-level client设置结束-----------------
+
+            Thread.sleep(10000);
+            DeleteRequest deleteRequest = new DeleteRequest("index1", "1");// 删除index17_4 id为1的文档
+            DeleteResponse deleteResponse = highLevelClient.delete(deleteRequest, RequestOptions.DEFAULT);
+            log.info("deleteResponse : " + deleteResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(sniffer != null) {// 要注意关闭顺序：先关闭sniffer再关闭highLevelClient
+                sniffer.close();
+            }
+            if(highLevelClient != null) {
+                try {
+                    highLevelClient.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testSniffer2() {
+        RestHighLevelClient highLevelClient = null;
+        Sniffer sniffer = null;
+        try {
+            //------------------low-level client设置开始-----------------
+            SniffOnFailureListener sniffOnFailureListener = new SniffOnFailureListener();
+            RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("localhost", 9201, "http"))
+                    .setFailureListener(sniffOnFailureListener);// 设置连接失败监听器，注意：当这里的RestClientBuilder设置SniffOnFailureListener监听器的时候，下面的Sniffer设置setSniffAfterFailureDelayMillis才起作用。
+            RestClient restClient = restClientBuilder.build();
+
+            // 当使用https协议连接集群的时候要使用NodesSniffer，使用http连接集群无需此设置
+//            NodesSniffer nodesSniffer = new ElasticsearchNodesSniffer(
+//                    restClient, ElasticsearchNodesSniffer.DEFAULT_SNIFF_REQUEST_TIMEOUT, ElasticsearchNodesSniffer.Scheme.HTTPS);
+
+            // sniffer
+            sniffer = Sniffer.builder(restClient)
+                    .setSniffIntervalMillis(1000)// 设置正常情况下两次嗅探之间的间隔，或者说每隔多久嗅探一次
+                    .setSniffAfterFailureDelayMillis(30000)// 在嗅探失败的时候的重试间隔，注意：上面RestClientBuilder必须设置SniffOnFailureListener监听这里才起作用，否则不起作用
+//                    .setNodesSniffer(nodesSniffer)// 使用https连接集群的时候才需要设置
+                    .build();
+
+            // 将嗅探器设置到监听器中
+            sniffOnFailureListener.setSniffer(sniffer);
+            //------------------low-level client设置结束-----------------
+
+            // 将low-level clientBuilder放到high-level client里面
+            highLevelClient = new RestHighLevelClient(restClientBuilder);
+
+            List<Node> nodeList = highLevelClient.getLowLevelClient().getNodes();
+            for(Node node : nodeList) {
+                log.info("node : " + node);
+            }
+
+            Thread.sleep(7000);
+            log.info("休眠后...");
+            nodeList = highLevelClient.getLowLevelClient().getNodes();
+            for(Node node : nodeList) {
+                log.info("node : " + node);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(sniffer != null) {// 要注意关闭顺序：先关闭sniffer再关闭highLevelClient
+                sniffer.close();
+            }
+            if(highLevelClient != null) {
+                try {
+                    highLevelClient.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
