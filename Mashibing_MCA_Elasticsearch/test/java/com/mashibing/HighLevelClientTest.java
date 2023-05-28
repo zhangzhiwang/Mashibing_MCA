@@ -215,7 +215,7 @@ public class HighLevelClientTest {
     @Test
     public void testBulkInsertData() {
         try (RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));) {
-            // 批量查询文档数据使用BulkRequest，其实BulkRequest就是往里面添加（add）多个IndexRequest，每一个文档数据都放在一个IndexRequest里面
+            // 批量插入文档数据使用BulkRequest，其实BulkRequest就是往里面添加（add）多个IndexRequest，每一个文档数据都放在一个IndexRequest里面
             BulkRequest bulkRequest = new BulkRequest("index17_5");// 往index17_5下面批量插入文档数据
 
             for (int i = 0; i < 10; i++) {// 批量向index17_5索引下面插入10条数据

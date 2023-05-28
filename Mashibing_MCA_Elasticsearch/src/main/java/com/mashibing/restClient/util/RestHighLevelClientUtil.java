@@ -14,7 +14,7 @@ public class RestHighLevelClientUtil {
 
         // 加入嗅探机制
         Sniffer sniffer = Sniffer.builder(restHighLevelClient.getLowLevelClient())
-                .setSniffIntervalMillis(1000)
+//                .setSniffIntervalMillis(1000)
                 .setSniffAfterFailureDelayMillis(30000)
                 .build();
         SniffOnFailureListener failureListener = RestClientUtil.failureListener;
