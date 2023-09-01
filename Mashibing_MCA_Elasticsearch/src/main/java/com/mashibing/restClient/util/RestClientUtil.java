@@ -13,7 +13,8 @@ import org.elasticsearch.client.sniff.Sniffer;
 
 @Data
 public class RestClientUtil {
-    private static final String ADDRESS = "localhost:9201,localhost:9202";// 可以写到配置文件里，这里只是模拟
+//    private static final String ADDRESS = "localhost:9201,localhost:9202";// 可以写到配置文件里，这里只是模拟
+    private static final String ADDRESS = "localhost:9200";// 可以写到配置文件里，这里只是模拟
     private static final String SCHEME = "http";
     public static SniffOnFailureListener failureListener = null;
 

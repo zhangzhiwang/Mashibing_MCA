@@ -13,6 +13,7 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>Mashibing_MCA_Elasticsearch</module>
+      <module>Mashibing_MCA_Data_Structures_And_Algorithms</module>
   </modules>
   <packaging>pom</packaging>
 
