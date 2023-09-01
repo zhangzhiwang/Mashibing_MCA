@@ -15,7 +15,7 @@ package com.mashibing.preInEclipse.junior;
 public class JieCheng {
 	public static void main(String[] args) {
 		int n = 5;// 1!+2!+3!+……+5! = 1 + 2 + 6 + 24 + 120
-		int tmp = 1;
+		int tmp = 1;// 用于保存本次循环n!，对于下一轮循环来说就变成了(n-1)!，注意初始值
 		int sum = 0;
 		for (int i = 1; i <= n; i++) {
 			tmp *= i;
