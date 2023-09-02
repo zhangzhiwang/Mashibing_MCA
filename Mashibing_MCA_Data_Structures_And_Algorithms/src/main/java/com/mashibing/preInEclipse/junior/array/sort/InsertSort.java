@@ -2,7 +2,9 @@ package com.mashibing.preInEclipse.junior.array.sort;
 
 /**
  * 排序算法3——插入排序
- * 
+ *
+ * 形象描述：类似打扑克后者打麻将的一条龙：先把手里的牌排好序，然后抓一张新牌从右往左划，划到合适的位置。
+ *
  * 思路：
  * 1、让索引[0,0]范围内有序，然而数组只有一个元素天然是有序的
  * 2、让索引[0,1]范围内有序，可以看做将1位置的元素插入到已排好序的[0,0]数组的最末尾，然后让1元素与前面数组最末尾的元素进行比较，如果小的话就和其交换，反之不动；
@@ -20,8 +22,9 @@ public class InsertSort {
 	}
 
 	public static void insertSort(int[] arr) {
-		for(int newDataIndex = 1; newDataIndex < arr.length; newDataIndex++) {// newDataIndex是新插入数据的索引，默认新插入的数据放在已排好序数组的末尾，由于最开始已排好序数组的索引范围是[0,0]，所以新元素的第一个位置应该是1。
-			// 外层循环从1开始，因为0位置天生已经排好序了，所以新插入一个元素是从位置1开始的    想的屏放都发过几个唯一因为回家看看渝欧就1123
+		for(int newDataIndex = 1; newDataIndex < arr.length; newDataIndex++) {
+			// newDataIndex是新插入数据的索引，默认新插入的数据放在已排好序数组的末尾，由于最开始已排好序数组的索引范围是[0,0]，所以新元素的第一个位置应该是1。
+			// 外层循环从1开始，因为0位置天生已经排好序了，所以新插入一个元素是从位置1开始的。由于数组是从左往右推进，所以正序遍历。
 			/**
 			 * 内层for循环的含义：
 			 * 1、preDataIndex：假如现在已排好序的数组是[1,3,5]，然后在5后面插入一个新元素2，外层循环的newDataIndex就是2所在的位置，那么5所在的位置就是newDataIndex-1，
