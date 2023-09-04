@@ -4,12 +4,13 @@ import java.util.HashMap;
 
 /**
  * 哈希表
- * 在java语言中有序表就是HashMap
+ * 在java语言中哈希表就是HashMap
  *
  * HashMap的那点事：
  * 1、增删改查的时间复杂度度都是O(1)的，虽然都是常数时间但是这个常数时间有点大
  * 2、如果key是String类型的，那么实际上时间复杂度是是O(N)，只不过这个N不是HashMap的数据量大小而是作为key的字符串的字符数
- * 3、HashMap是不能放入重复的key的，怎么判定key是否重复呢？是调用key的equals()方法来判断的，如果key的equals()方法返回true则代表key重复，否则为key不重复
+ * 3、HashMap是不能放入重复的key的，怎么判定key是否重复呢？是调用key的equals()方法来判断的，如果key的equals()方法返回true则代表key重复，否则为key不重复。
+ * （课程里老师讲的是HashMap是值传递不是引用传递，不要这么记，知道HashMap的get或者containsKey等方法本质上都是调用key所属类的equals方法，比较结果取决于equals方法的定义）
  *
  * @author zhangzhiwang
  * @date 2022年3月3日 下午7:35:42
