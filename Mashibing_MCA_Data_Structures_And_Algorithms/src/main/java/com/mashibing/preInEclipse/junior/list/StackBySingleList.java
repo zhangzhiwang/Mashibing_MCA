@@ -60,7 +60,7 @@ public class StackBySingleList {
 			if(head == null) {
 				head = cur;
 			} else {
-				cur.next = head;
+				cur.next = head;// 注意这两步不能颠倒
 				head = cur;
 			}
 			

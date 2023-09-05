@@ -67,7 +67,7 @@ public class QueueBySingleList {
 		}
 
 		/**
-		 * 向队尾添加元素
+		 * 向队尾添加元素（时间复杂度O(1)）
 		 * 
 		 * @param value
 		 * @author zhangzhiwang
@@ -77,10 +77,11 @@ public class QueueBySingleList {
 			// 将值包装进节点中
 			Node cur = new Node(value);
 			// 头节点不动，每次向尾部添加元素
-			if (tail == null) {// 判断head或者tail是否为空都可以
+			if (tail == null) {// 判断head或者tail是否为空都可以，但一般情况下如果从尾部加或者删要以尾部作为判断的基准点，同样从头部操作一些事情就要以头部为判断基准点
+				// 如果head为空说明原来队列里面没有元素，这次加的是第一个
 				head = cur;
 				tail = cur;
-			} else {
+			} else {// 说明原来队列中有元素
 				tail.next = cur;
 				tail = cur;
 			}
@@ -89,7 +90,7 @@ public class QueueBySingleList {
 		}
 
 		/**
-		 * 从队头弹出元素
+		 * 从队头弹出元素（时间复杂度O(1)）
 		 * 
 		 * @return
 		 * @author zhangzhiwang
@@ -111,7 +112,7 @@ public class QueueBySingleList {
 		}
 
 		/**
-		 * 返回队尾元素但不弹出
+		 * 返回队尾元素但不弹出（时间复杂度O(1)）
 		 * 
 		 * @return
 		 * @author zhangzhiwang

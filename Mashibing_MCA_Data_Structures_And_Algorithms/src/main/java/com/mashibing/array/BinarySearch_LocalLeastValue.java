@@ -49,7 +49,7 @@ public class BinarySearch_LocalLeastValue {
 
         int L = 0;
         int R = arr.length - 1;
-        while (L < R - 1) {
+        while (L < R - 1) {// 注意这里循环的条件不是L<R，因为必须只有三个元素才能走此循环
             int mid = (L + R) / 2;
             if (arr[mid - 1] < arr[mid]) {
                 R = mid - 1;

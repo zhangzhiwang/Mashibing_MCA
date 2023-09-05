@@ -96,11 +96,16 @@ public class ReverseDoubleList {
 		Node pre = null;
 		Node next = null;
 		while(head != null) {
-			next = head.next;// 在断开链接前保存next以防断开之后找不到了
+			/*
+			在断开连接前保存next以防断开之后找不到了。双链表反转临时保存一下next节点就可以了，不需要刻意保存last节点，
+			因为再将head往下移之前，head指向的就是当前节点，也就是下一轮的上一个节点，所以让pre指向head就相当于保存了下一轮的last节点
+			 */
+			next = head.next;
 			head.next = pre;
 			head.pre = next;
 			pre = head;
 			head = next;
+			// head、pre、next每次循环都要往后移动，但要注意他们仨的移动顺序，先移谁后移谁
 		}
 		
 		return pre;

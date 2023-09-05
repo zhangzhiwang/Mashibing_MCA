@@ -31,7 +31,9 @@ public class ReverseSingleList {
 	 * 反转单链表
 	 * 
 	 * @param head 传入原始链表的头部节点
-	 * @return 返回反转后的链表的头部节点
+	 * @return 返回反转后的链表的头部节点。
+	 *         传入的head是一个引用拷贝，在本方法里面怎么变化都是在折腾这个拷贝的引用，原引用head保持不变，
+	 *         所以最后一定要返回新的头部并在调用的地方赋值给head引用。
 	 * @author zhangzhiwang
 	 * @date 2022年1月20日 下午6:39:28
 	 */
@@ -49,6 +51,7 @@ public class ReverseSingleList {
 			head.next = pre;// 让当前节点的下一个节点指向前一个节点
 			pre = head;// 在上一步完成后将前一节点指向当前节点，因为接下来当前节点也要往后移
 			head = next;// 将当前节点指向下一节点
+			// head、pre、next每次循环都要往后移动，但要注意他们仨的移动顺序，先移谁后移谁
 		}
 		
 		return pre;
