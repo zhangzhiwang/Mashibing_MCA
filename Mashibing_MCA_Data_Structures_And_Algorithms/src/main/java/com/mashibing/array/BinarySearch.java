@@ -1,6 +1,6 @@
 package com.mashibing.array;
 
-import com.mashibing.others.DuiShuQi;
+import com.mashibing.others.DuiShuQiUtil;
 
 import java.util.Arrays;
 
@@ -12,11 +12,11 @@ import java.util.Arrays;
 public class BinarySearch {
     public static void main(String[] args) {
         int maxValue = 10;
-        int[] arr = DuiShuQi.createRandArr(10, maxValue);
+        int[] arr = DuiShuQiUtil.createRandArr(10, maxValue);
         int randomValue = (int) (Math.random() * (maxValue + 1));
-        DuiShuQi.printArr(arr);
+        DuiShuQiUtil.printArr(arr);
         Arrays.sort(arr);
-        DuiShuQi.printArr(arr);
+        DuiShuQiUtil.printArr(arr);
         System.out.println("randomValue = " + randomValue);
 
         if(!containsValue(arr, randomValue)) {

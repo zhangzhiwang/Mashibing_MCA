@@ -10,4 +10,15 @@ public class SingleNode<T> {
     public SingleNode(T data) {
         this.data = data;
     }
+
+    public static <T> void printSingleNodeList(SingleNode<T> head) {
+        while(head != null) {
+            System.out.print(head.data);
+            head = head.next;
+            if(head != null) {
+                System.out.print(" -> ");
+            }
+        }
+        System.out.println();
+    }
 }

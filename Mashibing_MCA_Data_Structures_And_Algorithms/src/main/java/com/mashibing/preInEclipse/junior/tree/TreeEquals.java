@@ -3,8 +3,8 @@ package com.mashibing.preInEclipse.junior.tree;
 import com.mashibing.preInEclipse.junior.tree.BinaryTree.Node;
 
 /**
- * 判断两个数完全相等
- * 题目：给定两颗完全独立的树，输的每个节点的值必须一样，输的结构也必须一样
+ * 判断两棵树完全相等
+ * 题目：给定两颗完全独立的树，树的每个节点的值必须一样，树的结构也必须一样
  * 
  * @author zhangzhiwang
  * @date 2022年1月27日 上午11:04:06
@@ -22,11 +22,12 @@ public class TreeEquals {
 	}
 	
 	private static boolean isTwoTreeEquals(Node head1, Node head2) {
+		// true=1，false=0，如果结果为1，说明"^"两边的操作数不一样
 		if (head1 == null ^ head2 == null) {// head1和head2一个为空一个不为空，肯定不一样
 			return false;
 		}
 
-		if (head1 == null && head2 == null) {// 都是空树
+		if (head1 == null && head2 == null) {// 都是空树，人为规定：都为空则认为一样
 			return true;
 		}
 

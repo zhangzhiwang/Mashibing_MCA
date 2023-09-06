@@ -1,6 +1,6 @@
 package com.mashibing.array;
 
-import com.mashibing.others.DuiShuQi;
+import com.mashibing.others.DuiShuQiUtil;
 
 /**
  * 二分查找——局部最小值问题
@@ -22,7 +22,7 @@ public class BinarySearch_LocalLeastValue {
 //            }
             int index = findLocalLeastValue(arr);
             if(!testFindLocalLeastValue(arr, index)) {
-                DuiShuQi.printArr(arr);
+                DuiShuQiUtil.printArr(arr);
                 System.out.println("index = " + index);
                 System.out.println("出错了！");
                 break;

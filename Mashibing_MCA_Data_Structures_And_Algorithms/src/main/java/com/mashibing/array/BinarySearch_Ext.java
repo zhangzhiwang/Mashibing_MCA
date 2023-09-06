@@ -1,6 +1,6 @@
 package com.mashibing.array;
 
-import com.mashibing.others.DuiShuQi;
+import com.mashibing.others.DuiShuQiUtil;
 
 import java.util.Arrays;
 
@@ -14,14 +14,14 @@ public class BinarySearch_Ext {
     public static void main(String[] args) {
         for(int i = 0; i < 100_0000; i++) {
             int maxValue = 10;
-            int[] arr = DuiShuQi.createRandArr(10, maxValue);
+            int[] arr = DuiShuQiUtil.createRandArr(10, maxValue);
             Arrays.sort(arr);
             int randomValue = (int) (Math.random() * (maxValue + 1));
             int index1 = findMostLeft(arr, randomValue);
             int index2 = testFindMostLeft(arr, randomValue);
             if(index1 != index2) {
                 System.out.println("错误：index1 = " + index1 + "index2 = " + index2);
-                DuiShuQi.printArr(arr);
+                DuiShuQiUtil.printArr(arr);
                 System.out.println("randomValue = " + randomValue);
                 break;
             }

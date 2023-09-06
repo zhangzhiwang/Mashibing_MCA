@@ -1,12 +1,9 @@
 package com.mashibing.others;
 
-import com.mashibing.array.BubbleSort;
-import com.mashibing.array.SelectionSort;
-
 /**
  * 对数器
  */
-public class DuiShuQi {
+public class DuiShuQiUtil {
     public static void main(String[] args) {
 //        int[] arr = {3, 2, 1, 3, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 3, 2, 9};
 //        BubbleSort.bubbleSort(arr);
