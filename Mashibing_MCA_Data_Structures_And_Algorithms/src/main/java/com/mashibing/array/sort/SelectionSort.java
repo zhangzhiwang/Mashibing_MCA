@@ -1,4 +1,4 @@
-package com.mashibing.array;
+package com.mashibing.array.sort;
 
 /**
  * 选择排序
