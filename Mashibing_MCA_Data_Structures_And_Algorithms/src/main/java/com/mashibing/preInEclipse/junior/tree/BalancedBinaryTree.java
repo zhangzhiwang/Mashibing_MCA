@@ -1,5 +1,6 @@
 package com.mashibing.preInEclipse.junior.tree;
 
+import com.mashibing.tree.TreeNode;
 /**
  * 平衡二叉树
  * 解释：每一个节点的左子树和右子树的高度差不超过1，当所有节点的|左子树高度-右子树高度|<=1时，整个这棵树就是平衡树
@@ -13,32 +14,43 @@ package com.mashibing.preInEclipse.junior.tree;
  */
 public class BalancedBinaryTree {
 	public static void main(String[] args) {
-		/**
-		 * 构造一棵树：
-		 * 		      1
-	   			 2		   3
-  			  4     5        6
-            7
-              8
-		 */
-		TreeNode node1 = new TreeNode(1);
-		TreeNode node2 = new TreeNode(2);
-		TreeNode node3 = new TreeNode(3);
-		TreeNode node4 = new TreeNode(4);
-		TreeNode node5 = new TreeNode(5);
-		TreeNode node6 = new TreeNode(6);
-		TreeNode node7 = new TreeNode(7);
-		TreeNode node8 = new TreeNode(8);
-		node1.left = node2;
-		node1.right = node3;
-		node3.right = node6;
-		node2.left = node4;
-		node2.right = node5;
-		node4.left = node7;
-//		node7.right = node8;
-		
-		boolean isBalanced = isTreeBalanced(node1);
-		System.out.println(isBalanced);
+//		/**
+//		 * 构造一棵树：
+//		 * 		      1
+//	   			 2		   3
+//  			  4     5        6
+//            7
+//              8
+//		 */
+//		TreeNode node1 = new TreeNode(1);
+//		TreeNode node2 = new TreeNode(2);
+//		TreeNode node3 = new TreeNode(3);
+//		TreeNode node4 = new TreeNode(4);
+//		TreeNode node5 = new TreeNode(5);
+//		TreeNode node6 = new TreeNode(6);
+//		TreeNode node7 = new TreeNode(7);
+//		TreeNode node8 = new TreeNode(8);
+//		node1.left = node2;
+//		node1.right = node3;
+//		node3.right = node6;
+//		node2.left = node4;
+//		node2.right = node5;
+//		node4.left = node7;
+////		node7.right = node8;
+//
+//		boolean isBalanced = isTreeBalanced(node1);
+//		System.out.println(isBalanced);
+
+		int maxLevel = 5;
+		int maxValue = 100;
+		int testTimes = 1000000;
+		for (int i = 0; i < testTimes; i++) {
+			TreeNode head = generateRandomBST(maxLevel, maxValue);
+			if (isBalanced1(head) != isTreeBalanced(head)) {
+				System.out.println("Oops!");
+			}
+		}
+		System.out.println("finish!");
 	}
 
 	/**
@@ -80,5 +92,41 @@ public class BalancedBinaryTree {
 
 		// 封装当前这棵树head的Info信息
 		return new Info(isBalanced, height);
+	}
+
+	// 以下是对数器
+	// for test
+	public static TreeNode generateRandomBST(int maxLevel, int maxValue) {
+		return generate(1, maxLevel, maxValue);
+	}
+
+	// for test
+	public static TreeNode generate(int level, int maxLevel, int maxValue) {
+		if (level > maxLevel || Math.random() < 0.5) {
+			return null;
+		}
+		TreeNode head = new TreeNode((int) (Math.random() * maxValue));
+		head.left = generate(level + 1, maxLevel, maxValue);
+		head.right = generate(level + 1, maxLevel, maxValue);
+		return head;
+	}
+
+	public static boolean isBalanced1(TreeNode head) {
+		boolean[] ans = new boolean[1];
+		ans[0] = true;
+		process1(head, ans);
+		return ans[0];
+	}
+
+	public static int process1(TreeNode head, boolean[] ans) {
+		if (!ans[0] || head == null) {
+			return -1;
+		}
+		int leftHeight = process1(head.left, ans);
+		int rightHeight = process1(head.right, ans);
+		if (Math.abs(leftHeight - rightHeight) > 1) {
+			ans[0] = false;
+		}
+		return Math.max(leftHeight, rightHeight) + 1;
 	}
 }

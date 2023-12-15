@@ -1,7 +1,5 @@
 package com.mashibing.tree;
 
-import com.mashibing.preInEclipse.junior.tree.BinaryTree;
-
 /**
  * 二叉树的节点
  */

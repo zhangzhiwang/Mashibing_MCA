@@ -12,7 +12,8 @@ package com.mashibing.preInEclipse.senior.heap;
  * 3、小根堆：和大根堆相反，任意一棵子树的最小值是该子树的头结点，当一棵完全二叉树的所有子树都满足这个条件时，这棵完全二叉树就是小根堆。
  * 
  * 这里使用数组来实现堆：
- * 用一个变量heapSize来维护对解耦股在数组中的范围，heapSize为数组的索引，从0开始，每增加一个节点heapSize++，每删除一个节点heapSize--。
+ * 数组是堆的实际物理存储形态，而堆的完全二叉树形态是在头脑中想象出来的逻辑形态。
+ * 用一个变量heapSize来维护堆在数组中的范围，每增加一个节点heapSize++，每删除一个节点heapSize--。在数组中，只有被heapSize囊括进来的元素才能构成堆的组成部分，没有被heapSize囊括进来的元素不能构成堆的组成部分。
  * 如果数组是空的，那么heapSize=0，但刚加入一个节点时放到数组的0位置，heapSize++变成1，也就是heapSize指向数组索引为1的地方，也可以理解为heapSize指向下一个节点被添加的位置
  * 比如数组的长度是100，共有50个元素（另外50个位子是空的），heapSize=8，说明数组[0,7]范围内已经加入了节点，下一个被添加的位置是索引为8的位置，也就是heapSize指向的位置。
  * 堆构建的过程是数组从左往右，完全二叉树从上往下的顺序依次构建的，这样就建立起了某一个节点在数组中和完全二叉树中的对应关系：
@@ -20,7 +21,7 @@ package com.mashibing.preInEclipse.senior.heap;
  * 
  * 任何一个数组都可以看做是一棵完全二叉树
  * 
- * 在java语言的使用层面是没有堆的（java.util包里面有List，有Stack，但是没有Heap），java用优先级队列PriorityQueue来代替堆，所以在java语言中PriorityQueue就是堆。
+ * 在java语言的使用层面是没有堆的（java.util包里面有List，有Stack，但是没有Heap），java用优先级队列PriorityQueue来代替堆，所以在java语言中PriorityQueue就是堆（默认是小根堆）。
  *
  * @author zhangzhiwang
  * @date 2022年2月15日 下午12:02:16
@@ -61,15 +62,15 @@ public class HeapByArray {
 	 * 即h = log2(N + 1)（log以2为底N+1de对数），也就是节点最大移动log2(N + 1)，去掉常数项就是logN，参考：
 	 * https://blog.csdn.net/nb_zsy/article/details/120387834?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-1-120387834.pc_agg_new_rank&utm_term=完全二叉树的高度&spm=1000.2123.3001.4430
 	 * 
-	 * 注意：无论是添加元素还是一弹出元素，index始终跟随着目标节点并随目标节点的移动而移动。对于添加来说目标节点就是被添加的元素，对于弹出来说，目标节点就是头结点的元素。
+	 * 注意：无论是添加元素还是弹出元素，index始终跟随着目标节点并随目标节点的移动而移动。对于添加来说目标节点就是被添加的元素，对于弹出来说，目标节点就是头结点的元素。
 	 * 
-	 * @param arr arr是对范围内的数组
+	 * @param arr arr是堆范围内的数组
 	 * @param index 被添加的节点在数组中的索引
 	 * @author zhangzhiwang
 	 * @date 2022年2月15日 下午3:02:27
 	 */
 	public void heapInsert(int[] arr, int index) {
-		while(arr[index] > arr[(index - 1) / 2]) {// 注意：-0.5向下取整是0，所以退出循环的条件是被添加的节点不必父节点大或者已经达到了索引为0的位置
+		while(arr[index] > arr[(index - 1) / 2]) {// 注意：-0.5向下取整是0，所以退出循环的条件是被添加的节点不比父节点大或者已经达到了索引为0的位置
 			swap(arr, index, (index - 1) / 2);
 			index = (index - 1) / 2;// 注意：入参的index是被添加的节点在数组中的索引，这个index要始终跟随者这个元素走，这个元素被换到哪index就跟哪
 		}
@@ -80,11 +81,11 @@ public class HeapByArray {
 	 * 
 	 * 思路：
 	 * 1、被弹出的元素一定是数组0位置的元素
-	 * 2、将堆最后一个节点元素（heapSize-1）和头结点位置的元素交换，并且让heapSize--，这样原来头结点的元素就被移出了对的范围之外，但是该元素还可以在数组中保留而无需删除
-	 * 因为堆得可见范围是[0,heapSize-1]，原来的头元素在heapSize--之后就访问不到了。
+	 * 2、将堆最后一个节点元素（heapSize-1）和头结点位置的元素交换，并且让heapSize--，这样原来头结点的元素就被移出了堆囊括的范围，但是该元素还可以在数组中保留而无需删除
+	 * 因为堆的可见范围是[0,heapSize-1]，原来的头元素在heapSize--之后就访问不到了。
 	 * 3、调整堆的位置，移出头结点之后要保证剩下的部分仍然是大根堆
 	 * 
-	 * 注意：无论是添加元素还是一弹出元素，index始终跟随着目标节点并随目标节点的移动而移动。对于添加来说目标节点就是被添加的元素，对于弹出来说，目标节点就是头结点的元素。
+	 * 注意：无论是添加元素还是弹出元素，index始终跟随着目标节点并随目标节点的移动而移动。对于添加来说目标节点就是被添加的元素，对于弹出来说，目标节点就是头结点的元素。
 	 * 
 	 * @return
 	 * @author zhangzhiwang
@@ -124,7 +125,7 @@ public class HeapByArray {
 		
 		// 找到左孩子的索引
 		int leftIndex = 2 * index + 1;
-		while(leftIndex < heapSize) {// 当左孩子的索引超出了对的范围时说明没有左孩子,对于一棵完全二叉树来说如果连左孩子都没有那么右孩子肯定没有，进而说明index是叶子节点
+		while(leftIndex < heapSize) {// 当左孩子的索引超出了堆的范围时说明没有左孩子,对于一棵完全二叉树来说如果连左孩子都没有那么右孩子肯定没有，进而说明index是叶子节点
 			// 如果进入了while循环说明左孩子没有越界，说明一定有左孩子，但是有左孩子不一定有右孩子
 			// 找出index左右孩子最大值的索引，由于是大根堆，所以要找左右孩子的最大值的索引
 			/**
@@ -136,7 +137,7 @@ public class HeapByArray {
 			// 上面得到的largestIndex是左右孩子最大值的索引，但是还没有和父节点比较大小
 			largestIndex = arr[largestIndex] > arr[index] ? largestIndex : index;// 这一步得出的是父节点和左右孩子中最大值的索引
 			
-			if(largestIndex == index) {// 经过上线一番折腾之后发现最大值的所以还是父节点，说明腹肌诶单不用交换了，因为左右儿子都比他小，那么左右孙子就更小了，所以直接break
+			if(largestIndex == index) {// 经过上面一番折腾之后发现最大值的索引还是父节点，说明父节点不用交换了，因为左右儿子都比他小，那么左右孙子就更小了，所以直接break
 				break;
 			}
 			// 如果在上面没有break掉，说明左右孩子之一比父节点大，要交换

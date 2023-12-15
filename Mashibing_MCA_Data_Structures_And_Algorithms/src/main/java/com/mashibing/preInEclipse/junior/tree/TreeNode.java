@@ -1,7 +1,5 @@
 package com.mashibing.preInEclipse.junior.tree;
 
-import com.mashibing.preInEclipse.junior.tree.BinaryTree.Node;
-
 /**
  * 树节点
  * 

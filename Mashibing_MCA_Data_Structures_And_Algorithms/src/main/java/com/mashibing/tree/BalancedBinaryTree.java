@@ -7,18 +7,29 @@ package com.mashibing.tree;
  */
 public class BalancedBinaryTree {
     public static void main(String[] args) {
-        TreeNode<Integer> n1 = new TreeNode<>(1);
-        n1.left = new TreeNode<>(2);
-        n1.right = new TreeNode<>(3);
+//        TreeNode<Integer> n1 = new TreeNode<>(1);
+//        n1.left = new TreeNode<>(2);
+//        n1.right = new TreeNode<>(3);
+//
+////        n1.left.left = new TreeNode<>(4);
+////        n1.left.right = new TreeNode<>(5);
+//        n1.right.left = new TreeNode<>(6);
+//        n1.right.right = new TreeNode<>(7);
+//        n1.right.right.left = new TreeNode<>(8);
+//
+//        BalanceTreeInfo info = isBalance(n1);
+//        System.out.println(info);
 
-//        n1.left.left = new TreeNode<>(4);
-//        n1.left.right = new TreeNode<>(5);
-        n1.right.left = new TreeNode<>(6);
-        n1.right.right = new TreeNode<>(7);
-        n1.right.right.left = new TreeNode<>(8);
-
-        BalanceTreeInfo info = isBalance(n1);
-        System.out.println(info);
+        int maxLevel = 5;
+        int maxValue = 100;
+        int testTimes = 1000000;
+        for (int i = 0; i < testTimes; i++) {
+            TreeNode head = generateRandomBST(maxLevel, maxValue);
+            if (isBalanced1(head) != isBST(head)) {
+                System.out.println("Oops!");
+            }
+        }
+        System.out.println("finish!");
     }
 
     static class BalanceTreeInfo {
@@ -39,6 +50,13 @@ public class BalancedBinaryTree {
         }
     }
 
+    public static boolean isBST(TreeNode<Integer> head) {
+        if(head == null) {
+            return true;
+        }
+
+        return isBalance(head).isBalance;
+    }
     public static BalanceTreeInfo isBalance(TreeNode<Integer> head) {
         if(head == null) {
             return new BalanceTreeInfo(true, 0);// 人为规定：当节点为空时就是平衡的，它的高度是0
@@ -51,5 +69,41 @@ public class BalancedBinaryTree {
         boolean isBalance = leftInfo.isBalance && rightInfo.isBalance && Math.abs(leftInfo.height - rightInfo.height) <= 1;
         int height = Math.max(leftInfo.height, rightInfo.height) + 1;
         return new BalanceTreeInfo(isBalance, height);
+    }
+
+    // 以下是对数器
+    // for test
+    public static TreeNode generateRandomBST(int maxLevel, int maxValue) {
+        return generate(1, maxLevel, maxValue);
+    }
+
+    // for test
+    public static TreeNode generate(int level, int maxLevel, int maxValue) {
+        if (level > maxLevel || Math.random() < 0.5) {
+            return null;
+        }
+        TreeNode head = new TreeNode((int) (Math.random() * maxValue));
+        head.left = generate(level + 1, maxLevel, maxValue);
+        head.right = generate(level + 1, maxLevel, maxValue);
+        return head;
+    }
+
+    public static boolean isBalanced1(TreeNode head) {
+        boolean[] ans = new boolean[1];
+        ans[0] = true;
+        process1(head, ans);
+        return ans[0];
+    }
+
+    public static int process1(TreeNode head, boolean[] ans) {
+        if (!ans[0] || head == null) {
+            return -1;
+        }
+        int leftHeight = process1(head.left, ans);
+        int rightHeight = process1(head.right, ans);
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            ans[0] = false;
+        }
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 }

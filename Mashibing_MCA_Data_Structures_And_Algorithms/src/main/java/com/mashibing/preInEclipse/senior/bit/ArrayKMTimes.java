@@ -59,12 +59,12 @@ public class ArrayKMTimes {
 				}
 			}
 		}
-		// 上面的两个for循环结束之后，tmpArr里面已经包括了arr里面所有元素的所有位的值。
+		// 上面的两个for循环结束之后，tmpArr里面已经包括了arr里面所有元素的所有位的值的累加和。
 		// 假设出现k次的元素是a，下面就要找出a的哪些位上有1
 		int result = 0;// 用result来做出a，result的初始值的32位上都是0
 		for (int i = 0; i < 32; i++) {// 注意：这里的for循环循环的次数是有限且已知的，和数据量N无关，时间复杂度是O(1)
 			if (tmpArr[i] % m != 0) {// 说明a的第i位上肯定是1且被加进在tmpArr[i]里面，否则tmpArr[i]应该是m的整数倍
-				result |= (1 << i);
+				result |= (1 << i);// 用result大做出a，做法就是a的哪位上有1就让result的相应位上有1，或运算就可以做到，与运算不行
 			}
 		}
 

@@ -32,7 +32,9 @@ public class StackByDoubleLinkedList {
 
 		DoubleLinkedListNode<Integer> result = head;
 		head = head.pre;
-		head.next = null;
+		if(head != null) {
+			head.next = null;// 避免被弹出的元素内存泄漏
+		}
 		size--;
 		return result.value;
 	}

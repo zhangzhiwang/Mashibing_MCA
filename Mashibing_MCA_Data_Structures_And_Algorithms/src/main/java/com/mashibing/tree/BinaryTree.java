@@ -26,7 +26,7 @@ public class BinaryTree {
         return n1;
     }
 
-    public static void pre(TreeNode<Integer> head) {
+    public static <T> void pre(TreeNode<T> head) {
         if (head == null) {
             return;
         }
@@ -40,7 +40,7 @@ public class BinaryTree {
         // pos3
     }
 
-    public static void mid(TreeNode<Integer> head) {
+    public static <T> void mid(TreeNode<T> head) {
         if (head == null) {
             return;
         }
@@ -54,7 +54,7 @@ public class BinaryTree {
         // pos3
     }
 
-    public static void post(TreeNode<Integer> head) {
+    public static <T> void post(TreeNode<T> head) {
         if (head == null) {
             return;
         }

@@ -1,4 +1,4 @@
-package com.mashibing.others;
+package com.mashibing.bit;
 
 /**
  * 打印int整数的各个二进制位
@@ -15,5 +15,6 @@ public class PrintIntBinary {
         for(int i = 31; i >= 0; i--) {
             System.out.print(((1 << i) & num) == 0 ? "0" : "1");
         }
+        System.out.println();
     }
 }

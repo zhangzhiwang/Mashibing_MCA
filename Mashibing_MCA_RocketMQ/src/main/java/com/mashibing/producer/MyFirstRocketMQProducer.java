@@ -38,6 +38,10 @@ public class MyFirstRocketMQProducer {
                 SendResult sendResult = producer.send(message);
                 System.out.println("sendResult：" + sendResult);
                 // 5.2 异步发送——使用带回调的send方法，不等待broker返回的发送结果，broker有了发送结果会调用回调方法来通知
+                /*
+                通过看rmq的源码可知，send方法底层会调用作为生产者的client端的NRC，通过netty通信将消息发送给作为服务端的broker，broker的NRS负责接受消息请求
+                并交给SendMessageProcessor来进行处理，为了提高处理性能SendMessageProcessor会使用sendMessageExecutor线程池来做处理。
+                 */
                 producer.send(message, new SendCallback() {
                     @Override
                     public void onSuccess(SendResult sendResult) {

@@ -28,6 +28,14 @@ public class QuickSort {
         }
     }
 
+    /**
+     * 其实这个f函数就是荷兰国旗问题——返回等于区的左边界和右边界
+     * 荷兰国旗有三种颜色，返回中间颜色部分的边界
+     * @param arr
+     * @param L
+     * @param R
+     * @return
+     */
     public static int[] f(int[] arr, int L, int R) {
         int lessR = L - 1;// 小于区的右边界，起始位置在数组左边界的左侧
         int moreL = R;// 大于区的左边界，起始位置在数组右边界

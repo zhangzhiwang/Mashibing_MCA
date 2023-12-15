@@ -6,6 +6,7 @@ import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
+//import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -39,6 +40,10 @@ public class MyFirstRocketMQConsumer1 {
 //            consumer.setMessageModel(MessageModel.CLUSTERING);// 默认就是集群消费模式，这里是为了演示
             consumer.setMessageModel(MessageModel.BROADCASTING);
             // 5.设置回调函数，处理消息
+            /*
+             通过看rmq消费者启动的源码可知，注册的MessageListener有且只有两种：一个是并发的MessageListenerConcurrently，一个是顺序的MessageListenerOrderly，
+             如果没有注册MessageListener或者注册的不是这两种，在启动时会有校验，源码位置：org.apache.rocketmq.client.impl.consumer.DefaultMQPushConsumerImpl#checkConfig
+             */
             consumer.registerMessageListener(new MessageListenerConcurrently() {
                 @Override
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {

@@ -5,8 +5,8 @@ package com.mashibing.list;
  */
 public class DoubleNode<T> {
     public T data;
-    public DoubleNode last;
-    public DoubleNode next;
+    public DoubleNode<T> last;
+    public DoubleNode<T> next;
 
     public DoubleNode(T data) {
         this.data = data;

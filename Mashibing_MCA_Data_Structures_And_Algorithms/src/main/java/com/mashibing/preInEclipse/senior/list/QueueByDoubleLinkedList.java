@@ -33,7 +33,7 @@ public class QueueByDoubleLinkedList {
 
 		DoubleLinkedListNode<Integer> result = head;
 		head = head.next;
-		if (head != null) {
+		if (head != null) {// 注意：这个判断不要少
 			head.pre = null;
 		}
 

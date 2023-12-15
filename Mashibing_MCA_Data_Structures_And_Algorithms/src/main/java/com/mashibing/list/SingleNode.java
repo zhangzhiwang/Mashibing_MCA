@@ -5,7 +5,7 @@ package com.mashibing.list;
  */
 public class SingleNode<T> {
     public T data;
-    public SingleNode next;
+    public SingleNode<T> next;
 
     public SingleNode(T data) {
         this.data = data;

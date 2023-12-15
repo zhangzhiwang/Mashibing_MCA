@@ -1,5 +1,9 @@
 package com.mashibing.preInEclipse.junior.tree;
 
+import com.mashibing.tree.BinaryTreeUtil;
+import com.mashibing.tree.TreeNode;
+import java.util.ArrayList;
+
 /**
  * 搜索二叉树
  * 解释：如果一棵树的某一节点，如果它有左子树那么它左子树的任意节点都要小于当前节点，如果它有右子树那么它右子树的任意节点都要大于当前节点，当这棵树的任意节点都满足这个条件时这棵树就是搜索二叉树。
@@ -40,31 +44,47 @@ package com.mashibing.preInEclipse.junior.tree;
  */
 public class BinarySearchTree {
 	public static void main(String[] args) {
-		/**
-		 * 构造一棵树：
-		 * 		        6
-				4		     7
-			 2      5            8
-		   1   3
-		 */
-		TreeNode node1 = new  TreeNode(1);
-		TreeNode node2 = new  TreeNode(2);
-		TreeNode node3 = new  TreeNode(3);
-		TreeNode node4 = new  TreeNode(4);
-		TreeNode node5 = new  TreeNode(5);
-		TreeNode node6 = new  TreeNode(6);
-		TreeNode node7 = new  TreeNode(7);
-		TreeNode node8 = new  TreeNode(8);
-		node6.left = node4;
-		node6.right = node7;
-		node4.left = node2;
-		node4.right = node5;
-		node7.right = node8;
-		node2.left = node1;
-		node2.right = node3;
-		
-		boolean result = isBST(node6);
-		System.out.println(result);
+//		/**
+//		 * 构造一棵树：
+//		 * 		        6
+//				4		     7
+//			 2      5            8
+//		   1   3
+//		 */
+//		TreeNode node1 = new  TreeNode(1);
+//		TreeNode node2 = new  TreeNode(2);
+//		TreeNode node3 = new  TreeNode(3);
+//		TreeNode node4 = new  TreeNode(4);
+//		TreeNode node5 = new  TreeNode(5);
+//		TreeNode node6 = new  TreeNode(6);
+//		TreeNode node7 = new  TreeNode(7);
+//		TreeNode node8 = new  TreeNode(8);
+//		node6.left = node4;
+//		node6.right = node7;
+//		node4.left = node2;
+//		node4.right = node5;
+//		node7.right = node8;
+//		node2.left = node1;
+//		node2.right = node3;
+//
+//		boolean result = isBST(node6);
+//		System.out.println(result);
+
+		int maxLevel = 4;
+		int maxValue = 100;
+		int testTimes = 1000000;
+		for (int i = 0; i < testTimes; i++) {
+			TreeNode head = generateRandomBST(maxLevel, maxValue);
+			boolean isBst = isBST(head);
+			if (isBST1(head) != isBst) {
+				System.out.println("Oops!");
+				BinaryTreeUtil.printBinaryTree(head);
+				System.out.println();
+				System.out.println("isBST says:" + isBst);
+				break;
+			}
+		}
+		System.out.println("finish!");
 	}
 
 	/**
@@ -88,10 +108,13 @@ public class BinarySearchTree {
 	}
 
 	private static boolean isBST(TreeNode node) {
+		if(node == null) {
+			return true;
+		}
 		return f(node).isBST;
 	}
 
-	private static Info f(TreeNode head) {
+	private static Info f(TreeNode<Integer> head) {
 		/**
 		 * 如果一棵树为空就认为它是BST，但是不能返回一个默认的Info对象，因为isBST可以认为定义为true，但是maxValue和minValue不好定义，
 		 * 因为value可正可负，可以是任意值，索性直接返回null，由上游调用的地方去判空。
@@ -109,8 +132,8 @@ public class BinarySearchTree {
 		boolean rightIsBST = rightInfo == null ? true : rightInfo.isBST;
 
 		// 判断左右子树和当前节点的大小
-		boolean isLeftMaxLessThanHead = leftInfo == null ? true : (leftInfo.maxValue < head.value);
-		boolean isRightMinLargerThanHead = rightInfo == null ? true : (rightInfo.minValue > head.value);
+		boolean isLeftMaxLessThanHead = leftInfo == null ? true : (leftInfo.maxValue < head.data);
+		boolean isRightMinLargerThanHead = rightInfo == null ? true : (rightInfo.minValue > head.data);
 
 		boolean isBST = leftIsBST && rightIsBST && isLeftMaxLessThanHead && isRightMinLargerThanHead;
 		if (!isBST) {
@@ -118,25 +141,67 @@ public class BinarySearchTree {
 		}
 
 		// 找到当前节点及其左右子树中的最小值和最大值
-		int min = head.value;// 这里默认最小值和最大值要是head自己的值，不能设初始值为0，因为leftInfo和rightInfo可能为空
-		int max = head.value;
+		int min = head.data;// 这里默认最小值和最大值要是head自己的值，不能设初始值为0，因为leftInfo和rightInfo可能为空
+		int max = head.data;
 		if (leftInfo != null) {
-			if (leftInfo.maxValue >= head.value) {
+			if (leftInfo.maxValue >= head.data) {
 				return new Info(false, 0, 0);
 			} else {
 				min = Math.min(leftInfo.minValue, min);
+				max = Math.max(leftInfo.maxValue, max);
 			}
 		}
 
 		if (rightInfo != null) {
-			if (rightInfo.minValue <= head.value) {
+			if (rightInfo.minValue <= head.data) {
 				return new Info(false, 0, 0);
 			} else {
+				min = Math.min(rightInfo.minValue, min);
 				max = Math.max(rightInfo.maxValue, max);
 			}
 		}
 
-		return new Info(isBST, min, max);
+		return new Info(isBST, max, min);
 		// 第二次写的代码更简洁：
+	}
+
+	// 以下是对数器
+	// for test
+	public static TreeNode generateRandomBST(int maxLevel, int maxValue) {
+		return generate(1, maxLevel, maxValue);
+	}
+
+	// for test
+	public static TreeNode generate(int level, int maxLevel, int maxValue) {
+		if (level > maxLevel || Math.random() < 0.5) {
+			return null;
+		}
+		TreeNode head = new TreeNode((int) (Math.random() * maxValue));
+		head.left = generate(level + 1, maxLevel, maxValue);
+		head.right = generate(level + 1, maxLevel, maxValue);
+		return head;
+	}
+
+	public static boolean isBST1(TreeNode<Integer> head) {
+		if (head == null) {
+			return true;
+		}
+		ArrayList<TreeNode<Integer>> arr = new ArrayList<>();
+		in(head, arr);
+		for (int i = 1; i < arr.size(); i++) {
+			if (arr.get(i).data <= arr.get(i - 1).data) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void in(TreeNode<Integer> head, ArrayList<TreeNode<Integer>> arr) {
+		if (head == null) {
+			return;
+		}
+		in(head.left, arr);
+		arr.add(head);
+		in(head.right, arr);
 	}
 }

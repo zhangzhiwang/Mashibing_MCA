@@ -25,6 +25,12 @@ public class MessageOrderProducer {
             for (int i = 0; i < orderList.size(); i++) {
                 Order order = orderList.get(i);
                 Message message = new Message("testTopic2", "testTag2", order.toString().getBytes());
+
+                /*
+                可以在发送是使用MessageQueueSelector来指定消息发往哪一个队列，如果不指定就会随机发送到topic上的某个队列，但要注意：这个随机行为不是生产者完成的，是broker完成的。
+                当broker接收到请求后发现没有指定发往哪一个队列，那么broker会生成一个随机数然后模以队列的数量来决定发往哪一个meq，具体的实现逻辑可以参考源码：org.apache.rocketmq.broker.processor.SendMessageProcessor#asyncSendMessage
+                里面调用的randomQueueId方法。
+                 */
                 SendResult sendResult = producer.send(message, new MessageQueueSelector() {// 执行消息队列的选择器，也就是指定什么消息发往什么队列
 
                     /**

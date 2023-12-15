@@ -22,6 +22,8 @@
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
             <version>5.1.3</version>
+            <!-- 为了匹配源码学习暂且改为4.8.0 -->
+<!--            <version>4.8.0</version>-->
         </dependency>
     </dependencies>
 </project>

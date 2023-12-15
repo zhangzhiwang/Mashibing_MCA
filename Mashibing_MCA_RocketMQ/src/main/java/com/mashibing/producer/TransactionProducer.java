@@ -58,25 +58,30 @@ public class TransactionProducer {
                  */
                 @Override
                 public LocalTransactionState checkLocalTransaction(MessageExt messageExt) {
+                    try {
+                        TimeUnit.SECONDS.sleep(20);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     System.out.println("rmq事务回查...");
                     System.out.println("事务id：" + messageExt.getTransactionId());
                     // 伪码：检查本地事务是否执行成功
                     LocalTransactionState lts = null;
-//                    lts = LocalTransactionState.COMMIT_MESSAGE;// 本地事务执行成功，提交commit状态
+                    lts = LocalTransactionState.COMMIT_MESSAGE;// 本地事务执行成功，提交commit状态
 //                    lts = LocalTransactionState.ROLLBACK_MESSAGE;// 本地事务执行失败，提交rollback状态
-                    lts = LocalTransactionState.UNKNOW;// 本地事务执行状态未知，提交UNKNOW状态
+//                    lts = LocalTransactionState.UNKNOW;// 本地事务执行状态未知，提交UNKNOW状态
                     return lts;
                 }
             });
 
-            // 设置线程池，rmq回查的时候是使用线程池里面的线程来进行，也就是上面的TransactionListener.checkLocalTransaction()方法是通过线程池中的线程来完成的
+            // 设置线程池，rmq回查的时候是使用线程池里面的线程来进行，也就是上面的TransactionListener.checkLocalTransaction()方法检查本地事务是否执行成功是通过线程池中的线程来完成的
             ExecutorService executorService = Executors.newFixedThreadPool(10);
             producer.setExecutorService(executorService);
 
 
             producer.start();
             for (int i = 0; i < 1; i++) {
-                Message message = new Message("topicTest6", "tagTest1", "事务消息测试".getBytes(RemotingHelper.DEFAULT_CHARSET));
+                Message message = new Message("transTopicTest1", "tagTest1", "事务消息测试".getBytes(RemotingHelper.DEFAULT_CHARSET));
 //                SendResult sendResult = producer.send(message);// 发送普通消息可以使用send()方法
                 /*
                  发送事务消息要使用sendMessageInTransaction()方法，这个方法发送的是半事务消息。

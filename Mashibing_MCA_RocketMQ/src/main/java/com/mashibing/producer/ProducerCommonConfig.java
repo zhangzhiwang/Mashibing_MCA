@@ -36,6 +36,11 @@ public class ProducerCommonConfig {
             producer.setMaxMessageSize(4 * 1024 * 1024);
             // 设置nameserver地址
             producer.setNamesrvAddr("127.0.0.1:9876");
+            // 用于区分同一个进程的其它客户端，可以参考rmq源码：org.apache.rocketmq.client.impl.MQClientManager#getOrCreateMQClientInstance
+            producer.setUnitName("UN_1");
+            // 开启延迟规避机制，默认是false
+            producer.setSendLatencyFaultEnable(true);
+
             producer.start();
             for (int i = 0; i < 10; i++) {// 发送10条消息
                 // 创建消息对象，指定Topic、Tag和消息体

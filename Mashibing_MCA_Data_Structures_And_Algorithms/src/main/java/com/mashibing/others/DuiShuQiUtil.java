@@ -1,5 +1,7 @@
 package com.mashibing.others;
 
+import com.mashibing.list.SingleNode;
+
 /**
  * 对数器
  */
@@ -114,6 +116,19 @@ public class DuiShuQiUtil {
 
         for(int i : arr) {
             System.out.print(i + "\t");
+        }
+        System.out.println();
+    }
+
+    public static <T> void printSingleList(SingleNode<T> head) {
+        if(head == null) {
+            return;
+        }
+
+        SingleNode<T> cur = head;
+        while(cur != null) {
+            System.out.print(cur.data + " -> ");
+            cur = cur.next;
         }
         System.out.println();
     }

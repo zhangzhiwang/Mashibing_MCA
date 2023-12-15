@@ -11,13 +11,17 @@ import java.util.HashMap;
  * @date 2022年2月16日 下午5:00:52
  */
 public class HeapEnhanced<T> {
-	private ArrayList<T> heap;// 由于整个ArrayList里面的所有元素都用来组成堆，那么理论上就不需要heapSize变量来标识对的范围了，可以认为heapSize等于ArrayList.size()
+	private ArrayList<T> heap;// 由于整个ArrayList里面的所有元素都用来组成堆，那么理论上就不需要heapSize变量来标识堆的范围了，可以认为heapSize等于ArrayList.size()
 	/**
 	 *  反向索引表，用于表示堆中每一个元素在数组中的位置
 	 *  其实也可以省略该变量，用ArrayList.indexOf(Object o)来代替，只不过该方法的时间复杂度是O(N)，而Map.get()的时间复杂度是O(1)。
-	 *  如果不考虑时间复杂度而只考虑功能的话去掉indexMap也可以
+	 *  如果不考虑时间复杂度而只考虑功能的话去掉indexMap也可以，只用Map来做反向索引表起始就是用O(N)的额外空间复杂度来换取O(1)的时间复杂度
+	 *
+	 *  注意：泛型T要是自定义的类型，不能是基本数据类型的包装类或者String类型，否则如果key的值一样HashMap会覆盖。如果T非要使用基本数据类型的包装类或者String类型，
+	 *  那么可以将T包装进一个内部类中，比如class InnerClass<T> {private T t;}，然后将InnerClass作为反向索引表HashMap的key：HashMap<InnerClass<T>, Integer>
 	 */
 	private HashMap<T, Integer> indexMap;
+
 	/**
 	 * 理论上用ArrayList.size()可以替代heapSize，但是从实际上来讲，当ArrayList添加或者删除元素后，size()会自动变化，如果想获取最后一个元素的索引用size() - 1来标识可能会出问题
 	 * 所以，不妨用heapSize以避免不可预知的错误
@@ -25,7 +29,7 @@ public class HeapEnhanced<T> {
 	private int heapSize;
 	private Comparator<T> comparator;
 
-	public HeapEnhanced(Comparator<T> comparator) {
+	public HeapEnhanced(Comparator<T> comparator) {// 外界传进来的比较器是按照正序排序的还是倒序排序的，决定了本加强堆是大根堆还是小根堆
 		super();
 		this.heap = new ArrayList<>();
 		this.indexMap = new HashMap<>();
@@ -56,7 +60,7 @@ public class HeapEnhanced<T> {
 
 	private void heapInsert(ArrayList<T> heap, int index) {
 		/**
-		 * 使用比较器的compare方法技能实现大根堆也能实现小根堆，循环条件中compare的返回值和0进行比较，写成大于0或者小于0都可以（只要不写等于就行），只是一个形式问题，
+		 * 使用比较器的compare方法既能实现大根堆也能实现小根堆，循环条件中compare的返回值和0进行比较，写成大于0或者小于0都可以（只要不写等于就行），只是一个形式问题，
 		 * 关键在于compare方法是怎么定义的。
 		 */
 		while (comparator.compare(heap.get(index), heap.get((index - 1) / 2)) < 0) {
@@ -68,8 +72,8 @@ public class HeapEnhanced<T> {
 	public T poll() {
 		T t = heap.get(0);
 		/**
-		 *  这里原本的操作应该是将数组的第一个元素和最后一个元素交换，然后heapSize--，原来头号元素并没有在数组中删除只是移出了堆的范围，就认为在对中删除了，因为在heapSize之外的元素访问不到
-		 *  但是这里是真正的删除，因为整个ArrayList的所有元素都在堆的范围内，况且也没有heapSize变量，所以就不需要真正地交换头尾元素了，将尾元素覆盖到头元素然后移除尾元素就可以了，效果等同于互换。
+		 *  这里原本的操作应该是将数组的第一个元素和最后一个元素交换，然后heapSize--，原来头号元素并没有在数组中删除只是移出了堆的范围，就认为在堆中删除了，因为在heapSize之外的元素访问不到
+		 *  但是这里是真正的删除，因为整个ArrayList的所有元素都在堆的范围内，所以就不需要真正地交换头尾元素了，将尾元素覆盖到头元素然后移除尾元素就可以了，效果等同于互换。
 		 */
 		heap.set(0, heap.get(heapSize - 1));
 		heap.remove(--heapSize);
@@ -101,8 +105,8 @@ public class HeapEnhanced<T> {
 	 * 思路：
 	 * 当其中的某个元素改变了，但是不知道是变大了还是变小了。
 	 * 1、首先找到该元素的位置
-	 * 2、假如是个大根堆，并且假如t变大了，那么调用heapInsert那么一定将该元素往上推
-	 * 3、假如t变小了，那么调用heapify那么一定将该元素往下推
+	 * 2、假如是个大根堆，并且假如t变大了，那么调用heapInsert一定将该元素往上推
+	 * 3、假如t变小了，那么调用heapify一定将该元素往下推
 	 * 注意：由于不知道t是变大还是变小，所以必须要先后调用heapInsert和heapify方法（二者调用顺序无所谓）。由于t变大和变小只能发生一个，所以heapInsert和heapify只有一个起作用。
 	 * 
 	 * @param t 被改变的元素
@@ -110,12 +114,13 @@ public class HeapEnhanced<T> {
 	 * @date 2022年2月16日 下午6:49:54
 	 */
 	public void resign(T t) {
-		heapInsert(heap, indexMap.get(t));
-		heapify(heap, indexMap.get(t));
+		int index = indexMap.get(t);
+		heapInsert(heap, index);
+		heapify(heap, index);
 	}
 	
 	/**
-	 * 删除堆中某一个元素
+	 * 删除堆中任意一个元素
 	 * 
 	 * 思路和poll一样
 	 * 
@@ -124,7 +129,11 @@ public class HeapEnhanced<T> {
 	 * @date 2022年2月16日 下午7:43:42
 	 */
 	public void remove(T t) {
-		if (!heap.contains(t)) {
+//		if (!heap.contains(t)) {// 如果用heap来判断t是不是存在时间复杂度是O(N)，因为得遍历去找
+//			return;
+//		}
+
+		if(!indexMap.containsKey(t)) {// 如果用indexMap来判断t是不是存在时间复杂度是O(1)，因为反向索引表提前已经建好了
 			return;
 		}
 		

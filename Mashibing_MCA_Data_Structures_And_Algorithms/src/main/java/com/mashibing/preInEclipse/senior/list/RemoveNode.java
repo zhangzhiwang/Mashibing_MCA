@@ -1,7 +1,7 @@
 package com.mashibing.preInEclipse.senior.list;
 
 /**
- * 删除具有指定值的节点（单链表）
+ * 删除链表中所有具有指定值的节点（单链表）
  * 思路：
  * 1、先找到第一个不为指定值的节点作为新头
  * 2、找到新头后向后遍历所有节点，遇到指定值跳过，直到遇到不是指定值的节点，然后往上挂关系
@@ -63,7 +63,7 @@ public class RemoveNode {
 		}
 
 		SinglyLinkedListNode<Integer> pre = head;
-		SinglyLinkedListNode<Integer> cur = head;// 链表的通用思路：找到言返回的头结点后，用一个变量（比如cur）保存这个head，head就不要再动了，后面的操作都由这个临时变量来替代
+		SinglyLinkedListNode<Integer> cur = head;// 链表的通用思路：找到要返回的头结点后，用一个变量（比如cur）保存这个head，head就不要再动了，后面的操作都由这个临时变量来替代
 		SinglyLinkedListNode<Integer> next = null;
 		while (cur != null) {
 			if (cur.next != null && cur.next.value == num) {
