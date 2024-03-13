@@ -5,7 +5,7 @@ package com.mashibing.array.sort;
  * 课程：新手班课时6
  * 思路：见com.mashibing.preInEclipse.junior.array.sort.BubbleSort注释
  */
-public class InsertSort {
+public class InsertionSort {
     public static void main(String[] args) {
         int[] arr = {3,2,1,3,5,6,7,8,9,1,2,3,4,5,3,2,9};
         SelectionSort.printArr(arr);

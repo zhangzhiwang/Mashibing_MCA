@@ -1,11 +1,15 @@
 package com.mashibing.list;
 
 /**
- * 题目：给定两个可能有环也可能无环的单链表，头节点head1和head2。请实现一个函数，如果两个链表相交就返回相交的第一个节点。如果不相交就返回null
+ * 题目：给定两个可能有环也可能无环的单链表，头节点head1和head2，请实现一个函数，如果两个链表相交就返回相交的第一个节点，如果不相交就返回null
+ *
  * 思路：
  * 1、设置一个函数：返回成环链表的入环节点，如果链表没有环则返回null
  * （1）设置一个快指针和一个慢指针，首先先让快指针一次走两步，慢指针一次走一步，如果快指针达到null了说明链表没有环，返回null
- * （2）如果链表有环，那么快慢指针肯定会相遇，当快慢指针相遇时慢指针不动，快指针回到head
+ * （2）如果链表有环，那么快慢指针肯定会相遇，当快慢指针相遇时慢指针不动，快指针回到head。
+ * 这里要说明的是：快走二慢走一算作一次循环，要么就不循环要么一旦循环快慢指针都要走，所以这里的"相遇"值的是慢走完之后追上了快（如果有环的话），因为慢走完之后本次循环结束，
+ * 下一次循环开始前发现快慢相遇了就结束了，就没有下一轮循环了，可不是指快走了两步之后和慢重合叫相遇，因为慢此时还没有走呢，慢还得往前走一步本次循环才结束，
+ * 所以，这里的相遇指的是慢追上了快。
  * （3）快慢指针重新走，这回快慢指针都是一次只走一步，当快慢指针再次相遇时，相遇的节点就是入环的节点
  * 2、通过上面的函数就可以判断出两个链表是否成环以及各自入环的节点。然后分三种情况：
  * （1）两个链表都没有成环
@@ -24,9 +28,18 @@ package com.mashibing.list;
  *  如果是情况2，就说明两个链表不相交，返回null即可。
  *  3）情况3：两个链表相交的位置有两个，这两个相交节点是同一个环上的两个节点
  *  如果是情况3，那么返回loop1或者loop2都可以，都是相交节点。
+ *  小结：
+ *  整体来说：先看看两个链表是不是都有环，然后分三种情况：
+ *  1、两个链表都无环
+ *  2、一个有环一个无环
+ *  3、两个都有环，又分三种情况：
+ *  （1）不相交
+ *  （2）相交节点在成环之前
+ *  （3）相交节点在环内
+ *
  *  注意：
  *  1、这道题只有以上列出来的情况才是真实存在的，任何没有列出来的自己脑补出来的情况都是不存在的，根本原因就有一个：两条链表都是单链表，每一个节点只有一个指针指向其它节点，
- *  不可能出现一个节点同时指向两个节点的情况，如果发现自己分析的情况是：从一个节点出来分叉了，同时指向两个节点，那一定是错的，这种情况一定不存在。
+ *  即每个节点只有一个出度，不可能出现一个节点同时指向两个节点的情况，如果发现自己分析的情况是：从一个节点出来分叉了，同时指向两个节点，那一定是错的，这种情况一定不存在。
  *  2、通过看整个过程可以发现，本题不关注节点的值是什么，只关注节点本身的内存地址
  *
  *  课程：体系班课时82-83
@@ -61,13 +74,13 @@ public class FindFirstIntersectNode {
      * @return
      */
     private static SingleNode<Integer> loopInterNode(SingleNode<Integer> head1, SingleNode<Integer> head2, SingleNode<Integer> loopNode1, SingleNode<Integer> loopNode2) {
-        if(loopNode1 == loopNode2) {// 当loopNode1和loopNode2是同一个节点时，逻辑就是noLoopInterNode方法的逻辑
+        if(loopNode1 == loopNode2) {// 当loopNode1和loopNode2是同一个节点时，说明连个链表必相交，逻辑就是noLoopInterNode方法的逻辑
             SingleNode<Integer> cur1 = head1;
             /*
              这里长度的初始值是0，下面while循环的判断条件可以是cur1 != null，而不需要是cur1.next != null，
-             因为在noLoopInterNode方法里，需要在退出while后cur1正好停在链表的最后一个节点上，因为要判断两个链表的尾结点是不是同一个，
+             因为在noLoopInterNode方法里，需要在退出while后cur1正好停在链表的最后一个节点上，因为需要判断两个链表的尾结点是不是同一个，
              但是在这里不需要这么做，这是和noLoopInterNode方法唯一不一样的地方。
-             链表截断后，如果把loopNode1当做尾结点的话，以下计算的链表长度都会比真实的链表长度少1，因为loopNode1没有算进去，
+             链表"截断"后（注意：不能真截断，不能破坏原链表的结构），如果把loopNode1当做尾结点的话，以下计算的链表长度都会比真实的链表长度少1，因为loopNode1没有算进去，
              由于length1和length2都没有把loopNode1算进去，只是看二者的相对大小，所以最终结果不受影响。
              */
             int length1 = 0;
@@ -98,6 +111,9 @@ public class FindFirstIntersectNode {
             return cur1;
         } else {
             SingleNode<Integer> cur3 = loopNode1.next;
+            if(cur3 == loopNode2) {// 防止loopNode1自己和自己成环，这样的话下面的while就进不去，直接返回null不合适，万一loopNode1就是loopNode2呢？
+                return loopNode1;
+            }
             while(cur3 != loopNode1) {
                 if(cur3 == loopNode2) {
                     return loopNode1;// 返回loopNode1或者loopNode2都可以
@@ -117,7 +133,8 @@ public class FindFirstIntersectNode {
      */
     private static SingleNode<Integer> noLoopInterNode(SingleNode<Integer> head1, SingleNode<Integer> head2) {
         SingleNode<Integer> cur1 = head1;
-        int length1 = 1;// 链表的长度，初始值要是1而不能是0
+        // 链表的长度，初始值要是1而不能是0，如果设置成0的话会少统计一个（但其实也无所谓，length1少统计一个，同理length2也会少统计一个，反正最后比的是两个长度的差值）
+        int length1 = 1;
         /*
         下面的这个循环有两个目的：一个是计算链表的长度，一个是当退出循环时cur1正好停在最后一个节点上。
         虽然length1的初始长度为0，下面while循环的条件可以是cur1 != null，这样退出循环后确实能够算链表的长度，
@@ -130,7 +147,13 @@ public class FindFirstIntersectNode {
         // 退出循环后链表1的长度计算出来了，cur1指针也正好停在了最后一个节点上
         // 同理，算出链表2的长度，也让cur2指针停在链表2的最后一个节点上
         SingleNode<Integer> cur2 = head2;
-        int length2 = 1;// 当然在计算链表2的长度时也可以复用上面的length1变量，链表2每走一步length1--，后面通过判断length1是大于0还是小于0来判断哪个链表更长，这里为了好理解就多设置一个length2变量
+        /*
+         当然在计算链表2的长度时也可以复用上面的length1变量，链表2每走一步length1--，后面通过判断length1是大于0还是小于0来判断哪个链表更长（length1的初始值要设置成0），
+         这里为了好理解就多设置一个length2变量。
+         这里要注意的是：如果采取用length1和length2分别计算两个链表的长度，那么初始值去0和取1都一样，只要统计长度的标准一致就行；但如果只用一个长度变量length1，
+         一个统计用length1++，一个用length1--，那么length1的初始长度必须为0，为1的话后面取绝对值时会出错。
+         */
+        int length2 = 1;
         while(cur2.next != null) {
             cur2 = cur2.next;
             length2++;
@@ -164,6 +187,10 @@ public class FindFirstIntersectNode {
     }
 
     private static SingleNode<Integer> findLoopNode(SingleNode<Integer> head) {
+        /*
+         只要某一个节点的下一个节点是null，那么这个链表就不可能成环，所以参数校验判断几个节点都可以，需要判断几个就判断几个，
+         由于下面快慢指针的起始位置需要从头结点各自先走一步，所以这里需要判断三个节点
+         */
         if(head == null || head.next == null || head.next.next == null) {
             return null;
         }
@@ -208,7 +235,7 @@ public class FindFirstIntersectNode {
         System.out.println("链表1：");
         SingleNode<Integer> cur = head1;
         while(cur != null) {
-            System.out.print(cur.data + " -> ");
+            System.out.print(cur.value + " -> ");
             cur = cur.next;
         }
         System.out.println();
@@ -225,7 +252,7 @@ public class FindFirstIntersectNode {
         System.out.println("链表2：");
         cur = head2;
         while(cur != null) {
-            System.out.print(cur.data + " -> ");
+            System.out.print(cur.value + " -> ");
             cur = cur.next;
         }
         System.out.println();
@@ -273,7 +300,7 @@ public class FindFirstIntersectNode {
 //        head4_n5.next = head4_n5;
 
         firstIntersectNode = findFirstIntersectNode(head3, head4);
-        System.out.println("firstIntersectNode = " + firstIntersectNode.data);
+        System.out.println("firstIntersectNode = " + firstIntersectNode.value);
         System.out.println("----------");
     }
 }

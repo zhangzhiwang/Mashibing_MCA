@@ -45,7 +45,7 @@ public class TreeEquals {
 
         // 走到这说明都不为空
         // 先判断值是不是一样
-        if (head1.data != head2.data) {
+        if (head1.value != head2.value) {
             return false;
         }
 

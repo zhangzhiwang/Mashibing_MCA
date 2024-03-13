@@ -13,9 +13,9 @@ public class ReverseSingleList {
         n1.next = n2;
         n2.next = n3;
 
-        System.out.println(n1.data + " -> " + n1.next.data + " -> " + n1.next.next.data);
+        System.out.println(n1.value + " -> " + n1.next.value + " -> " + n1.next.next.value);
         n1 = reverseSingleList(n1);
-        System.out.println(n1.data + " -> " + n1.next.data + " -> " + n1.next.next.data);
+        System.out.println(n1.value + " -> " + n1.next.value + " -> " + n1.next.next.value);
     }
 
     public static SingleNode reverseSingleList(SingleNode head) {

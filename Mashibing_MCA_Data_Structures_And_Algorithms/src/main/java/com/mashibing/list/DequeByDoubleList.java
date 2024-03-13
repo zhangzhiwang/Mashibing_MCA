@@ -55,7 +55,7 @@ public class DequeByDoubleList<T> {
             return null;
         }
 
-        T res = head.data;
+        T res = head.value;
         head = head.next;
         if(head == null) {// head往后移动一个之后变为了空，说明原先就只有一个元素
             tail = null;// 防止被弹出的元素内存泄漏
@@ -76,7 +76,7 @@ public class DequeByDoubleList<T> {
             return null;
         }
 
-        T res = tail.data;
+        T res = tail.value;
         tail = tail.last;
         if(tail == null) {
             head = null;
@@ -97,7 +97,7 @@ public class DequeByDoubleList<T> {
             return null;
         }
 
-        return head.data;
+        return head.value;
     }
 
     /**
@@ -109,7 +109,7 @@ public class DequeByDoubleList<T> {
             return null;
         }
 
-        return tail.data;
+        return tail.value;
     }
 
     public int size() {

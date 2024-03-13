@@ -58,7 +58,7 @@ public class MergeNList {
         PriorityQueue<SingleNode<Integer>> heap = new PriorityQueue<>(new Comparator<SingleNode<Integer>>() {
             @Override
             public int compare(SingleNode<Integer> o1, SingleNode<Integer> o2) {
-                return o1.data - o2.data;// 如果为负数返回o1，正好正序排序
+                return o1.value - o2.value;// 如果为负数返回o1，正好正序排序
             }
         });
 

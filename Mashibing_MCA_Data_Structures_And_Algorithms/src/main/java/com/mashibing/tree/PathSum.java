@@ -1,7 +1,5 @@
 package com.mashibing.tree;
 
-import sun.reflect.generics.tree.Tree;
-
 /**
  * 判断达标路径和
  * 题目：给定一棵树和一个sum值，判断这棵树是否至少存在一个完整路径（从头到节点到叶子节点），该路径和等于sum。
@@ -41,14 +39,14 @@ public class PathSum {
     public static boolean isPathSum(TreeNode<Integer> head, int preSum, int targetSum) {
         // base case是判断叶节点
         if(head.left == null && head.right == null) {
-            if(preSum + head.data == targetSum) {
-                System.out.println("叶子节点是：" + head.data);
+            if(preSum + head.value == targetSum) {
+                System.out.println("叶子节点是：" + head.value);
                 return true;
             }
             return false;
         }
 
-        preSum += head.data;// 把当前节点的值给加上，方便往下传递
+        preSum += head.value;// 把当前节点的值给加上，方便往下传递
         if(head.left != null) {// 当前节点的累加和只往下级不为空的节点传递，因为当左子树为空时说明叶子节点肯定不在左侧。这里要控制好左子树不为空，否则会在base case那里出现head为null的情况
             boolean isTarget = isPathSum(head.left, preSum, targetSum);
             if(isTarget) {

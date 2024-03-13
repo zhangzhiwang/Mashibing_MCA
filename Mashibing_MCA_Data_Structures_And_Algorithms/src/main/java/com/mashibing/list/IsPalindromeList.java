@@ -46,7 +46,7 @@ public class IsPalindromeList {
         SingleNode<Integer> L = head;
         boolean result = true;
         while (L != null && R != null) {
-            if (L.data != R.data) {
+            if (L.value != R.value) {
                 result = false;
                 break;
             }
@@ -84,7 +84,7 @@ public class IsPalindromeList {
 
         SingleNode<Integer> head = n1;
         while (head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();

@@ -70,7 +70,7 @@ public class MergeNList {
 
 		PriorityQueue<Node> heap = new PriorityQueue<>(new MyComparator());
 		for (int i = 0; i < arr.length; i++) {
-			if (arr[i] != null) {// 防止原数组中有空元素
+			if (arr[i] != null) {// 防止原数组中有空元素，在leetcode中有这种测试用例，不考虑这种情况测试过不去
 				heap.add(arr[i]);
 			}
 		}

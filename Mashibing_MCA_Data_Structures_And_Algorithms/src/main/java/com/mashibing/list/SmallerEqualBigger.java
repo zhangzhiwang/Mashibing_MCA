@@ -24,7 +24,7 @@ public class SmallerEqualBigger {
         while (head != null) {// 这里可以直接拿原链表的head操作，因为head不会返回
             next = head.next;
             head.next = null;// 现将原链表的节点从原链表脱离出来
-            if (head.data < targetValue) {
+            if (head.value < targetValue) {
                 if(sT == null) {// 说明是小于区的第一个节点
                     sH = head;
                     sT = head;
@@ -32,7 +32,7 @@ public class SmallerEqualBigger {
                     sT.next = head;
                     sT = head;
                 }
-            } else if (head.data == targetValue) {
+            } else if (head.value == targetValue) {
                 if(eT == null) {// 说明是等于区的第一个节点
                     eH = head;
                     eT = head;
@@ -55,7 +55,9 @@ public class SmallerEqualBigger {
          经过上面的while循环，原链表的各节点已经都拆开了，每一个节点都放入了小于区、等于区和大于区中的其中一个，每一个区都形成了一个小链表，
          下面要做的就是将小链表组成一个完整的链表：小尾连等头，等尾连大头，麻烦就麻烦在：小于区、等于区和大于区有可能存在也有可能不存在。
          */
+
         // 将小链表连成大链表
+        // 当小于区存在的时候，只往下考虑一步即可，即只考虑sT连接谁即可，再后面的怎么连接不用考虑
         if(sT != null) {// 存在小于区
             if(eH != null) {// 存在等于区
                 sT.next = eH;
@@ -66,6 +68,7 @@ public class SmallerEqualBigger {
             }
         }
 
+        // 同理，当等于区存在的时候，只往下考虑一步即可，即只考虑eT连接谁即可，再后面的怎么连接不用考虑
         if(eH != null) {// 存在等于区
             /*
              存在等于区，至于前面的小于区是不是存在这里不用考虑，因为如果存在小于区，那么在上面的if判断里就已经将小尾和等头连上了，
@@ -96,7 +99,7 @@ public class SmallerEqualBigger {
 
         SingleNode<Integer> head = n1;
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();
@@ -104,7 +107,7 @@ public class SmallerEqualBigger {
 
         SingleNode<Integer> newHead = getSmallerEqualBigger(n1, 3);
         while(newHead != null) {
-            System.out.print(newHead.data + " -> ");
+            System.out.print(newHead.value + " -> ");
             newHead = newHead.next;
         }
         System.out.println();

@@ -1,5 +1,8 @@
 package com.mashibing.preInEclipse.senior.list;
 
+import com.mashibing.list.SingleNode;
+import com.mashibing.others.DuiShuQiUtil;
+
 /**
  * 删除链表中所有具有指定值的节点（单链表）
  * 思路：
@@ -12,15 +15,15 @@ package com.mashibing.preInEclipse.senior.list;
  */
 public class RemoveNode {
 	public static void main(String[] args) {
-		SinglyLinkedListNode<Integer> node2_0 = new SinglyLinkedListNode<Integer>(2);
-		SinglyLinkedListNode<Integer> node2_1 = new SinglyLinkedListNode<Integer>(2);
-		SinglyLinkedListNode<Integer> node2_2 = new SinglyLinkedListNode<Integer>(2);
-		SinglyLinkedListNode<Integer> node4 = new SinglyLinkedListNode<Integer>(4);
-		SinglyLinkedListNode<Integer> node2_3 = new SinglyLinkedListNode<Integer>(2);
-		SinglyLinkedListNode<Integer> node2_4 = new SinglyLinkedListNode<Integer>(2);
-		SinglyLinkedListNode<Integer> node1 = new SinglyLinkedListNode<Integer>(1);
-		SinglyLinkedListNode<Integer> node2_5 = new SinglyLinkedListNode<Integer>(2);
-		SinglyLinkedListNode<Integer> node5 = new SinglyLinkedListNode<Integer>(5);
+		SingleNode<Integer> node2_0 = new SingleNode<Integer>(2);
+		SingleNode<Integer> node2_1 = new SingleNode<Integer>(2);
+		SingleNode<Integer> node2_2 = new SingleNode<Integer>(2);
+		SingleNode<Integer> node4 = new SingleNode<Integer>(4);
+		SingleNode<Integer> node2_3 = new SingleNode<Integer>(2);
+		SingleNode<Integer> node2_4 = new SingleNode<Integer>(2);
+		SingleNode<Integer> node1 = new SingleNode<Integer>(1);
+		SingleNode<Integer> node2_5 = new SingleNode<Integer>(2);
+		SingleNode<Integer> node5 = new SingleNode<Integer>(5);
 		node2_0.next = node2_1;
 		node2_1.next = node2_2;
 		node2_2.next = node4;
@@ -30,10 +33,11 @@ public class RemoveNode {
 		node1.next = node2_5;
 		node2_5.next = node5;
 
-		System.out.println(node2_0.value + " -> " + node2_0.next.value + " -> " + node2_0.next.next.value + " -> " + node2_0.next.next.next.value + " -> " + node2_0.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.next.next.next);
-
-		node2_0 = removeNode(node2_0, 2);
-		System.out.println(node2_0.value + " -> " + node2_0.next.value + " -> " + node2_0.next.next.value + " -> " + node2_0.next.next.next);
+//		System.out.println(node2_0.value + " -> " + node2_0.next.value + " -> " + node2_0.next.next.value + " -> " + node2_0.next.next.next.value + " -> " + node2_0.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.next.next.value + " -> " + node2_0.next.next.next.next.next.next.next.next.next);
+		DuiShuQiUtil.printSingleList(node2_0);
+		node2_0 = removeNode(node2_0, 5);
+//		System.out.println(node2_0.value + " -> " + node2_0.next.value + " -> " + node2_0.next.next.value + " -> " + node2_0.next.next.next);
+		DuiShuQiUtil.printSingleList(node2_0);
 	}
 
 	/**
@@ -45,7 +49,7 @@ public class RemoveNode {
 	 * @author zhangzhiwang
 	 * @date 2022年2月14日 下午8:02:06
 	 */
-	private static SinglyLinkedListNode<Integer> removeNode(SinglyLinkedListNode<Integer> head, int num) {
+	private static SingleNode<Integer> removeNode(SingleNode<Integer> head, int num) {
 		if (head == null) {
 			return null;
 		}
@@ -62,9 +66,9 @@ public class RemoveNode {
 			return null;
 		}
 
-		SinglyLinkedListNode<Integer> pre = head;
-		SinglyLinkedListNode<Integer> cur = head;// 链表的通用思路：找到要返回的头结点后，用一个变量（比如cur）保存这个head，head就不要再动了，后面的操作都由这个临时变量来替代
-		SinglyLinkedListNode<Integer> next = null;
+		SingleNode<Integer> pre = head;
+		SingleNode<Integer> cur = head;// 链表的通用思路：找到要返回的头结点后，用一个变量（比如cur）保存这个head，head就不要再动了，后面的操作都由这个临时变量来替代
+		SingleNode<Integer> next = null;
 		while (cur != null) {
 			if (cur.next != null && cur.next.value == num) {
 				next = cur.next;

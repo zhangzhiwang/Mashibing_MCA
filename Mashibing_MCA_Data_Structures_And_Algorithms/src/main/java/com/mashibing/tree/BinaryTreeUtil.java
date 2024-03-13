@@ -65,7 +65,7 @@ public class BinaryTreeUtil {
             lastNodeIndex = x;
             VLine += addEmpty + "|";//竖线拼接
             //数字拼接
-            dataLine += addEmpty + node.data;
+            dataLine += addEmpty + node.value;
             //红黑树可以用下面打印语句，打印红色；
             //if(node.red)
             //    dataLine+= addEmpty +"\033[91;1m"+node.data+"\033[0m";//打印红色

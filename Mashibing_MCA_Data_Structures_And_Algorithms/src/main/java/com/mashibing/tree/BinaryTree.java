@@ -33,7 +33,7 @@ public class BinaryTree {
 
         // 打印位置在pos1就是前序遍历，在pos2就是中序遍历，在pos3就是后序遍历
         // pos1
-        System.out.println(head.data);
+        System.out.println(head.value);
         pre(head.left);
         // pos2
         pre(head.right);
@@ -49,7 +49,7 @@ public class BinaryTree {
         // pos1
         mid(head.left);
         // pos2
-        System.out.println(head.data);
+        System.out.println(head.value);
         mid(head.right);
         // pos3
     }
@@ -65,6 +65,6 @@ public class BinaryTree {
         // pos2
         post(head.right);
         // pos3
-        System.out.println(head.data);
+        System.out.println(head.value);
     }
 }

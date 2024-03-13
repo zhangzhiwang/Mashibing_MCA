@@ -42,8 +42,8 @@ public class PathSum2 {
     public static void collectPathSum(TreeNode<Integer> head, List<Integer> preNodeList, int preSum, int targetSum, List<List<Integer>> collectList) {
         // base case是判断叶子节点
         if(head.left == null && head.right == null) {
-            if(preSum + head.data == targetSum) {
-                preNodeList.add(head.data);
+            if(preSum + head.value == targetSum) {
+                preNodeList.add(head.value);
                 List<Integer> copyList = copyList(preNodeList);// 拷贝一个列表出来，将拷贝后的列表加入到collectList中，目的是为了下面移除元素
                 collectList.add(copyList);
                 preNodeList.remove(preNodeList.size() - 1);// preNodeList必须将刚才添加的元素移除掉，因为这个preNodeList是要往上层返回的，返回到上层时不应该有本叶子节点
@@ -52,8 +52,8 @@ public class PathSum2 {
         }
 
         // 不是叶子节点，将当前节点的值加入到preNodeList中，同时加进preSum里
-        preNodeList.add(head.data);
-        preSum += head.data;
+        preNodeList.add(head.value);
+        preSum += head.value;
 
         if(head.left != null) {// 如果有左子树就往左子树传递
             collectPathSum(head.left, preNodeList, preSum, targetSum, collectList);

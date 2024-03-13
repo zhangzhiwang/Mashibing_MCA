@@ -74,7 +74,6 @@ public class GetBinaryTreeByPreAndMid {
 	 * 递归调用本方法来找到当前这棵树的头
 	 * 递归掉使用本方法的关键点就在于找好pre和mid数组中子树的起止位置
 	 * 
-	 * @param pre 前序遍历数组
 	 * @param pre 前序遍历的数组
 	 * @param l1  pre数组的起始索引
 	 * @param l2  pre数组的结束索引
@@ -87,7 +86,12 @@ public class GetBinaryTreeByPreAndMid {
 	 * @date 2022年2月4日 上午11:04:29
 	 */
 	private static TreeNode f(TreeNode[] pre, int l1, int l2, TreeNode[] mid, int r1, int r2, Map<TreeNode, Integer> map) {
-		// 当前序遍历数组pre的起始索引大于结束索引时说明当前这棵树不存在，进而说明前面的那颗父树没有当前这颗子树，所以返回null
+		/*
+		 当前序遍历数组pre的起始索引大于结束索引时说明当前这棵树不存在，进而说明前面的那颗父树没有当前这颗子树，所以返回null。
+		 base case只判断先序遍历数组的边界即可，无需判断中序遍历结果的边界，因为先序数组中当左边界大于右边界时说明在先序遍历中不存在左/右子树，
+		 由于中序遍历结果和先序结果是对应的，那么在中序遍历结果中肯定也不存在这棵树。当先出遍历结果中左右边界重合，说明左/右子树只有一个节点，
+		 那么在中序遍历结果中可定也只有一个节点，所以判断先序遍历结果的边界条件即可。
+		 */
 		if (l1 > l2) {
 			return null;
 		} else if (l1 == l2) {
@@ -98,22 +102,21 @@ public class GetBinaryTreeByPreAndMid {
 		 * 前序遍历的的第一个元素无疑是整个树的root，用于最终返回。
 		 * 单凭前序遍历无从知道哪部分是左子树哪部分是右子树，必须通过中序遍历找到root的位置，那么root左边就是左子树，右边就是右子树
 		 */
-		TreeNode head = pre[l1];
+		TreeNode head = pre[l1];// 注意pre数组的第一个元素的索引是L1，不是0，所有带范围的数组都要注意
 
 		/**
 		 * 如何在mid中找到root的位置？
-		 * 1、一种思路是使用for循环，从第一个位置开始找直到找到root为止，这样的话时间复杂度是O(n)，由于f()是被递归调用的，总的时间复杂度是n *
-		 * O(n)
+		 * 1、一种思路是使用for循环，从第一个位置开始找直到找到root为止，这样的话时间复杂度是O(n)，由于f()是被递归调用的，总的时间复杂度是n * O(n)
 		 * 2、另一种思路是在f函数外将mid数组转成Map，key是TreeNode，value是索引，这样在f函数外遍历一次数组就可以了(时间复杂度是O(n))，在f内部获取root索引的而时间复杂度是O(1)。
 		 */
 		// 找到本棵树的头
 		int rootIndexInMid = map.get(head);// root在mid数组中的位置
 
 		/**
-		 * rootIndexInMid找到了，那所有的子树范围都找到了：
+		 * rootIndexInMid找到了，那所有的子树范围就都找到了：
 		 * 1、左子树的范围在mid数组中是：[r1,rootIndexInMid - 1]，右子树的范围在mid数组中是：[rootIndexInMid + 1,r2]
 		 * 2、左子树的范围在pre数组中是：[l1 + 1,l1 + 1 + (rootIndexInMid - 1 - r1)]，右子树的范围在pre数组中是：[l1 + 1 + (rootIndexInMid - 1 - r1) + 1,l2]
-		 * 3、上面说的左右子树是整棵树的左右子树，所以左右子树内部又可以分为若干个左右子树，每一个子树又得找右节点和每个子树的左右子树，方法就是f()的递归
+		 * 3、上面说的左右子树是整棵树的左右子树，左右子树内部又可以分为若干个左右子树，每一个子树又得找头节点和每个子树的左右子树，方法就是f()的递归
 		 */
 		// leftHead是以head为头的左子树的头，所以传入的pre和mid数组的范围都是左子树的范围
 		// 整个这道题就是一个找头游戏，根据前序遍历和后续遍历的数组找到所有子树的头，游戏结束，原来那棵树就还原出来了

@@ -26,7 +26,7 @@ public class StackBySingleList<T> {
             return null;
         }
 
-        T res = head.data;
+        T res = head.value;
         head = head.next;
         size--;
         return res;
@@ -37,7 +37,7 @@ public class StackBySingleList<T> {
             return null;
         }
 
-        return head.data;
+        return head.value;
     }
 
     public boolean isEmpty() {

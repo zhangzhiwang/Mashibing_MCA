@@ -9,7 +9,7 @@ package com.mashibing.preInEclipse.junior.list;
  * l2：2 -> 4 -> 6 -> 8
  * 1、比较两个链表的头部的大小，谁小谁当新链表的头部
  * 2、准备两个临时变量（next1和next2）分别保存小头链表的下一个节点和大头链表的头部，还有一个变量保存当前节点
- * 3、next1和next2比较之后假如next1小，那么next1就是当前节点的下一个节点，让next1后移，next2不动，直到遍历完其中一个链表为止
+ * 3、next1和next2作比较，假如next1小，那么next1就是当前节点的下一个节点，让next1后移，next2不动，直到遍历完其中一个链表为止
  * 4、将尾结点连上
  * 
  * @author zhangzhiwang

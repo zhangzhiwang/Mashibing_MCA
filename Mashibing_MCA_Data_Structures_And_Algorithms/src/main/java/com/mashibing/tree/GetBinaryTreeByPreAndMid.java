@@ -16,13 +16,13 @@ public class GetBinaryTreeByPreAndMid {
         int[] mid = {4, 2, 5, 1, 6, 3, 7};
         TreeNode<Integer> head = getBinaryTreeByPreAndMid2(pre, mid);
 
-        System.out.println(head.data);
-        System.out.println(head.left.data);
-        System.out.println(head.right.data);
+        System.out.println(head.value);
+        System.out.println(head.left.value);
+        System.out.println(head.right.value);
 
         System.out.println("-------");
-        System.out.println(head.left.left.data);
-        System.out.println(head.left.right.data);
+        System.out.println(head.left.left.value);
+        System.out.println(head.left.right.value);
 
         System.out.println("-------");
         System.out.println(head.left.left.left);
@@ -31,8 +31,8 @@ public class GetBinaryTreeByPreAndMid {
         System.out.println(head.left.right.right);
 
         System.out.println("===========");
-        System.out.println(head.right.left.data);
-        System.out.println(head.right.right.data);
+        System.out.println(head.right.left.value);
+        System.out.println(head.right.right.value);
 
         System.out.println("-------");
         System.out.println(head.right.left.left);

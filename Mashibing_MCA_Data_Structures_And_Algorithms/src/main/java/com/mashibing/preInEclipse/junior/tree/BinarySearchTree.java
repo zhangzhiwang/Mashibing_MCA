@@ -120,7 +120,7 @@ public class BinarySearchTree {
 		 * 因为value可正可负，可以是任意值，索性直接返回null，由上游调用的地方去判空。
 		 */
 		if (head == null) {
-			return null;
+			return null; // 之所以返回null是因为当节点为空时最大值和最小值不好设置
 		}
 
 		// 获取左右子树的Info信息
@@ -132,8 +132,8 @@ public class BinarySearchTree {
 		boolean rightIsBST = rightInfo == null ? true : rightInfo.isBST;
 
 		// 判断左右子树和当前节点的大小
-		boolean isLeftMaxLessThanHead = leftInfo == null ? true : (leftInfo.maxValue < head.data);
-		boolean isRightMinLargerThanHead = rightInfo == null ? true : (rightInfo.minValue > head.data);
+		boolean isLeftMaxLessThanHead = leftInfo == null ? true : (leftInfo.maxValue < head.value);// 因为搜搜树中不允许有相同的值，所以这里不用判断等于
+		boolean isRightMinLargerThanHead = rightInfo == null ? true : (rightInfo.minValue > head.value);
 
 		boolean isBST = leftIsBST && rightIsBST && isLeftMaxLessThanHead && isRightMinLargerThanHead;
 		if (!isBST) {
@@ -141,10 +141,10 @@ public class BinarySearchTree {
 		}
 
 		// 找到当前节点及其左右子树中的最小值和最大值
-		int min = head.data;// 这里默认最小值和最大值要是head自己的值，不能设初始值为0，因为leftInfo和rightInfo可能为空
-		int max = head.data;
+		int min = head.value;// 这里默认最小值和最大值要是head自己的值，不能设初始值为0，因为leftInfo和rightInfo可能为空
+		int max = head.value;
 		if (leftInfo != null) {
-			if (leftInfo.maxValue >= head.data) {
+			if (leftInfo.maxValue >= head.value) {
 				return new Info(false, 0, 0);
 			} else {
 				min = Math.min(leftInfo.minValue, min);
@@ -153,7 +153,7 @@ public class BinarySearchTree {
 		}
 
 		if (rightInfo != null) {
-			if (rightInfo.minValue <= head.data) {
+			if (rightInfo.minValue <= head.value) {
 				return new Info(false, 0, 0);
 			} else {
 				min = Math.min(rightInfo.minValue, min);
@@ -189,7 +189,7 @@ public class BinarySearchTree {
 		ArrayList<TreeNode<Integer>> arr = new ArrayList<>();
 		in(head, arr);
 		for (int i = 1; i < arr.size(); i++) {
-			if (arr.get(i).data <= arr.get(i - 1).data) {
+			if (arr.get(i).value <= arr.get(i - 1).value) {
 				return false;
 			}
 		}

@@ -50,8 +50,8 @@ public class MaxSubBSTSize {
 
         boolean leftIsBst = leftInfo == null ? true : leftInfo.isBst;
         boolean rightIsBst = rightInfo == null ? true : rightInfo.isBst;
-        boolean leftMaxLessThanX = leftInfo == null ? true : (leftInfo.max < x.data);
-        boolean rightMinMoreThanX = rightInfo == null ? true : (rightInfo.min > x.data);
+        boolean leftMaxLessThanX = leftInfo == null ? true : (leftInfo.max < x.value);
+        boolean rightMinMoreThanX = rightInfo == null ? true : (rightInfo.min > x.value);
 
         boolean xIsBst = leftIsBst && rightIsBst && leftMaxLessThanX && rightMinMoreThanX;
 
@@ -67,11 +67,11 @@ public class MaxSubBSTSize {
         }
 
         // 以x为头的子树的全局最小值
-        int min = leftInfo == null ? x.data : Math.min(leftInfo.min, x.data);
+        int min = leftInfo == null ? x.value : Math.min(leftInfo.min, x.value);
         min = rightInfo == null ? min : Math.min(rightInfo.min, min);
 
         // 以x为头的子树的全局最大值
-        int max = leftInfo == null ? x.data : Math.max(leftInfo.max, x.data);
+        int max = leftInfo == null ? x.value : Math.max(leftInfo.max, x.value);
         max = rightInfo == null ? max : Math.max(rightInfo.max, max);
 
         return new MaxSubBSTSizeInfo(bstMaxNodeCount, xIsBst, min, max);
@@ -112,7 +112,7 @@ public class MaxSubBSTSize {
         ArrayList<TreeNode<Integer>> arr = new ArrayList<>();
         in(head, arr);
         for (int i = 1; i < arr.size(); i++) {
-            if (arr.get(i).data <= arr.get(i - 1).data) {
+            if (arr.get(i).value <= arr.get(i - 1).value) {
                 return 0;
             }
         }

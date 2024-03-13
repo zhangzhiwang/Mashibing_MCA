@@ -29,7 +29,7 @@ public class RemoveNode {
 
         SingleNode<Integer> head = n1;
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
 
@@ -37,14 +37,14 @@ public class RemoveNode {
 
         System.out.println();
         while(newHead != null) {
-            System.out.print(newHead.data + " -> ");
+            System.out.print(newHead.value + " -> ");
             newHead = newHead.next;
         }
     }
 
     public static SingleNode<Integer> removeNode(SingleNode<Integer> head, int targetNum) {
         while(head != null) {
-            if(head.data == targetNum) {
+            if(head.value == targetNum) {
                 head = head.next;
                 continue;
             }
@@ -58,7 +58,7 @@ public class RemoveNode {
         SingleNode<Integer> cur = head;
         SingleNode<Integer> pre = head;
         while(cur != null) {
-            if(cur.data != targetNum) {
+            if(cur.value != targetNum) {
                 pre = cur;
                 cur = cur.next;
                 continue;

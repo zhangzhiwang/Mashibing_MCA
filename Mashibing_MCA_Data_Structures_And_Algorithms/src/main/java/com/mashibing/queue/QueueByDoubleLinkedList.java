@@ -39,7 +39,7 @@ public class QueueByDoubleLinkedList<T> {
             throw new RuntimeException("队列已空");
         }
 
-        T result = head.data;
+        T result = head.value;
         head = head.next;
         if (head != null) {// 注意：这个判断不要少
             head.last = null;
@@ -55,7 +55,7 @@ public class QueueByDoubleLinkedList<T> {
             throw new RuntimeException("队列已空");
         }
 
-        return head.data;
+        return head.value;
     }
 
     public static void main(String[] args) {

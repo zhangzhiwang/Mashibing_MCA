@@ -106,7 +106,7 @@ public class EncodeNaryTreeToBinaryTree {
         }
 
         // 二叉树的头节点就是多叉树的头结点
-        return new NaryTreeNode<>(head.data, deserialize(head.left));
+        return new NaryTreeNode<>(head.value, deserialize(head.left));
     }
 
     /**
@@ -121,7 +121,7 @@ public class EncodeNaryTreeToBinaryTree {
         }
 
         while(head != null) {
-            retList.add(new NaryTreeNode<>(head.data, deserialize(head.left)));
+            retList.add(new NaryTreeNode<>(head.value, deserialize(head.left)));
             head = head.right;
         }
 

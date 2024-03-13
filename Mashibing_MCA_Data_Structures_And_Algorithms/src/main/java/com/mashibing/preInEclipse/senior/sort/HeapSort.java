@@ -8,7 +8,7 @@ package com.mashibing.preInEclipse.senior.sort;
  * 思路：
  * 1、遍历一遍数组将所有元素都heapInsert到堆里，结束后数组的头元素是整体的最大值
  * 2、将堆的第一个元素和最后一个元素互换，这样整体的最大值被移动到了右边，heapSize--，将最大值排除到堆之外
- * 3、调用heapify，将最大值移动到对的头部，然后将头部和尾部元素互换，heapSize--，循环第三步
+ * 3、调用heapify，将最大值移动到堆的头部，然后将头部和尾部元素互换，heapSize--，循环第三步
  *
  * @author zhangzhiwang
  * @date 2022年2月15日 下午5:29:18
@@ -20,15 +20,30 @@ public class HeapSort {
 		if (arr == null || arr.length <= 1) {
 			return;
 		}
-		
-		// step1：构建大根堆
-		for(int i = 0; i < arr.length; i++) {// 遍历数组将所有元素添加到大根堆里面，O(N)
+
+		heapSize = arr.length;
+
+		// step1：建堆，构建大根堆
+		/*
+		 建堆方式1：使用heapInsert从上往下建堆，整体时间复杂度是O(N * logN)
+		 */
+		for(int i = 0; i < heapSize; i++) {// 遍历数组将所有元素添加到大根堆里面，O(N)
 			heapInsert(arr, i);// O(logN)
 		}
-		// 将所有元素放入到堆中之后，heapSize就是arr.length了
-		heapSize = arr.length;
-		
-		// step2：将数组的头元素和尾元素互换，heapSize--。将最大值移到数组末尾，将该最大值排除到heap之外
+
+		/*
+		建堆方式2：使用heapify从下往上建堆，整体时间复杂度是O(N)
+		注意：虽然外层循环的时间复杂度是O(N)，循环内时间复杂度是O(logN)，但这种从下往上建堆的方式整体时间复杂度不是O(N * logN)，而是最终收敛于O(N)。
+		在面试时面试官让你解释"为什么从下往上建堆的时间复杂度是O(N)，而从上往下建堆的时间复杂度却是O(N * logN)"的可能性几乎不存在，所以这里就不以文字的形式
+		记录原因了，具体原因可以看课程：体系班课时54-55。
+		这里要说明的是：不管是以哪种方式建堆，整个堆排序算法的时间复杂度都是O(N * logN)，因为对排序的过程一共分为两部分，上面说的只是第一部分的时间复杂度优化，
+		但是第二部分调整堆的时间复杂度是O(N * logN)，这个是优化不了的。
+		 */
+//		for(int i = arr.length - 1; i >= 0; i--) {// O(N)
+//			heapify(arr, i);// O(logN)
+//		}
+
+		// step2：调整堆，将数组的头元素和尾元素互换，heapSize--。将最大值移到数组末尾，将该最大值排除到heap之外
 		while(heapSize > 0) {// heapSize从N减到0，O(N)
 			swap(arr, 0, --heapSize);
 			heapify(arr, 0);// O(logN)

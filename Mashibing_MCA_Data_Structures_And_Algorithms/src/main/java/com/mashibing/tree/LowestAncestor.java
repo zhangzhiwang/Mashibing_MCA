@@ -165,10 +165,10 @@ public class LowestAncestor {
             if (ans1 != ans2) {
                 BinaryTreeUtil.printBinaryTree(head);
                 System.out.println();
-                System.out.println("o1 = " + o1.data);
-                System.out.println("o2 = " + o2.data);
-                System.out.println("ans1 = " + ans1.data);
-                System.out.println("ans2 = " + ans2.data);
+                System.out.println("o1 = " + o1.value);
+                System.out.println("o2 = " + o2.value);
+                System.out.println("ans1 = " + ans1.value);
+                System.out.println("ans2 = " + ans2.value);
                 System.out.println("Oops!");
                 return;
             }

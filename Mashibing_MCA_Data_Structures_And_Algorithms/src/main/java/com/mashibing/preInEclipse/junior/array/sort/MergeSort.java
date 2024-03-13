@@ -23,6 +23,8 @@ package com.mashibing.preInEclipse.junior.array.sort;
  * 2、merge
  * 3、替换
  * 在保证左右数组都有序上用到了递归思想，直到左右数组都有1个元素的时候才开始merge。
+ *
+ * 根据Master公式可以算出归并排序的时间复杂度是O(N*logN)
  * 
  * @author zhangzhiwang
  * @date 2022年2月9日 下午9:15:14
@@ -108,7 +110,7 @@ public class MergeSort {
 	private static void merge(int[] arr, int l, int m, int r) {
 		/**
 		 *  临时数组用于merge，每次新生成的临时数组的长度都要和左右数组的长度和一致，而左右数组的总长度就是r - l + 1，因为每次调用merge方法l和r都会变。
-		 *  不可以是arr的length，因为arr的length是固定不变的，merge只针对本次左右数组来进行的。
+		 *  不可以是arr的长度，因为arr的长度是固定不变的，merge只针对本次左右数组来进行的。
 		 */
 		int[] temArr = new int[r - l + 1];// 左右数组相应位置的元素一一进行比对，谁小谁放到temArr数组里
 		// 准备三个指针：

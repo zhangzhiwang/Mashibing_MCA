@@ -1,7 +1,5 @@
 package com.mashibing.tree;
 
-import com.mashibing.list.SingleNode;
-
 import java.util.Stack;
 
 /**
@@ -27,7 +25,7 @@ public class BinaryTreeWithoutRecurse {
         TreeNode<String> cur = null;
         while(!stack.isEmpty()) {
             cur = stack.pop();
-            System.out.print(cur.data+ "\t");
+            System.out.print(cur.value + "\t");
             // 先压右孩子，再压左孩子，由于是栈，所以弹出来的顺序就是先左后右了
             if(cur.right != null) {
                 stack.push(cur.right);
@@ -72,7 +70,7 @@ public class BinaryTreeWithoutRecurse {
         }
 
         while(!stack2.isEmpty()) {
-            System.out.print(stack2.pop().data + "\t");
+            System.out.print(stack2.pop().value + "\t");
         }
         System.out.println();
     }
@@ -90,7 +88,7 @@ public class BinaryTreeWithoutRecurse {
                 cur = cur.left;
             } else {
                 cur = stack.pop();
-                System.out.print(cur.data + "\t");
+                System.out.print(cur.value + "\t");
                 cur = cur.right;
             }
         }

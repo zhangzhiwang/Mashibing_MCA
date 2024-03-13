@@ -40,7 +40,7 @@ public class QueueBySingleList<T> {
             return null;
         }
 
-        T data = head.data;
+        T data = head.value;
         head = head.next;
         size--;
         if(head == null) {// 防止tail造成内存泄漏
@@ -54,7 +54,7 @@ public class QueueBySingleList<T> {
             return null;
         }
 
-       return head.data;
+       return head.value;
     }
 
 

@@ -27,6 +27,8 @@ public class PreSum {
         for(int k = 0; k < arr.length; k++) {
             sum += arr[k];
             preSum[k] = sum;
+            // 以上两行可以简写为
+//            preSum[k] = sum += arr[k];// 先算sum+arr[k]，然后将结果赋值给sum，再将sum赋值给preSum[k]
         }
         
         return i == 0 ? preSum[j] : preSum[j] - preSum[i - 1];

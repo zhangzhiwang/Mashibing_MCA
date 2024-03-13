@@ -17,6 +17,12 @@ public class GraphNode<T> {
         this.data = data;
     }
 
+    public GraphNode(T data, int in, int out) {
+        this.data = data;
+        this.in = in;
+        this.out = out;
+    }
+
     @Override
     public String toString() {
         return "GraphNode{" +

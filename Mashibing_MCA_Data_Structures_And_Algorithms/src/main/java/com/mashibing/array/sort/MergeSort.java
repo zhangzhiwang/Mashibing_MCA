@@ -31,7 +31,7 @@ public class MergeSort {
             return;
         }
 
-        int M = L + ((R - L) >> 2);// 防止越界（超过int范围）的写法
+        int M = L + ((R - L) >> 1);// 防止越界（超过int范围）的写法，另外(R - L) >> 1必须要括起来，算数运算的优先级普遍高于位运算符
         f(arr, L, M);
         f(arr, M + 1, R);
 

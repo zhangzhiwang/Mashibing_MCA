@@ -7,7 +7,11 @@ package com.mashibing.list;
  */
 public class FindListMid {
     /**
-     * 如果链表的节点个数是偶数个那么返回上中点，奇数个则返回中间的节点
+     * 1、如果链表的节点个数是偶数个那么返回上中点，奇数个则返回中间的节点
+     * 思路：
+     * 1、快慢指针的起点都是头结点
+     * 2、快一次跳两步，慢一次跳一步
+     *
      * @param head
      * @return
      */
@@ -27,7 +31,16 @@ public class FindListMid {
     }
 
     /**
-     * 如果链表的节点个数是偶数个那么返回下中点，奇数个则返回中间的节点
+     * 2、如果链表的节点个数是偶数个那么返回下中点，奇数个则返回中间的节点
+     * 思路1：
+     * 1、快慢指针的起点都是头结点的下一个节点
+     * 2、快一次跳两步，慢一次跳一步
+     *
+     * 思路2：
+     * 1、快慢指针的起点都是头结点
+     * 2、快一次跳两步，慢一次跳一步，但过程是：快指针先往下跳一步，慢指针也往下跳一步，然后快指针再看看能不能再跳一步，如果能就再跳一步，如果不能就原地待着
+     * 思路2的实现见：com.mashibing.dailyPractice._2_14.FindListMid_0214#findListMid2
+     *
      * @param head
      * @return
      */
@@ -47,7 +60,19 @@ public class FindListMid {
     }
 
     /**
-     * 如果链表的节点个数是偶数个那么返回上中点的前一个节点，奇数个则返回中间节点的前一个节点
+     * 3、如果链表的节点个数是偶数个那么返回上中点的前一个节点，奇数个则返回中间节点的前一个节点
+     * 思路1：
+     * 1、边界校验先判断链表是不是至少存在三个节点
+     * 2、快指针的起始位置在第三个节点，慢指针的起始位置在头结点
+     * 3、快一次跳两步，慢一次跳一步
+     *
+     * 思路2：
+     * 1、边界校验先判断链表是不是至少存在三个节点
+     * 2、快指针的起始位置在第二个节点，慢指针的起始位置在头结点
+     * 3、快一次跳两步，但慢要不要跳看情况：如果快指针不能跳两步，则快慢指针都不动；如果快指针能跳两步则先让其跳两步，然后判断快指针能不能跳第三步，
+     * 如果能那么快指针不动，慢指针跳一步，如果不能则快慢都不动。
+     * 思路2的实现见：com.mashibing.dailyPractice._2_14.FindListMid_0214#findListMid3
+     *
      * @param head
      * @return
      */
@@ -101,7 +126,7 @@ public class FindListMid {
 
         SingleNode<Integer> head = n1;
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();
@@ -120,7 +145,7 @@ public class FindListMid {
 //        System.out.println("--------");
 
         SingleNode<Integer> mid = findListMid4(n1);
-        System.out.println("mid.data = " + mid.data);
+        System.out.println("mid.data = " + mid.value);
         System.out.println("--------");
     }
 }

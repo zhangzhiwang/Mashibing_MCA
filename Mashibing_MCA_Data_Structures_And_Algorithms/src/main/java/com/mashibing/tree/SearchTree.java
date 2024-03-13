@@ -73,18 +73,18 @@ public class SearchTree {
         SearchTreeInfo leftInfo = f(head.left);// true 1 1
         SearchTreeInfo rightInfo = f(head.right);// true 3 3
 
-        boolean isLeftValid = leftInfo == null ? true : leftInfo.isSearchTree && leftInfo.max < head.data;
+        boolean isLeftValid = leftInfo == null ? true : leftInfo.isSearchTree && leftInfo.max < head.value;
         if(!isLeftValid) {
             return new SearchTreeInfo(false, 0, 0);
         }
-        boolean isRightValid = rightInfo == null ? true : rightInfo.isSearchTree && rightInfo.min > head.data;
+        boolean isRightValid = rightInfo == null ? true : rightInfo.isSearchTree && rightInfo.min > head.value;
         if(!isRightValid) {
             return new SearchTreeInfo(false, 0, 0);
         }
 
         return new SearchTreeInfo(true,
-                rightInfo == null ? head.data : rightInfo.max,
-                leftInfo == null ? head.data : leftInfo.min);
+                rightInfo == null ? head.value : rightInfo.max,
+                leftInfo == null ? head.value : leftInfo.min);
     }
 
     // 以下是对数器
@@ -111,7 +111,7 @@ public class SearchTree {
         ArrayList<TreeNode<Integer>> arr = new ArrayList<>();
         in(head, arr);
         for (int i = 1; i < arr.size(); i++) {
-            if (arr.get(i).data <= arr.get(i - 1).data) {
+            if (arr.get(i).value <= arr.get(i - 1).value) {
                 return false;
             }
         }

@@ -3,7 +3,7 @@ package com.mashibing.preInEclipse.senior.stack;
 import java.util.Stack;
 
 /**
- * 面试题——实现一个特殊的栈，在基本功能的基础上，再实现返回栈中最小元素的功能。要求：
+ * 面试题——实现一个特殊的栈，在基本功能的基础上，再实现查看栈中最小元素的功能。要求：
  * 1、pop、push、getMin操作的时间复杂度都是 O(1)。 
  * 2、设计的栈类型可以使用现成的栈结构。
  * 
@@ -14,7 +14,7 @@ import java.util.Stack;
  * 1、如果A加入第一个元素，那么将这个元素同样放入B
  * 2、如果A加入的第二个元素比第一个元素小，那么将第二个元素同步放入B；如果A加入的第二个元素比第一个元素大，那么将B的第一个元素作为第二个元素再放入一遍
  * 3、弹出B栈顶的元素就是整个栈的最小值。
- * 准备第二个栈的目的就是题目要求的getMin是总能返回最小值，即每弹出一个元素之后都能返回剩下元素的
+ * 准备第二个栈的目的就是题目要求的getMin是总能返回最小值，即每弹出一个元素之后都能返回剩下元素的最小值
  *
  * @author zhangzhiwang
  * @date 2022年2月25日 下午8:00:00
@@ -32,7 +32,7 @@ public class StackGetMin {
 			minStack.push(minStack.peek());
 		}
 		
-		dataStack.push(num);
+		dataStack.push(num);// 这句话一定写在if判断的后面，不能写在前面，因为如果写在最前面，那么第一个if永远进不去，因为添加第一个元素时dataStack已经不是空了
 	}
 	
 	public int pop() {

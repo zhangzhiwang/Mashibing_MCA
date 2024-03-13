@@ -31,7 +31,7 @@ public class BinaryTreePreSerialization {
             return queue;
         }
 
-        queue.add(head.data);
+        queue.add(head.value);
         serialize(head.left, queue);
         serialize(head.right, queue);
         return queue;

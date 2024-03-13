@@ -1,7 +1,5 @@
 package com.mashibing.list;
 
-import com.mashibing.others.DuiShuQiUtil;
-
 /**
  * 两个链表对应位置上的数相加
  * 题目：给定两个链表的头节点head1和head2，每一个链表都认为从左到右是某个数字的低位到高位，返回两个数字相加之后的结果所代表的的链表。
@@ -24,7 +22,7 @@ public class TwoListAdd {
 
         SingleNode<Integer> head = twoListAdd(head1, head2);
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();
@@ -61,8 +59,8 @@ public class TwoListAdd {
         int carry = 0;// 进位信息
         SingleNode<Integer> longListLastNode = null;// 长链表的最后一个节点，用于最后补进位节点
         while(shortList != null) {// 短链表不为空长链表肯定也不为空
-            int sum = longList.data + shortList.data + carry;
-            longList.data = sum % 10;
+            int sum = longList.value + shortList.value + carry;
+            longList.value = sum % 10;
             carry = sum / 10;
             longListLastNode = longList;// 在longList跳到下一个节点之前记录当前长链表节点，以免最后补充的进位节点不知道往哪里挂
             longList = longList.next;
@@ -71,8 +69,8 @@ public class TwoListAdd {
 
         // 阶段2：长链表有短链表已经没有了，从上面循环挑出来就代表短链表没有了
         while(longList != null) {
-            int sum = longList.data + carry;
-            longList.data = sum % 10;
+            int sum = longList.value + carry;
+            longList.value = sum % 10;
             carry = sum / 10;
             longListLastNode = longList;// 注意：一定要在跳到下一个之前记录
             longList = longList.next;

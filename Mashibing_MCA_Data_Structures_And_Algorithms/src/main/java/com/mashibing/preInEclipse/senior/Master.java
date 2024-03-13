@@ -4,14 +4,15 @@ package com.mashibing.preInEclipse.senior;
  * Master公式
  * 
  * 分析：
+ * 0、前提：Master公式是用来估算递归算法的时间复杂度的
  * 1、大问题拆分成若干个小问题，每个小问题的数据量规模都是一样的，都是大问题数据量的1/b。
- * 2、满足第一点，就可以根据这个公式来找出a、b、d的值，从而带入Master公式计算整个时间复杂度
- * 			T(N) = a * (n / b) + O(N^d)，其中a、b、d为常数，N为整体数据量，O(N^d)是整个递归代码除了递归部分之外剩余代码的时间复杂度
+ * 2、满足第一点，就可以根据这个公式来找出a、b、d的值，从而带入Master公式计算整个递归算法的时间复杂度
+ *    T(N) = a * T(N / b) + O(N^d)，其中a、b、d为常数，N为整体数据量，N/b是递归的数据规模，O(N^d)是整个递归代码除了递归部分之外剩余代码的时间复杂度
  * 3、Master公式：
- * （1）若logba > d，则O(N^logba)
- * （2）若logba < d，则O(N^d)
- * （3）若logba = d，则O(N^logN)
- * 其中logba是以b为底a的对数。
+ * （1）若log(b,a) > d，则O(N^log(b,a))
+ * （2）若log(b,a) < d，则O(N^d)
+ * （3）若log(b,a) = d，则O(N^d*logN)
+ * 其中log(b,a)是以b为底a的对数。
  *
  * @author zhangzhiwang
  * @date 2022年3月3日 下午6:42:09

@@ -48,7 +48,7 @@ public class CopyListWithRandom {
          */
         cur = head;// 将cur重置为老链表的头部
         while(cur != null) {
-            cur.next.random = cur.random != null ? cur.random.next : null;
+            cur.next.random = cur.random != null ? cur.random.next : null;// 注意：做题的过程中不要忘记题目给出的已知条件：random指针可以指向null
             cur = cur.next.next;
         }
 

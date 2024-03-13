@@ -31,7 +31,7 @@ public class BinaryTreeByLevelSerialization {
         }
 
         Queue<TreeNode<String>> help = new LinkedList<>();
-        res.add(head.data);// 先把头结点的值放入res中
+        res.add(head.value);// 先把头结点的值放入res中
         help.add(head);// 先把头结点放入help中
         while(!help.isEmpty()) {
             /*
@@ -43,7 +43,7 @@ public class BinaryTreeByLevelSerialization {
             if(treeNode.left == null) {// 孩子为空只入res，不入help
                 res.add("#");
             } else {// 孩子不为空，既入res也入help
-                res.add(treeNode.left.data);
+                res.add(treeNode.left.value);
                 help.add(treeNode.left);
             }
 
@@ -51,7 +51,7 @@ public class BinaryTreeByLevelSerialization {
             if(treeNode.right == null) {// 孩子为空只入res，不入help
                 res.add("#");
             } else {// 孩子不为空，既入res也入help
-                res.add(treeNode.right.data);
+                res.add(treeNode.right.value);
                 help.add(treeNode.right);
             }
         }

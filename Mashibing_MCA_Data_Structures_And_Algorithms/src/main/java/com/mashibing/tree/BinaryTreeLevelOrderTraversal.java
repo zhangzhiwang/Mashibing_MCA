@@ -38,7 +38,7 @@ public class BinaryTreeLevelOrderTraversal {
             List<Integer> nodeList = new ArrayList<>();
             for(int i = 0; i < size; i++) {// 注意：这里不能写成i < queue.size()，因为每弹出一个节点size就会变小
                 TreeNode<Integer> poll = queue.poll();
-                nodeList.add(poll.data);
+                nodeList.add(poll.value);
                 if(poll.left != null) {
                     queue.add(poll.left);
                 }

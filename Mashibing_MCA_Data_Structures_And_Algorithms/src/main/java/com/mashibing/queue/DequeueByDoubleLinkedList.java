@@ -51,7 +51,7 @@ public class DequeueByDoubleLinkedList<T> {
             throw new RuntimeException("队列为空");
         }
 
-        T result = tail.data;
+        T result = tail.value;
         tail = tail.last;
         if (tail != null) {
             tail.next = null;
@@ -67,7 +67,7 @@ public class DequeueByDoubleLinkedList<T> {
             throw new RuntimeException("队列为空");
         }
 
-        T result = head.data;
+        T result = head.value;
         head = head.next;
         if (head != null) {
             head.last = null;
@@ -83,14 +83,14 @@ public class DequeueByDoubleLinkedList<T> {
         if (size == 0) {
             throw new RuntimeException("队列为空");
         }
-        return head.data;
+        return head.value;
     }
 
     public T peekFromTail() {
         if (size == 0) {
             throw new RuntimeException("队列为空");
         }
-        return tail.data;
+        return tail.value;
     }
 
     public static void main(String[] args) {

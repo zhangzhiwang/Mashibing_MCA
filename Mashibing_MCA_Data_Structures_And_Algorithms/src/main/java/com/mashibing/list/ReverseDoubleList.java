@@ -15,13 +15,13 @@ public class ReverseDoubleList {
         n2.last = n1;
         n3.last = n2;
 
-        System.out.println(n1.data + " -> " + n1.next.data + " -> " + n1.next.next.data);
-        System.out.println(n3.data + " => " + n3.last.data + " => " + n3.last.last.data);
+        System.out.println(n1.value + " -> " + n1.next.value + " -> " + n1.next.next.value);
+        System.out.println(n3.value + " => " + n3.last.value + " => " + n3.last.last.value);
         System.out.println("----------------");
 
         n1 = reverseDoubleList(n1);
-        System.out.println(n1.data + " -> " + n1.next.data + " -> " + n1.next.next.data);
-        System.out.println(n1.next.next.data + " => " + n1.next.next.last.data + " => " + n1.next.next.last.last.data);
+        System.out.println(n1.value + " -> " + n1.next.value + " -> " + n1.next.next.value);
+        System.out.println(n1.next.next.value + " => " + n1.next.next.last.value + " => " + n1.next.next.last.last.value);
     }
 
     public static DoubleNode reverseDoubleList(DoubleNode head) {

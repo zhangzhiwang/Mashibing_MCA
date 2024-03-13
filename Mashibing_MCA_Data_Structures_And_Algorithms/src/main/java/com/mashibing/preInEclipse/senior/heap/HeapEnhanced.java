@@ -5,17 +5,20 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * 加强堆
+ * 加强堆（本算法假设堆中没有重复的元素）
  *
  * @author zhangzhiwang
  * @date 2022年2月16日 下午5:00:52
  */
 public class HeapEnhanced<T> {
+	/**
+	 * 用动态数组ArrayList替代固定数组T[]
+	 */
 	private ArrayList<T> heap;// 由于整个ArrayList里面的所有元素都用来组成堆，那么理论上就不需要heapSize变量来标识堆的范围了，可以认为heapSize等于ArrayList.size()
 	/**
 	 *  反向索引表，用于表示堆中每一个元素在数组中的位置
 	 *  其实也可以省略该变量，用ArrayList.indexOf(Object o)来代替，只不过该方法的时间复杂度是O(N)，而Map.get()的时间复杂度是O(1)。
-	 *  如果不考虑时间复杂度而只考虑功能的话去掉indexMap也可以，只用Map来做反向索引表起始就是用O(N)的额外空间复杂度来换取O(1)的时间复杂度
+	 *  如果不考虑时间复杂度而只考虑功能的话去掉indexMap也可以，用Map来做反向索引表实质上就是用O(N)的额外空间复杂度来换取O(1)的时间复杂度
 	 *
 	 *  注意：泛型T要是自定义的类型，不能是基本数据类型的包装类或者String类型，否则如果key的值一样HashMap会覆盖。如果T非要使用基本数据类型的包装类或者String类型，
 	 *  那么可以将T包装进一个内部类中，比如class InnerClass<T> {private T t;}，然后将InnerClass作为反向索引表HashMap的key：HashMap<InnerClass<T>, Integer>
@@ -140,6 +143,7 @@ public class HeapEnhanced<T> {
 		int index = indexMap.get(t);
 		T last = heap.get(heapSize - 1);
 		heap.set(index, last);
+		// 如果移除等正好是堆的最后一个元素（同时也是数组的最后一个元素），那么直接移除即可，不用做任何调整
 		if(index != heapSize - 1) {// 如果移除的元素不是最后一个元素，必须要有这个判断，否则heapify会报下标越界
 			heapify(heap, index);// 无论大根堆还是小根堆都是heapify，都不会heapInsert
 		}

@@ -18,7 +18,7 @@ public class BinaryTreeByLevel {
         queue.add(head);
         while(!queue.isEmpty()) {
             TreeNode<Integer> poll = queue.poll();
-            System.out.print(poll.data + "\t");
+            System.out.print(poll.value + "\t");
             if(poll.left != null) {
                 queue.add(poll.left);
             }

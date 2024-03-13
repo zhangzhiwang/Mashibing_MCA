@@ -26,7 +26,7 @@ public class ReverseNodesInKGroup {
 
         SingleNode<String> head = reverseNodesInKGroup(a, 30);
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();

@@ -1,6 +1,10 @@
 package com.mashibing.others;
 
+import com.mashibing.list.DoubleNode;
 import com.mashibing.list.SingleNode;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 对数器
@@ -125,10 +129,41 @@ public class DuiShuQiUtil {
             return;
         }
 
+        Set<SingleNode<T>> set = new HashSet<>();
         SingleNode<T> cur = head;
         while(cur != null) {
-            System.out.print(cur.data + " -> ");
+            if(set.contains(cur)) {
+                System.out.println();
+                System.out.println("链表已成环，入环节点是：" + cur.value);
+                break;
+            } else {
+                set.add(cur);
+            }
+
+
+            System.out.print(cur.value + " -> ");
             cur = cur.next;
+        }
+        System.out.println();
+    }
+
+    public static <T> void printDoubleList(DoubleNode<T> head) {
+        if(head == null) {
+            return;
+        }
+
+        DoubleNode<T> cur = head;
+        DoubleNode<T> pre = null;
+        while(cur != null) {
+            System.out.print(cur.value + " -> ");
+            pre = cur;
+            cur = cur.next;
+        }
+        System.out.println();
+
+        while(pre != null) {
+            System.out.print(pre.value + " => ");
+            pre = pre.last;
         }
         System.out.println();
     }

@@ -23,7 +23,7 @@ public class MergeTwoList {
 
         SingleNode<Integer> head = mergeTwoList(head1, head2);
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();
@@ -38,7 +38,7 @@ public class MergeTwoList {
             return head1 == null ? head2 : head1;
         }
 
-        SingleNode<Integer> head = head1.data <= head2.data ? head1 : head2;// 两个链表的头节点谁小谁是最终链表的头部
+        SingleNode<Integer> head = head1.value <= head2.value ? head1 : head2;// 两个链表的头节点谁小谁是最终链表的头部
         /*
          既然最小的头部节点已经确定了，它就不参与后续的比较了，下面就是比较最终返回的头结点（head）的下一个节点和另一个节点的头结点大小。
          让head节点的下一个节点为cur1，另一个链表的头结点是cur2，以后就是cur1和cur2比较了
@@ -48,7 +48,7 @@ public class MergeTwoList {
         SingleNode<Integer> pre = head;
 
         while(cur1 != null && cur2 != null) {
-            SingleNode<Integer> tmpNode = cur1.data <= cur2.data ? cur1 : cur2;
+            SingleNode<Integer> tmpNode = cur1.value <= cur2.value ? cur1 : cur2;
             pre.next = tmpNode;
             if(tmpNode == cur2) {
                 cur2 = cur2.next;

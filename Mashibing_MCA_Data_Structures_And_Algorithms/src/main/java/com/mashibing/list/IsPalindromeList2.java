@@ -67,7 +67,7 @@ public class IsPalindromeList2 {
 
         SingleNode<Integer> head = n1;
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();
@@ -77,7 +77,7 @@ public class IsPalindromeList2 {
 
         head = n1;
         while(head != null) {
-            System.out.print(head.data + " -> ");
+            System.out.print(head.value + " -> ");
             head = head.next;
         }
         System.out.println();

@@ -34,7 +34,7 @@ public class StackByDoubleLinkedList {
             throw new RuntimeException("栈已空！");
         }
 
-        int result = head.data;
+        int result = head.value;
         head = head.last;
         if(head != null) {
             head.next = null;// 避免被弹出的元素内存泄漏
@@ -48,7 +48,7 @@ public class StackByDoubleLinkedList {
             throw new RuntimeException("栈已空！");
         }
 
-        return head.data;
+        return head.value;
     }
 
     public static void main(String[] args) {
