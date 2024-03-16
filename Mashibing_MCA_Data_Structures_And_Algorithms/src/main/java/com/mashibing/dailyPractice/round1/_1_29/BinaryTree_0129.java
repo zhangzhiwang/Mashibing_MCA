@@ -1,6 +1,6 @@
 package com.mashibing.dailyPractice.round1._1_29;
 
-import com.mashibing.tree.BinaryTreeUtil;
+import com.mashibing.others.DuiShuQiUtil;
 import com.mashibing.tree.TreeNode;
 
 /**
@@ -52,7 +52,7 @@ public class BinaryTree_0129 {
         node3.left = node6;
         node3.right = node7;
 
-        BinaryTreeUtil.printBinaryTree(node1);
+        DuiShuQiUtil.printBinaryTree(node1);
 //        pre(node1);
 //        System.out.println();
 //        mid(node1);

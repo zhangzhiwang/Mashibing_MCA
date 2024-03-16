@@ -1,6 +1,6 @@
 package com.mashibing.preInEclipse.junior.tree;
 
-import com.mashibing.tree.BinaryTreeUtil;
+import com.mashibing.others.DuiShuQiUtil;
 import com.mashibing.tree.TreeNode;
 import java.util.ArrayList;
 
@@ -78,7 +78,7 @@ public class BinarySearchTree {
 			boolean isBst = isBST(head);
 			if (isBST1(head) != isBst) {
 				System.out.println("Oops!");
-				BinaryTreeUtil.printBinaryTree(head);
+				DuiShuQiUtil.printBinaryTree(head);
 				System.out.println();
 				System.out.println("isBST says:" + isBst);
 				break;

@@ -1,6 +1,6 @@
 package com.mashibing.dailyPractice.round1._1_29;
 
-import com.mashibing.tree.BinaryTreeUtil;
+import com.mashibing.others.DuiShuQiUtil;
 import com.mashibing.tree.TreeNode;
 
 import java.util.HashMap;
@@ -52,7 +52,7 @@ public class GetBinaryTreeByPreAndMid_0129 {
         TreeNode[] preorder = {node3, node9, node20, node15, node7};
         TreeNode[] inorder = {node9, node3, node15, node20, node7};
         TreeNode head = new GetBinaryTreeByPreAndMid_0129().buildTree(preorder, inorder);
-        BinaryTreeUtil.printBinaryTree(head);
+        DuiShuQiUtil.printBinaryTree(head);
 
         /*
          leetcode：https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal

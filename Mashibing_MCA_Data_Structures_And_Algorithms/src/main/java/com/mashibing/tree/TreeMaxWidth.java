@@ -1,5 +1,7 @@
 package com.mashibing.tree;
 
+import com.mashibing.others.DuiShuQiUtil;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -69,7 +71,7 @@ public class TreeMaxWidth {
         c.left = e;
         e.right = h;
 
-        BinaryTreeUtil.printBinaryTree(a);
+        DuiShuQiUtil.printBinaryTree(a);
         int maxWidth = treeMaxWidth(a);
         System.out.println("maxWidth = " + maxWidth);
     }

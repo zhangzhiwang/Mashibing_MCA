@@ -1,5 +1,7 @@
 package com.mashibing.tree;
 
+import com.mashibing.others.DuiShuQiUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -140,7 +142,7 @@ public class MaxSubBSTHead {
             TreeNode<Integer> retHead1 = maxSubBSTHead1(head);
             TreeNode<Integer> retHead2 = maxSubBSTHead(head);
             if (retHead1 != retHead2) {
-                BinaryTreeUtil.printBinaryTree(head);
+                DuiShuQiUtil.printBinaryTree(head);
                 System.out.println("Oops!");
                 System.out.println("对数器：" + retHead1.value);
                 System.out.println("maxSubBSTHead：" + retHead2.value);

@@ -1,5 +1,7 @@
 package com.mashibing.tree;
 
+import com.mashibing.others.DuiShuQiUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -163,7 +165,7 @@ public class LowestAncestor {
             TreeNode ans1 = lowestAncestor1(head, o1, o2);
             TreeNode ans2 = lowestAncestor(head, o1, o2);
             if (ans1 != ans2) {
-                BinaryTreeUtil.printBinaryTree(head);
+                DuiShuQiUtil.printBinaryTree(head);
                 System.out.println();
                 System.out.println("o1 = " + o1.value);
                 System.out.println("o2 = " + o2.value);

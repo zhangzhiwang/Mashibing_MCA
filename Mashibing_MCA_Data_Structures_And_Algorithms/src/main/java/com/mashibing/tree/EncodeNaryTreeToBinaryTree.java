@@ -1,5 +1,7 @@
 package com.mashibing.tree;
 
+import com.mashibing.others.DuiShuQiUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +10,8 @@ import java.util.List;
  * 思路：
  * 序列化：
  * 在多叉树中的每一个节点的所有直接孩子，比如a节点下面有b、c、d三个直接孩子，那么转换成二叉树后，让所有直接孩子成为该父节点的左孩子的右边界，其中第一个直接孩子
- * 是二叉树父节点的左孩子，其它所有孩子都是这个左孩子的右孩子（既右边界）。比如上面的节点转换成二叉树后，a是父节点，b是a节点的第一个直接孩子，那么b就作为a节点的右孩子，
- * 其它孩子c、d作为右孩子b的右孩子，也就是右边界，所以在二叉树中，b、c、d三个孩子成为了父节点a的左孩子的右边界。
+ * 是二叉树父节点的左孩子，其它所有孩子都是这个左孩子的右孩子（既右边界）。比如上面的节点转换成二叉树后，a是父节点，b是a节点的第一个直接孩子，那么b就作为a节点的左孩子，
+ * 其它孩子c、d作为左孩子b的右孩子，也就是右边界，所以在二叉树中，b、c、d三个孩子成为了父节点a的左孩子的右边界。
  * 需要用到递归。
  * 比如：
  * 多叉树：
@@ -111,7 +113,7 @@ public class EncodeNaryTreeToBinaryTree {
 
     /**
      *
-     * @param head 二叉树的头部
+     * @param head 更高一层的左孩子
      * @return 返回值是如果该二叉树的头部作为多叉树的头部，那么返回该多叉树头部的所有直接孩子，也就是在二叉树中头结点的左孩子的右边界
      */
     private static List<NaryTreeNode<String>> deserialize(TreeNode<String> head) {
@@ -163,7 +165,7 @@ public class EncodeNaryTreeToBinaryTree {
         e.children = children;
 
         TreeNode<String> treeNodeHead = naryTreeToBinaryTree(a);
-        BinaryTreeUtil.printBinaryTree(treeNodeHead);
+        DuiShuQiUtil.printBinaryTree(treeNodeHead);
 
 //        System.out.println(treeNodeHead.data);
 //        System.out.println(treeNodeHead.left.data);// b
