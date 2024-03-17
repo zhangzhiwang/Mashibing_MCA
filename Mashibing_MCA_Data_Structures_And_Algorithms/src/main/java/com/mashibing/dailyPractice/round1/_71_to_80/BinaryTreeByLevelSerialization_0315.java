@@ -1,4 +1,4 @@
-package com.mashibing.dailyPractice.round1._3_15;
+package com.mashibing.dailyPractice.round1._71_to_80;
 
 import com.mashibing.tree.TreeNode;
 

@@ -1,6 +1,5 @@
-package com.mashibing.dailyPractice.round1._3_15;
+package com.mashibing.dailyPractice.round1._71_to_80;
 
-import com.mashibing.others.DuiShuQiUtil;
 import com.mashibing.tree.TreeNode;
 
 import java.util.LinkedList;
