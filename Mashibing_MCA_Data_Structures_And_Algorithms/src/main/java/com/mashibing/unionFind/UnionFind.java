@@ -10,7 +10,7 @@ import java.util.Stack;
  * 思路：什么是并查集、并查集的相关概念以及代码实现思路请见课程视频
  * 注意：本类是并查集的经典实现方法，但是这种实现有一个弊端或者说限制，就是要求样本数据如果是基本数据类型或者字符串类型，不能有重复的值。
  * 因为在经典实现里有一个nodeMap，key是值本身，value是包装的Node对象，样本数据如果是基本数据类型或者String类型的话，即使是使用基本数据类型的包装类，
- * 如果值一样的话，HashMap任然会认为是同一个key，会将value进行覆盖。这个是由于HashMap的即机制导致的，在计算key的hash值时会调用key的hashcode方法，
+ * 如果值一样的话，HashMap仍然会认为是同一个key，会将value进行覆盖。这个是由于HashMap的即机制导致的，在计算key的hash值时会调用key的hashcode方法，
  * 拿Integer来说，Integer的hashcode方法就是返回其背后所代表的int值，其它的类似。
  * 如果样本数据是基本数据类型或者字符串类型且有重复的值，如果还想使用并查集经典实现的话，那么就得想办法让HashMap认为他们是不同的key，比如将值包装进一个类里面，
  * 比如A类，然后再将A类包装进UnionFindNode里面，这样在放进nodeMap中，HashMap会计算A对象的内存地址，就会认为它们是不同的值。

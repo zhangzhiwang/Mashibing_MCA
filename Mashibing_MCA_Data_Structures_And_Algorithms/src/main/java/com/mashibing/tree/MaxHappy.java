@@ -16,8 +16,8 @@ package com.mashibing.tree;
  */
 public class MaxHappy {
     static class MaxHappyInfo {
-        public int invite;// 被邀请时快乐值总和的最大值
-        public int notInvite;// 不被邀请时快乐值总和的最大值
+        public int invite;// 假设当前节点是x，以当前节点为头的子树是T，invite表示当x节点被邀请时整棵树T的最大sum(happy)值
+        public int notInvite;// notInvite表示当x节点不被邀请时整棵树T的最大sum(happy)值
 
         public MaxHappyInfo(int invite, int notInvite) {
             this.invite = invite;
@@ -25,6 +25,11 @@ public class MaxHappy {
         }
     }
 
+    /**
+     *
+     * @param head MultiTreeNode中的data就相当于本题的happy值
+     * @return
+     */
     public static int maxHappy(MultiTreeNode<Integer> head) {
         if(head == null) {
             return 0;
@@ -39,8 +44,15 @@ public class MaxHappy {
         }
 
         // 先求x的invite，再求x的notInvite，然后返回max(invite, notInvite)
-        int invite = x.data;// x被邀请时的快乐值总和的最大值
-        int notInvite = 0;// x不被邀请时的快乐值总和的最大值
+        /*
+        1、假设以x为头的子树是T，invite表示当x节点被邀请时整棵树T的最大sum(happy)值。
+        既然x被邀请，那么invite一定是包含x自己的快乐值的，所以invite的初始值就是x自己的快乐值。
+        如果x被邀请，那么x的直接下级就不能被邀请了。
+        2、notInvite表示x不被邀请时，T的最大sum(happy)值，既然x没有被邀请，那么notInvite自然不包含x自己的快乐值，所以初始值是0。
+        x不被邀请，x的直接下级可能被邀请也可能不被邀请。
+         */
+        int invite = x.data;
+        int notInvite = 0;
         for(MultiTreeNode<Integer> child : x.children) {
             // 向孩子收集信息
             MaxHappyInfo childInfo = recurse(child);
