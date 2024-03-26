@@ -92,7 +92,7 @@ public class NumberOfIslandsDynamic1 {
         public void union(int i1, int j1, int i2, int j2) {
             /*
             为什么要在union方法里面去判断越界以及是否遇到1，是因为在之前岛问题的实现中，这两个判断是在union的调用方进行的，调用方去判断下标是不是越界以及是不是遇到了1，
-            如果遇到了1会调用union方法合并集合。但是看connect()方法可知，在union的调用方并没有做任何判断，不由分说地让(i,j)节点和其上下左右区合并，那么调用方不做判断，
+            如果遇到了1会调用union方法合并集合。但是看connect()方法可知，在union的调用方并没有做任何判断，不由分说地让(i,j)节点和其上下左右去合并，那么调用方不做判断，
             这个判断又必须做，只能放在union里面去做了。
              */
             // 防止下标越界
@@ -146,12 +146,16 @@ public class NumberOfIslandsDynamic1 {
             }
 
             // 以(i,j)为起点，上下左右去和1合并
-            union(i, j, i - 1, j);
-            union(i, j, i + 1, j);
-            union(i, j, i, j - 1);
-            union(i, j, i, j + 1);
+            union(i, j, i - 1, j);// 和左边合并
+            union(i, j, i + 1, j);// 和右边合并
+            union(i, j, i, j - 1);// 和下边合并
+            union(i, j, i, j + 1);// 和上边合并
 
             return size;
         }
+    }
+
+    public static void main(String[] args) {
+        // 测试链接：https://leetcode.com/problems/number-of-islands-ii/，但是得是会员才能测
     }
 }

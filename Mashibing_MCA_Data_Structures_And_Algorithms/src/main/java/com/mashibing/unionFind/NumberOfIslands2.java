@@ -22,7 +22,7 @@ public class NumberOfIslands2 {
 
         UnionFind3 unionFind = new UnionFind3(grid);
         for (int i = 0; i < rowCount; i++) {
-            if (i != rowCount - 1 && grid[i][0] == '1' && grid[i + 1][0] == '1') {
+            if (i != rowCount - 1 && grid[i][0] == '1' && grid[i + 1][0] == '1') {// 注意：原题目给的是char类型，不是int类型，所以要跟'1'而不是1比较
                 unionFind.union(i, 0, i + 1, 0);
             }
         }
@@ -74,6 +74,12 @@ public class NumberOfIslands2 {
             }
         }
 
+        /**
+         * 把二维数组拉平成一维数组，二维数组的坐标[i][j]对应一维数组的坐标，换算方法是：i * 列数 + j
+         * @param i 二维数组的行坐标
+         * @param j 二维数组的列坐标
+         * @return
+         */
         private int findIndex(int i, int j) {
             return i * colCount + j;
         }

@@ -25,7 +25,6 @@ public class GraphNode<T> {
 
     @Override
     public String toString() {
-        return "GraphNode{" +
-                "data=" + data;
+        return String.valueOf(data);
     }
 }

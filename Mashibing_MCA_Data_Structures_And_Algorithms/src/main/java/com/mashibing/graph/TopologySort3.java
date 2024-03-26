@@ -10,7 +10,7 @@ import java.util.*;
  * 1、在图中任意找到两个点X和Y，如果从X出发走完后续所有节点所走过的深度为d1（深度就是经过的节点个数），从Y出发走完后续所有节点所经历的深度为d2，
  * 如果d1>=d2，就可以认为在最终的拓扑序中X一定排在Y的前面，即X的拓扑序小于等于Y的拓扑序。
  * 2、准备一个Map<Node, Integer>当做缓存，key为节点，value为：把这个节点当做起点，遍历完后面所有节点后所经历过的深度，
- * 这样就把每一个节点和其点次都放入缓存中，需要的时候可以直接取。
+ * 这样就把每一个节点和其深度都放入缓存中，需要的时候可以直接取。
  *
  * 课程：体系班课时147
  */
@@ -82,7 +82,7 @@ public class TopologySort3 {
 
 
     public static Record recurse(DirectedGraphNode node, Map<DirectedGraphNode, Record> nodeCountMap) {
-        // base case
+        // base case：base case不可能有node是null的情况
         if(nodeCountMap.containsKey(node)) {// 如果缓存里面有该节点，说明之前遍历过，从缓存直接取
             return nodeCountMap.get(node);
         }

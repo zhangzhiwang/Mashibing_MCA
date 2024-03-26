@@ -9,7 +9,7 @@ import java.util.Map;
  * 比如index=0，这个人就叫0，index=N-1，这个人就叫N-1。在这个矩阵中，如果两个人认识值就为1，不认识就是0，比如arr[i][j] = 1，其中i是横坐标，j是纵坐标，
  * 就代表i和j这两个人认识，规定：
  * 1、如果i认识j，那么j也认识i，即arr[i][j] = 1，那么arr[j][i]也必须为1
- * 2、如果i不认是j，那么j也不能认识i，即arr[i][j] = 0，那么arr[j][i]也必须为0
+ * 2、如果i不认识j，那么j也不能认识i，即arr[i][j] = 0，那么arr[j][i]也必须为0
  * 3、自己跟自己认识，即所以arr[i][i]必须为1
  * 现在要划分独立的朋友圈，独立朋友圈组成的条件：朋友圈内至少要有一个共同认识的朋友，且朋友圈之内的任何人都不能再认识朋友圈之外的人。
  * 比如0认识1，0也认识3，但是1和3之间互相不认识，但是他们仨也能组成一个独立的朋友圈，因为1和3都共同认识0，一旦[0,1,3]组成朋友圈之后，
@@ -19,7 +19,7 @@ import java.util.Map;
  * leetcode题目：https://leetcode.cn/problems/number-of-provinces/?utm_source=LCUS&utm_medium=ip_redirect&utm_campaign=transfer2china
  * <p>
  *
- * 思路：互相认识的二个人所代表的集合union，最终返回结合的数量
+ * 思路：互相认识的二个人所代表的集合union，最终返回集合的数量
  *
  * 课程：体系班课时126
  */
