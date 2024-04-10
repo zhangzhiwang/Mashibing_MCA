@@ -1,4 +1,4 @@
-package com.mashibing.dailyPractice.round1._81_to_90;
+package com.mashibing.dailyPractice.round2._71_to_100;
 
 import com.mashibing.tree.NaryTreeNode;
 
@@ -6,40 +6,39 @@ import com.mashibing.tree.NaryTreeNode;
  * 一棵多叉树代表一个公司的组织架构，现在公司搞聚会，给员工发请柬，规则是如果给某个员工发了请柬那么就不能给他的直接上级和直接下级发请柬，
  * 每个员工都有自己的快乐值happy，收到请柬的员工去参加聚会，求参加聚会的员工快乐值总和的最大值，其中快乐值是非负数。
  */
-public class MaxHappy_0320 {
-    static class MaxHappyInfo_0320 {
+public class MaxHappy_0406 {
+    static class MaxHappyInfo_0406 {
         private int invited;
         private int notInvited;
 
-        public MaxHappyInfo_0320(int invited, int notInvited) {
+        public MaxHappyInfo_0406(int invited, int notInvited) {
             this.invited = invited;
             this.notInvited = notInvited;
         }
     }
-
+    
     public static int maxHappy(NaryTreeNode<Integer> head) {
         if(head == null) {
             return 0;
         }
-
-        MaxHappyInfo_0320 info = recurse(head);
-        return Math.max(info.invited, info.notInvited);
+        
+        return Math.max(recurse(head).invited, recurse(head).notInvited);
     }
-
-    private static MaxHappyInfo_0320 recurse(NaryTreeNode<Integer> x) {
-        if(x == null) {
-            return new MaxHappyInfo_0320(0, 0);
+    
+    private static MaxHappyInfo_0406 recurse(NaryTreeNode<Integer> head) {
+        if(head == null) {
+            return new MaxHappyInfo_0406(0, 0);
         }
-
-        int invited = x.data;
+        
+        int invited = head.data;
         int notInvited = 0;
-        for (NaryTreeNode<Integer> child : x.children) {
-            MaxHappyInfo_0320 childInfo = recurse(child);
+        for (NaryTreeNode<Integer> child : head.children) {
+            MaxHappyInfo_0406 childInfo = recurse(child);
             invited += childInfo.notInvited;
             notInvited += Math.max(childInfo.invited, childInfo.notInvited);
         }
-
-        return new MaxHappyInfo_0320(invited, notInvited);
+        
+        return new MaxHappyInfo_0406(invited, notInvited);
     }
 
     // 对数器

@@ -71,6 +71,7 @@ public class MaxSubBSTSize {
         min = rightInfo == null ? min : Math.min(rightInfo.min, min);
 
         // 以x为头的子树的全局最大值
+        // 注意：max的逻辑和min的逻辑一样，如果是从min的逻辑复制过来改的，那么一定要改全，改完后检查一下再往后面写，测试的时候发现没有改全
         int max = leftInfo == null ? x.value : Math.max(leftInfo.max, x.value);
         max = rightInfo == null ? max : Math.max(rightInfo.max, max);
 

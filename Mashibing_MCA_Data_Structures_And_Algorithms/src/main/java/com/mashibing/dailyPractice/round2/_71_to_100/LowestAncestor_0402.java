@@ -1,4 +1,4 @@
-package com.mashibing.dailyPractice.round1._81_to_90;
+package com.mashibing.dailyPractice.round2._71_to_100;
 
 import com.mashibing.others.DuiShuQiUtil;
 import com.mashibing.tree.TreeNode;
@@ -10,15 +10,15 @@ import java.util.HashSet;
 /**
  * 给定一颗二叉树head和任意两个节点a和b，返回a和b的最低公共祖先
  */
-public class LowestAncestor_0319 {
-    static class LowestAncestorInfo_0319 {
-        private boolean containsA;
-        private boolean containsB;
+public class LowestAncestor_0402 {
+    static class LowestAncestorInfo_0402 {
+        private boolean findA;
+        private boolean findB;
         private TreeNode lowestAncestor;
 
-        public LowestAncestorInfo_0319(boolean containsA, boolean containsB, TreeNode lowestAncestor) {
-            this.containsA = containsA;
-            this.containsB = containsB;
+        public LowestAncestorInfo_0402(boolean findA, boolean findB, TreeNode lowestAncestor) {
+            this.findA = findA;
+            this.findB = findB;
             this.lowestAncestor = lowestAncestor;
         }
     }
@@ -31,28 +31,36 @@ public class LowestAncestor_0319 {
         return recurse(head, a, b).lowestAncestor;
     }
 
-    private static LowestAncestorInfo_0319 recurse(TreeNode x, TreeNode a, TreeNode b) {
-        if(x == null) {
-            return new LowestAncestorInfo_0319(false, false, null);
+    private static LowestAncestorInfo_0402 recurse(TreeNode head, TreeNode a, TreeNode b) {
+        if(head == null) {
+            return new LowestAncestorInfo_0402(false, false, null);
         }
 
-        LowestAncestorInfo_0319 leftInfo = recurse(x.left, a, b);
-        LowestAncestorInfo_0319 rightInfo = recurse(x.right, a, b);
+        LowestAncestorInfo_0402 leftInfo = recurse(head.left, a, b);
+        LowestAncestorInfo_0402 rightInfo = recurse(head.right, a, b);
 
+        boolean findA = false;
+        boolean findB = false;
         TreeNode lowestAncestor = null;
-        if((leftInfo.containsA && !leftInfo.containsB && rightInfo.containsB && !rightInfo.containsA)
-        || (!leftInfo.containsA && leftInfo.containsB && !rightInfo.containsB && rightInfo.containsA)
-        || x == a || x == b) {
-            lowestAncestor = x;
-        } else if (leftInfo.containsA && leftInfo.containsB) {
+        if(head == a || head == b || (leftInfo.findA && rightInfo.findB) || (leftInfo.findB && rightInfo.findA)) {
+            findA = true;
+            findB = true;
+            lowestAncestor = head;
+        } else if (leftInfo.findA && leftInfo.findB) {
+            findA = true;
+            findB = true;
             lowestAncestor = leftInfo.lowestAncestor;
-        } else if (rightInfo.containsB && rightInfo.containsA) {
+        } else if (rightInfo.findA && rightInfo.findB) {
+            findA = true;
+            findB = true;
             lowestAncestor = rightInfo.lowestAncestor;
+        } else if ((leftInfo.findA && !leftInfo.findB) || (rightInfo.findA && !rightInfo.findB)) {
+            findA = true;
+        }  else if ((!leftInfo.findA && leftInfo.findB) || (!rightInfo.findA && rightInfo.findB)) {
+            findB = true;
         }
 
-        boolean containsA = leftInfo.containsA || rightInfo.containsA || x == a;
-        boolean containsB = leftInfo.containsB || rightInfo.containsB || x == b;
-        return new LowestAncestorInfo_0319(containsA, containsB, lowestAncestor);
+        return new LowestAncestorInfo_0402(findA, findB, lowestAncestor);
     }
 
     // 对数器

@@ -39,7 +39,10 @@ public class ConvertToLetterString {
     private static int recurse1(char[] charArr, int index) {
         // base case：有两个base case：一个是当走到字符串最后时，一个是当前字符是0
         // base case1：
-        // 当index越界时说明已经走完了整个字符串，说明前面的所有字符都能够转换成字母，如果中间某一个位置不能转换早已经退出了，能走到最后说明肯定存在1种转换方法
+        /*
+         当index越界时说明已经走完了整个字符串，说明前面的所有字符都能够转换成字母，如果中间某一个位置不能转换早已经退出了，能走到最后说明肯定存在1种转换方法。
+         中间退出的唯一情况就是当中遇到了0，且0和前面的数字组合起来大于26了，或者0是第一个
+         */
         if(index == charArr.length) {
             return 1;// 注意：这里返回的是1不是0，因为走到最后肯定是存在一种转换方法的
         }

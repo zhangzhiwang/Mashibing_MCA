@@ -126,5 +126,7 @@ public class FriendCircles_0322 {
 
         int circleCount = friendCircles(arr);
         System.out.println(circleCount);
+
+        // leetcode题目：https://leetcode.cn/problems/number-of-provinces/?utm_source=LCUS&utm_medium=ip_redirect&utm_campaign=transfer2china
     }
 }

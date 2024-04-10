@@ -145,6 +145,9 @@ public class NumberOfIslandsDynamic1 {
                 return size;
             }
 
+            parentArr[index] = index;
+            sizeArr[index] = 1;
+            size++;
             // 以(i,j)为起点，上下左右去和1合并
             union(i, j, i - 1, j);// 和左边合并
             union(i, j, i + 1, j);// 和右边合并

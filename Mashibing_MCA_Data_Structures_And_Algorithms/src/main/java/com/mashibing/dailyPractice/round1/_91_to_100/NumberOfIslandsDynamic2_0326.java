@@ -1,5 +1,8 @@
 package com.mashibing.dailyPractice.round1._91_to_100;
 
+import com.mashibing.unionFind.NumberOfIslandsDynamic1;
+import com.mashibing.unionFind.NumberOfIslandsDynamic2;
+
 import java.util.*;
 
 /**
@@ -14,7 +17,7 @@ public class NumberOfIslandsDynamic2_0326 {
         private Map<String, String> parentMap = new HashMap<>();
         private Map<String, Integer> sizeMap = new HashMap<>();
 
-        public int union(int[] pos, int m, int n) {
+        public int connect(int[] pos, int m, int n) {
             String key = pos[0] + "_" + pos[1];
             if(parentMap.containsKey(key)) {
                 return sizeMap.size();
@@ -56,20 +59,61 @@ public class NumberOfIslandsDynamic2_0326 {
         }
 
         private void union(String key1, String key2) {
+            if(!parentMap.containsKey(key1) || !parentMap.containsKey(key2)) {
+                return;
+            }
 
+            String r1 = findRepr(key1);
+            String r2 = findRepr(key2);
+            if(r1.equals(r2)) {
+                return;
+            }
+
+            int size1 = sizeMap.get(r1);
+            int size2 = sizeMap.get(r2);
+            String longR = size1 >= size2 ? r1 : r2;
+            String shortR = longR == r1 ? r2 : r1;
+            parentMap.put(shortR, longR);
+            sizeMap.put(longR, size1 + size2);
+            sizeMap.remove(shortR);
         }
     }
 
-    public static List<Integer> numberOfIslandsDynamic2(int m, int n, int[][] positions) {
+    public List<Integer> numberOfIslandsDynamic2(int m, int n, int[][] positions) {
         List<Integer> list = new ArrayList<>();
         if(m <= 0 || n <= 0 || positions == null || positions.length == 0) {
             return list;
         }
 
+        NumberOfIslandsDynamic2UnionFind_0326 uf = new NumberOfIslandsDynamic2UnionFind_0326();
         for (int[] pos: positions) {
-
+            list.add(uf.connect(pos, m, n));
         }
 
         return list;
+    }
+
+    public static void main(String[] args) {
+        int[][] positions = new int[][] {
+                new int[] {0,1},
+                new int[] {0,2},
+                new int[] {0,4},
+                new int[] {1,1},
+                new int[] {1,4},
+                new int[] {2,1},
+                new int[] {2,2},
+                new int[] {3,0},
+                new int[] {4,0},
+                new int[] {4,1},
+                new int[] {4,5}
+        };
+        List<Integer> list1 = new NumberOfIslandsDynamic2_0326().numberOfIslandsDynamic2(5, 6, positions);
+        System.out.println("my answer1 : " + list1);
+        List<Integer> list2 = new NumberOfIslandsDynamic1().numberOfIslandsDynamic(5, 6, positions);
+        System.out.println("my answer2 : " + list2);
+        List<Integer> list3 = new NumberOfIslandsDynamic2().numberOfIslandsDynamic(5, 6, positions);
+        System.out.println("my answer3 : " + list3);
+
+        // leetcode题目连接：https://leetcode.com/problems/number-of-islands-ii/   付费
     }
 }

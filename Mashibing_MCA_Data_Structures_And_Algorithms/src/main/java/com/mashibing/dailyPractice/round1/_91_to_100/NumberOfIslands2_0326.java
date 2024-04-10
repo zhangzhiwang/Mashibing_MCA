@@ -111,16 +111,16 @@ public class NumberOfIslands2_0326 {
     }
 
     public static void main(String[] args) {
-//        char[][] arr = new char[][]{
-//                new char[]{'0', '1', '1', '0', '1', '0'},
-//                new char[]{'0', '1', '0', '0', '1', '0'},
-//                new char[]{'0', '1', '1', '0', '0', '0'},
-//                new char[]{'1', '0', '0', '0', '0', '0'},
-//                new char[]{'1', '1', '0', '0', '0', '1'},
-//        };
-//
-//        int numberOfIslands = new NumberOfIslands2_0326().numIslands(arr);
-//        System.out.println("my answer : " + numberOfIslands);
+        char[][] arr = new char[][]{
+                new char[]{'0', '1', '1', '0', '1', '0'},
+                new char[]{'0', '1', '0', '0', '1', '0'},
+                new char[]{'0', '1', '1', '0', '0', '0'},
+                new char[]{'1', '0', '0', '0', '0', '0'},
+                new char[]{'1', '1', '0', '0', '0', '1'},
+        };
+
+        int numberOfIslands = new NumberOfIslands2_0326().numIslands(arr);
+        System.out.println("my answer : " + numberOfIslands);
 
         // leetcode：https://leetcode.cn/problems/number-of-islands/submissions/516915142/?utm_source=LCUS&utm_medium=ip_redirect&utm_campaign=transfer2china
     }
