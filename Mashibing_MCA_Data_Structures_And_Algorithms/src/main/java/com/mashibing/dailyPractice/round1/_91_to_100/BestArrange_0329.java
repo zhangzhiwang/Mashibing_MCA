@@ -1,32 +1,51 @@
-package com.mashibing.greed;
+package com.mashibing.dailyPractice.round1._91_to_100;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * 贪心算法第二个题目：有好多项目组都想开会，并且都给出了自己会议的开始时间和结束时间并提交到管理员那里，管理员收集上来之后将各个项目组的情况放到一个数组里。
+ * 贪心算法第2个题目：
+ * 有好多项目组都想开会，并且都给出了自己会议的开始时间和结束时间并提交到管理员那里，管理员收集上来之后将各个项目组的情况放到一个数组里。
  * 现在只有一个会议室，管理员来安排会议，一个会议室同一时间之内被一个项目组占用，返回这个会议室最多能够安排多少会议。
- * 解释：
- * 管理员收集上来的信息是这样的：[[start1, end1],[start2, end2],[start3, end3],...]
- * 每一个子数组都代表一个项目组开会的开始时间和结束时间，规定开始和结束时间都必须是非负数。
- * 思路：
- * 正确的贪心思路：
- * 1、所有会议按照结束时间从小到大排序
- * 2、用一个变量记录结束时间，遍历排序后的数组，每遍历一个元素都判一下该元素的开始时间是不是大于记录的结束时间，如果大于就可以安排，否则就跳过，
- * 然后设置一个变量用于记录可以安排的会议数量。
- *
- * 课程：体系班课时113-115
  */
-public class BestArrange {
+public class BestArrange_0329 {
     static class Meeting {
-        public int start;
-        public int end;
+        private int start;
+        private int end;
 
         public Meeting(int start, int end) {
             this.start = start;
             this.end = end;
         }
     }
+    
+    public static int bestArrange(Meeting[] meetings) {
+        if(meetings == null || meetings.length == 0) {
+            return 0;
+        }
+
+        Arrays.sort(meetings, new Comparator<Meeting>() {
+            @Override
+            public int compare(Meeting o1, Meeting o2) {
+                return o1.end - o2.end;
+            }
+        });
+
+        int lastEnd = 0;
+        int count = 0;
+        for (Meeting meeting : meetings) {
+            if(meeting.start < lastEnd) {
+                continue;
+            }
+            
+            lastEnd = meeting.end;
+            count++;
+        }
+        
+        return count;
+    }
+
+    // 对数器
 
     static class MeetingComparator implements Comparator<Meeting> {
         @Override
@@ -34,35 +53,7 @@ public class BestArrange {
             return o1.end - o2.end;// 此题贪心算法的难点就在于能够想到使用结束时间排序，而不是使用开始时间或者会议持续时长排序
         }
     }
-
-    /**
-     * 题目要求的方法
-     *
-     * @param arr
-     * @return
-     */
-    public static int getMaxMeetingCount(int[][] arr) {
-        if (arr == null || arr.length == 0) {
-            return 0;
-        }
-
-        Meeting[] meetings = intArrToMeetingArr(arr);
-        // 按照结束时间排序
-        Arrays.sort(meetings, new MeetingComparator());
-
-        int end = 0;
-        int count = 0;
-        for (Meeting meeting : meetings) {
-            if (meeting.start >= end) {
-                count++;
-                end = meeting.end;
-            }
-        }
-
-        return count;
-    }
-
-    // 对数器
+    
     /**
      * 为了迎合对数器的测试，将入参直接设置为Meeting[]
      *
@@ -147,7 +138,7 @@ public class BestArrange {
         int timeTimes = 1000000;
         for (int i = 0; i < timeTimes; i++) {
             Meeting[] meetings = generateMeetings(MeetingSize, timeMax);
-            if (bestArrange1(meetings) != getMaxMeetingCountForDuiShuQi(meetings)) {
+            if (bestArrange(meetings) != getMaxMeetingCountForDuiShuQi(meetings)) {
                 System.out.println("Oops!");
             }
         }

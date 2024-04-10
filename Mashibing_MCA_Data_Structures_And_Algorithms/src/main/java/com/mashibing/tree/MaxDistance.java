@@ -85,7 +85,7 @@ public class MaxDistance {
         return new MaxDistanceInfo(maxDistance, height);
     }
 
-    // 以下是对数器
+    // 对数器
     // for test
     public static TreeNode generateRandomBST(int maxLevel, int maxValue) {
         return generate(1, maxLevel, maxValue);

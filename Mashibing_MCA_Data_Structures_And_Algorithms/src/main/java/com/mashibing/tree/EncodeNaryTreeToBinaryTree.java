@@ -88,7 +88,7 @@ public class EncodeNaryTreeToBinaryTree {
             if (head == null) {
                 head = treeNode;
             } else {
-                cur.right = treeNode;
+                cur.right = treeNode;// 注意：上面当head是空时给head赋值，当head不是空时，是给cur的右孩子赋值不是给head的右孩子赋值
             }
             cur = treeNode;
             cur.left = serialize(child.children);

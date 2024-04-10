@@ -1,6 +1,5 @@
-package com.mashibing.dailyPractice.round1._71_to_80;
+package com.mashibing.dailyPractice.round2._71_to_100;
 
-import com.mashibing.others.DuiShuQiUtil;
 import com.mashibing.tree.TreeNode;
 
 import java.util.LinkedList;
@@ -9,26 +8,26 @@ import java.util.Queue;
 /**
  * 将二叉树的先序遍历结果进行序列化和反序列化（输出到队列中）
  */
-public class BinaryTreeSerialization_0315 {
+public class BinaryTreeSerialization_0330 {
     public static Queue<String> binaryTreeSerialization(TreeNode<String> head) {
+        Queue<String> queue = new LinkedList<>();
         if(head == null) {
-            return null;
+            return queue;
         }
 
-        Queue<String> queue = new LinkedList<>();
-        serialize(head, queue);
+        recurse1(head, queue);
         return queue;
     }
 
-    private static void serialize(TreeNode<String> head, Queue<String> queue) {
+    private static void recurse1(TreeNode<String> head, Queue<String> queue) {
         if(head == null) {
             queue.add("#");
             return;
         }
 
         queue.add(head.value);
-        serialize(head.left,queue);
-        serialize(head.right,queue);
+        recurse1(head.left, queue);
+        recurse1(head.right, queue);
     }
 
     public static TreeNode<String> binaryTreeDeserialization(Queue<String> queue) {
@@ -36,10 +35,10 @@ public class BinaryTreeSerialization_0315 {
             return null;
         }
 
-        return deserialize(queue);
+        return recurse2(queue);
     }
 
-    private static TreeNode<String> deserialize(Queue<String> queue) {
+    private static TreeNode<String> recurse2(Queue<String> queue) {
         if(queue.isEmpty()) {
             return null;
         }
@@ -48,10 +47,11 @@ public class BinaryTreeSerialization_0315 {
         if("#".equals(poll)) {
             return null;
         }
-        TreeNode<String> node = new TreeNode<>(poll);
-        node.left = deserialize(queue);
-        node.right = deserialize(queue);
-        return node;
+
+        TreeNode<String> head = new TreeNode<>(poll);
+        head.left = recurse2(queue);
+        head.right = recurse2(queue);
+        return head;
     }
 
     // 对数器
@@ -153,29 +153,21 @@ public class BinaryTreeSerialization_0315 {
     }
 
     public static void main(String[] args) {
-//        int maxLevel = 5;
-//        int maxValue = 100;
-//        int testTimes = 1000000;
-//        System.out.println("test begin");
-//        for (int i = 0; i < testTimes; i++) {
-//            TreeNode<String> head = generateRandomBST(maxLevel, maxValue);
-//            Queue<String> queue = binaryTreeSerialization(head);
-//            TreeNode<String> h = binaryTreeDeserialization(queue);
-//
-//            Queue<String> pre = preSerial(head);
-//            TreeNode<String> preBuild = buildByPreQueue(pre);
-//            if (!isSameValueStructure(preBuild, h)) {
-//                System.out.println("Oops!");
-//            }
-//        }
-//        System.out.println("test finish!");
+        int maxLevel = 5;
+        int maxValue = 100;
+        int testTimes = 1000000;
+        System.out.println("test begin");
+        for (int i = 0; i < testTimes; i++) {
+            TreeNode<String> head = generateRandomBST(maxLevel, maxValue);
+            Queue<String> queue = binaryTreeSerialization(head);
+            TreeNode<String> h = binaryTreeDeserialization(queue);
 
-        Queue<String> q = new LinkedList<>();
-        q.add("1");
-        q.add("2");
-        q.add("3");
-
-        TreeNode<String> head = binaryTreeDeserialization(q);
-        DuiShuQiUtil.printBinaryTree(head);
+            Queue<String> pre = preSerial(head);
+            TreeNode<String> preBuild = buildByPreQueue(pre);
+            if (!isSameValueStructure(preBuild, h)) {
+                System.out.println("Oops!");
+            }
+        }
+        System.out.println("test finish!");
     }
 }

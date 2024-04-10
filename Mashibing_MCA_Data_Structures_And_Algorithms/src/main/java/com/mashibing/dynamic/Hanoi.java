@@ -43,7 +43,7 @@ public class Hanoi {
         } else {
             // step 1：将n-1个圆盘从from塔移动到other塔
             recurse(n - 1, from, other, to);
-            // step 2：将最后一个圆盘移动到to塔
+            // step 2：将最后一个圆盘从from塔移动到to塔
             System.out.println("将" + n + "从" + from + "移动到" + to);
             // step 3：将n-1个圆盘从other塔移动到to塔
             recurse(n - 1, other, to, from);

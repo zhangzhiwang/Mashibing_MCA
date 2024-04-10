@@ -27,10 +27,10 @@ public class MaxHappy {
 
     /**
      *
-     * @param head MultiTreeNode中的data就相当于本题的happy值
+     * @param head NaryTreeNode中的data就相当于本题的happy值
      * @return
      */
-    public static int maxHappy(MultiTreeNode<Integer> head) {
+    public static int maxHappy(NaryTreeNode<Integer> head) {
         if(head == null) {
             return 0;
         }
@@ -38,7 +38,7 @@ public class MaxHappy {
         return Math.max(recurse(head).invite, recurse(head).notInvite);
     }
 
-    public static MaxHappyInfo recurse(MultiTreeNode<Integer> x) {
+    public static MaxHappyInfo recurse(NaryTreeNode<Integer> x) {
         if(x == null) {
             return new MaxHappyInfo(0, 0);
         }
@@ -53,7 +53,7 @@ public class MaxHappy {
          */
         int invite = x.data;
         int notInvite = 0;
-        for(MultiTreeNode<Integer> child : x.children) {
+        for(NaryTreeNode<Integer> child : x.children) {
             // 向孩子收集信息
             MaxHappyInfo childInfo = recurse(child);
             invite += childInfo.notInvite;
@@ -64,24 +64,24 @@ public class MaxHappy {
     }
 
     // 以下是对数器
-    public static int maxHappy1(MultiTreeNode<Integer> boss) {
+    public static int maxHappy1(NaryTreeNode<Integer> boss) {
         if (boss == null) {
             return 0;
         }
         return process1(boss, false);
     }
 
-    public static int process1(MultiTreeNode<Integer> cur, boolean up) {
+    public static int process1(NaryTreeNode<Integer> cur, boolean up) {
         if (up) { // 如果cur的上级来的话，cur没得选，只能不来
             int ans = 0;
-            for (MultiTreeNode<Integer> next : cur.children) {
+            for (NaryTreeNode<Integer> next : cur.children) {
                 ans += process1(next, false);
             }
             return ans;
         } else { // 如果cur的上级不来的话，cur可以选，可以来也可以不来
             int p1 = cur.data;
             int p2 = 0;
-            for (MultiTreeNode<Integer> next : cur.children) {
+            for (NaryTreeNode<Integer> next : cur.children) {
                 p1 += process1(next, true);
                 p2 += process1(next, false);
             }
@@ -90,23 +90,23 @@ public class MaxHappy {
     }
 
     // for test
-    public static MultiTreeNode<Integer> genarateBoss(int maxLevel, int maxNexts, int maxHappy) {
+    public static NaryTreeNode<Integer> genarateBoss(int maxLevel, int maxNexts, int maxHappy) {
         if (Math.random() < 0.02) {
             return null;
         }
-        MultiTreeNode<Integer> boss = new MultiTreeNode<Integer>((int) (Math.random() * (maxHappy + 1)));
+        NaryTreeNode<Integer> boss = new NaryTreeNode<Integer>((int) (Math.random() * (maxHappy + 1)));
         genarateNexts(boss, 1, maxLevel, maxNexts, maxHappy);
         return boss;
     }
 
     // for test
-    public static void genarateNexts(MultiTreeNode<Integer> e, int level, int maxLevel, int maxNexts, int maxHappy) {
+    public static void genarateNexts(NaryTreeNode<Integer> e, int level, int maxLevel, int maxNexts, int maxHappy) {
         if (level > maxLevel) {
             return;
         }
         int nextsSize = (int) (Math.random() * (maxNexts + 1));
         for (int i = 0; i < nextsSize; i++) {
-            MultiTreeNode<Integer> next = new MultiTreeNode<Integer>((int) (Math.random() * (maxHappy + 1)));
+            NaryTreeNode<Integer> next = new NaryTreeNode<Integer>((int) (Math.random() * (maxHappy + 1)));
             e.children.add(next);
             genarateNexts(next, level + 1, maxLevel, maxNexts, maxHappy);
         }
@@ -118,7 +118,7 @@ public class MaxHappy {
         int maxHappy = 100;
         int testTimes = 100000;
         for (int i = 0; i < testTimes; i++) {
-            MultiTreeNode<Integer> boss = genarateBoss(maxLevel, maxNexts, maxHappy);
+            NaryTreeNode<Integer> boss = genarateBoss(maxLevel, maxNexts, maxHappy);
             if (maxHappy1(boss) != maxHappy(boss)) {
                 System.out.println("Oops!");
             }

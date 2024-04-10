@@ -57,8 +57,8 @@ public class NumberOfIslandsDynamic2 {
 
             String ancestor1 = findAncestor(key1);
             String ancestor2 = findAncestor(key2);
-            int size1 = sizeMap.get(key1);
-            int size2 = sizeMap.get(key2);
+            int size1 = sizeMap.get(ancestor1);
+            int size2 = sizeMap.get(ancestor2);
             String bigger = size1 >= size2 ? ancestor1 : ancestor2;
             String smaller = bigger == ancestor1 ? ancestor2 : ancestor1;
             parentMap.put(smaller, bigger);
