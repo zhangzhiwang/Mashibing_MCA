@@ -10,7 +10,7 @@ package com.mashibing.dailyPractice.round2._71_to_100;
  * 请返回最后获胜者的分数（牌面上的值就是分数值）。
  */
 public class CardsInLine_0510 {
-    public static int cardsInLine(int[] arr) {
+    public static int cardsInLine1(int[] arr) {
         if(arr == null || arr.length == 0) {
             return -1;
         }
@@ -33,6 +33,15 @@ public class CardsInLine_0510 {
         }
 
         return Math.min(pre(arr, L + 1, R), pre(arr, L, R - 1));
+    }
+
+    public static int cardsInLine2(int[] arr) {
+        if(arr == null || arr.length == 0) {
+            return -1;
+        }
+
+        int N = arr.length;
+        return Math.max(pre(arr, 0, N - 1), post(arr, 0, N - 1));
     }
 
     // 老师的代码
@@ -70,6 +79,6 @@ public class CardsInLine_0510 {
         int[] arr = { 5, 7, 4, 5, 8, 1, 6, 0, 3, 4, 6, 1, 7 };
         System.out.println(win1(arr));
         System.out.println("my ans:");
-        System.out.println(cardsInLine(arr));
+        System.out.println(cardsInLine1(arr));
     }
 }
