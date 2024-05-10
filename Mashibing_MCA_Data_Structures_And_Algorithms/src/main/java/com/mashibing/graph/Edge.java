@@ -21,8 +21,6 @@ public class Edge<T> {
     // toString()方法可写可不写，这里主要是为了打印测试方便
     @Override
     public String toString() {
-        return "Edge{" +
-                "weight=" + weight +
-                '}';
+        return weight + "";
     }
 }

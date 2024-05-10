@@ -66,6 +66,10 @@ public class TopologySort2 {
         // 用作缓存
         Map<DirectedGraphNode, Record> nodeCountMap = new HashMap<>();
         // 把所有节点的点次都加入到缓存里
+        /*
+         注意：这里必须循环调用recurse，把图里面的所有节点都调用一遍recurse，因为graph里面给出的节点是乱序的，不能想当然地认为graph的第一个节点就是拓扑排好序后的根节点，
+         所以不能只调用一次递归方法：recurse(graph.get(0), nodeCountMap);
+         */
         for(DirectedGraphNode node : graph) {
             recurse(node, nodeCountMap);
         }

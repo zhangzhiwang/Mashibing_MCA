@@ -43,7 +43,7 @@ public class Kruskal {
                 continue;
             }
 
-            unionFind.union(edge.from, edge.to);// 在一个集合里面你的所有节点，一定是直接或者间接能联通的
+            unionFind.union(edge.from, edge.to);// 在一个集合里面的所有节点，一定是直接或者间接能联通的
             retEdgeSet.add(edge);
         }
 
