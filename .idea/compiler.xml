@@ -7,17 +7,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Mashibing_MCA_Data_Structures_And_Algorithms" />
+        <module name="EurekaClient_Order" />
         <module name="Mashibing_MCA_RocketMQ" />
         <module name="Mashibing_MCA_Elasticsearch" />
+        <module name="EurekaClient_User" />
+        <module name="EurekaServerSingle" />
+        <module name="Mashibing_MCA_Data_Structures_And_Algorithms" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Eureka" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Eureka" options="" />
+      <module name="EurekaClient_Order" options="-parameters" />
+      <module name="EurekaClient_User" options="-parameters" />
+      <module name="EurekaServerSingle" options="-parameters" />
       <module name="Mashibing_MCA_Data_Structures_And_Algorithms" options="-parameters" />
       <module name="Mashibing_MCA_Elasticsearch" options="-parameters" />
       <module name="Mashibing_MCA_RocketMQ" options="-parameters" />
+      <module name="SpringCloudNetflix" options="" />
     </option>
   </component>
 </project>

@@ -39,7 +39,7 @@ public class MaxHappy {
     }
 
     public static MaxHappyInfo recurse(NaryTreeNode<Integer> x) {
-        if(x == null) {
+        if(x == null) {// TODO 什么情况下会跑到这个base case？有x=null的时候吗？
             return new MaxHappyInfo(0, 0);
         }
 

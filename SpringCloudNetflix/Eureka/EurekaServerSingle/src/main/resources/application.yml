@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: spring_application_name_EurekaServerSingle
+
+server:
+  port: 8090
+  servlet:
+    # 访问根目录
+    # 启动项目后，访问工程的根目录就是eureka的界面
+    context-path: /EurekaServerSingleTest
+eureka:
+  instance:
+    # 如果指定hostname就用指定的，不指定就根据操作系统猜测出一个hostname
+    hostname: eureka_instance_hostname_localhost
+    # 如果上面没指定hostname，系统在猜测hostname的时候是否会在hostname里使用ip，默认是false
+    prefer-ip-address: false
+  client:
+    # 是否将本服务器的注册到Eureka服务中以供其机器发现，由于是Eureka服务端所以不需要，一般情况下客户端需要
+    register-with-eureka: false
+    # 是否从Eureka服务端拉取服务，由于本身就是Eureka服务端所以不需要拉取任何服务
+    fetch-registry: false
+
+# 使用logback打日志
+logging:
+  config: classpath:logback.xml
+

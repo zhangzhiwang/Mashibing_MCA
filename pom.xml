@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.11</version>
+    <version>2.7.18</version>
   </parent>
 
   <groupId>com.mashibing</groupId>
@@ -15,6 +15,7 @@
     <module>Mashibing_MCA_Elasticsearch</module>
       <module>Mashibing_MCA_Data_Structures_And_Algorithms</module>
       <module>Mashibing_MCA_RocketMQ</module>
+      <module>SpringCloudNetflix</module>
   </modules>
   <packaging>pom</packaging>
 

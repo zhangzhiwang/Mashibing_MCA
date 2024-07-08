@@ -26,6 +26,16 @@ import java.util.Map;
 public class FriendCircles {
     public static int friendCircleCount(int[][] arr) {
         int N = arr.length;
+        /*
+        使用UnionFind（基于Map实现的并查集）也可以实现，无论并查集是基于Map实现还是基于数组实现，它们的基本思想是一样的：
+        1、都有样本数据和其对应的代表结点的映射关系，即parentMap（基于Map实现）或者parentArr（基于数组实现）
+        这里要注意的是：要知道parentMap或者parentArr里面放的是什么，放的是样本数据和其对应的代表结点的映射关系，所以问题的关键就是弄清题目中什么是样本数据。
+        例如本题中，样本数据是这N个人本身（名字是连续的，叫0~N-1），不是二维矩阵arr中每个格子的值。二维矩阵中格子里的值代表两个人认识还是不是认识，只有1和0两种值，
+        这个不是样本数据，所以不能放到parentMap或者parentArr里。或者说二维矩阵描述的是各个样本数据之间的关系，即认识和不认识，也就是对应的两个样本数据所在的集合
+        要不要合并，这个关系本身不是样本数据。
+        2、代表结点和其所在集合的大小的映射关系，即sizeMap（基于Map实现）或者sizeArr（基于数组实现）
+        3、并查集中集合的数量，如果使用Map实现那么就是sizeMap的大小，如果是基于数组实现那么就单独维护一个size变量。
+         */
         UnionFind2 unionFind = new UnionFind2(N);
         /*
          遍历矩阵

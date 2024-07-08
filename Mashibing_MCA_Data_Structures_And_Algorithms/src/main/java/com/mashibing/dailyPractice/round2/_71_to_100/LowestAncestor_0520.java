@@ -1,37 +1,25 @@
-package com.mashibing.tree;
+package com.mashibing.dailyPractice.round2._71_to_100;
 
 import com.mashibing.others.DuiShuQiUtil;
+import com.mashibing.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * 题目：给定一颗二叉树head和任意两个节点a和b，返回a和b的最低公共祖先
- * 思路：
- * 按照递归通用套路，分析可能的情况：
- * 1、最终结果和x有关
- * 如果最终结果和x有关，那么x一定就是a和b的最低公共祖先，包括两种情况：
- * （1）x的左子树包括其中一个，右子树包括另一个
- * （2）x就是a和b其中的一个
- * 2、最终结果和x无关
- * 情况：
- * （1）左子树或者右子树已经发现了a和b的最低公共祖先
- * （2）左子树或者右子树只发现了a和b其中的一个，另一个在两颗子树中都没有发现
- * 综上，x管子树要的信息有：是否发现了a、是否发现了b、a和b的最低公共祖先（如果发现了肯定有值，如果没发现就是null）
- *
- * 课程：体系班课时108
+ * 给定一颗二叉树head和任意两个节点a和b，返回a和b的最低公共祖先
  */
-public class LowestAncestor {
-    static class LowestAncestorInfo {
-        public boolean containsA;// 子树是否包括a节点
-        public boolean containsB;// 子树是否包括b节点
-        public TreeNode lowestAncestor;// 子树中的最低祖先
+public class LowestAncestor_0520 {
+    static class LowestAncestorInfo_0520 {
+        private boolean findA;
+        private boolean findB;
+        private TreeNode ans;
 
-        public LowestAncestorInfo(boolean containsA, boolean containsB, TreeNode lowestAncestor) {
-            this.containsA = containsA;
-            this.containsB = containsB;
-            this.lowestAncestor = lowestAncestor;
+        public LowestAncestorInfo_0520(boolean findA, boolean findB, TreeNode ans) {
+            this.findA = findA;
+            this.findB = findB;
+            this.ans = ans;
         }
     }
 
@@ -40,50 +28,34 @@ public class LowestAncestor {
             return null;
         }
 
-        return recurse(head, a, b).lowestAncestor;
+        return recurse(head, a, b).ans;
     }
 
-    public static LowestAncestorInfo recurse(TreeNode x, TreeNode a, TreeNode b) {
+    private static LowestAncestorInfo_0520 recurse(TreeNode x, TreeNode a, TreeNode b) {
         if(x == null) {
-            return new LowestAncestorInfo(false, false, null);
+            return new LowestAncestorInfo_0520(false, false, null);
         }
 
-        LowestAncestorInfo leftInfo = recurse(x.left, a, b);
-        LowestAncestorInfo rightInfo = recurse(x.right, a, b);
+        LowestAncestorInfo_0520 left = recurse(x.left, a, b);
+        LowestAncestorInfo_0520 right = recurse(x.right, a, b);
 
-        boolean containsA = leftInfo.containsA || rightInfo.containsA || (x == a);
-        boolean containsB = leftInfo.containsB || rightInfo.containsB || (x == b);
-
-        TreeNode lowestAncestor = null;
-        // 最终结果和x有关：
-        // 如果x就是a、b其中的一个，那么最低祖先一定是x
-        // 上面的containsA和containsB已经包含这个逻辑了
-//        if(x == a || x == b) {
-//            lowestAncestor = x;
-//        }
-
-        // 最终结果和x无关：
-        // 情况1：x的左右子树其中之一发现了最低公共祖先，那么最终的答案就是它
-        if(leftInfo.lowestAncestor != null) {
-            lowestAncestor = leftInfo.lowestAncestor;
-        } else if(rightInfo.lowestAncestor != null) {
-            lowestAncestor = rightInfo.lowestAncestor;
+        boolean findA = left.findA || right.findA || (x == a);
+        boolean findB = left.findB || right.findB || (x == b);
+        TreeNode ans = null;
+        if(left.ans != null) {
+            ans = left.ans;
+        } else if (right.ans != null) {
+            ans = right.ans;
         } else {
-            // 如果x的左子树包括a或者b，右子树包括另一个，那么x一定是a和b的最低公共祖先
-            if(containsA && containsB) {
-                lowestAncestor = x;
+            if(findA && findB) {
+                ans = x;
             }
         }
-        /*
-         情况2：x的左右子树没发现全a和b，即x的左右子树中只发现了a和b其中的一个，这种情况lowestAncestor就应该为null，因为站在x的角度来看lowestAncestor不知道是谁，
-         由于默认值就是null，所以这种情况什么都不做
-         */
 
-
-        return new LowestAncestorInfo(containsA, containsB, lowestAncestor);
+        return new LowestAncestorInfo_0520(findA, findB, ans);
     }
 
-    //以下是对数器
+    // 对数器
     // for test
     public static TreeNode generateRandomBST(int maxLevel, int maxValue) {
         return generate(1, maxLevel, maxValue);

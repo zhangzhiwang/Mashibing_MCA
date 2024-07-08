@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: spring_application_name_EurekaClientUser
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    # eureka服务端地址
+    service-url:
+      defaultZone: localhost:8090/EurekaServerSingleTest/
+
+logging:
+  config: classpath:logback.xml

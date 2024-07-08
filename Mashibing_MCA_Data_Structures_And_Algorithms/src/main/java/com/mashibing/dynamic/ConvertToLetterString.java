@@ -58,7 +58,13 @@ public class ConvertToLetterString {
         // 和后面的联合转
         /*
         下一个位置不越界，且当前位置和下一个位置拼起来的数字小于等于26
-        注意判断的时候是当前位置的字符数字减去0的ascii码的差值然后去拼成一个两位数，不能用字符数字的ascii码直接乘以10
+        注意判断的时候是当前位置的字符数字减去0的ascii码的差值然后去拼成一个两位数，不能用字符数字的ascii码直接乘以10。
+        例如：
+        char c1 = '9';
+        c1 - '0'代表字符'9'的ascii码到字符'0'的ascii码之间的距离，也就相当于将字符类型的'9'转成int，
+        同理：
+        char c2 = 'c';
+        c2 - 'a'相当于字符'c'的ascii码到字符'a'的ascii码之间的距离
          */
         if(index + 1 < charArr.length && (charArr[index] - '0') * 10 + (charArr[index + 1] - '0') < 27) {
             count += recurse1(charArr, index + 2);
@@ -90,9 +96,10 @@ public class ConvertToLetterString {
 //                buf[i] = 0;
 //            }
 
-            if(charArr[i] != 0) {
+            if(charArr[i] != 0) {// 这个判断不要丢，或者再上面写上：当charArr[i]=0是continue也行
                 buf[i] = buf[i + 1];
                 if(i + 1 < N && (charArr[i] - '0') * 10 + (charArr[i + 1] - '0') < 27) {
+                    // 照着递归版本改的时候要注意：在递归版本里的所有递归调用都换成在缓存buf里面取值，在第三个版本里面就不要有任何递归调用了
                     buf[i] += buf[i + 2];
                 }
             }

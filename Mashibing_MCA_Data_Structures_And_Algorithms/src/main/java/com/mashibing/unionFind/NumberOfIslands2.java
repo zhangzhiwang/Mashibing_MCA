@@ -68,7 +68,7 @@ public class NumberOfIslands2 {
                         int index = findIndex(i, j);
                         parentArr[index] = index;
                         sizeArr[index] = 1;
-                        size++;
+                        size++;// 初始化的时候二维矩阵里面有多少个1并查集的size就是多少，可不是初始化的时候size为rowCount * colCount
                     }
                 }
             }
@@ -98,7 +98,7 @@ public class NumberOfIslands2 {
             }
 
             for (int i = stackIndex - 1; i >= 0; i--) {
-                parentArr[stack[i]] = index;
+                parentArr[stack[i]] = index;// 循环里用i代替stackIndex，i是变化的，所以不能是stack[stackIndex]而是stack[i]
             }
 
             return index;
@@ -114,7 +114,7 @@ public class NumberOfIslands2 {
         public void union(int i1, int j1, int i2, int j2) {
             int index1 = findIndex(i1, j1);
             int index2 = findIndex(i2, j2);
-            int ancestor1 = findAncestor(index1);
+            int ancestor1 = findAncestor(index1);// 找一个节点的代表节点不是在parentArr里面找，parentArr里面只能找到它的直接父节点，直接父节点不一定是它的祖先节点
             int ancestor2 = findAncestor(index2);
             if (ancestor1 == ancestor2) {
                 return;
