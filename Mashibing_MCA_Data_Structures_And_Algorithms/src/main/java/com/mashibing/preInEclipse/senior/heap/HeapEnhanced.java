@@ -104,6 +104,7 @@ public class HeapEnhanced<T> {
 	
 	/**
 	 * 当改变任意节点的值的时候，重新调整堆
+	 * 改值的时候是先改数组中的值，然后再改indexMap中的对应的值，但是这个节点的位置没有调整，resign方法就是调整该节点的位置
 	 * 
 	 * 思路：
 	 * 当其中的某个元素改变了，但是不知道是变大了还是变小了。
@@ -112,12 +113,15 @@ public class HeapEnhanced<T> {
 	 * 3、假如t变小了，那么调用heapify一定将该元素往下推
 	 * 注意：由于不知道t是变大还是变小，所以必须要先后调用heapInsert和heapify方法（二者调用顺序无所谓）。由于t变大和变小只能发生一个，所以heapInsert和heapify只有一个起作用。
 	 * 
-	 * @param t 被改变的元素
+	 * @param t 被改变的元素值且是改变后的值
 	 * @author zhangzhiwang
 	 * @date 2022年2月16日 下午6:49:54
 	 */
 	public void resign(T t) {
-		int index = indexMap.get(t);
+		Integer index = indexMap.get(t);
+		if(index == null) {// 由于改值的时候是数组和indexMap同时改了，所以正常情况下indexMap是能查出来的
+			return;
+		}
 		heapInsert(heap, index);
 		heapify(heap, index);
 	}

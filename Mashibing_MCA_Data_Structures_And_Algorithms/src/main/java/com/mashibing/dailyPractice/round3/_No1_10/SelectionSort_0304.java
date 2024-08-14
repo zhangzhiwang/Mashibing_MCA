@@ -34,7 +34,7 @@ public class SelectionSort_0304 {
     }
 
     // 对数器
-// for test
+    // for test
     public static void comparator(int[] arr) {
         Arrays.sort(arr);
     }
@@ -125,10 +125,5 @@ public class SelectionSort_0304 {
             }
         }
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
-
-//        int[] arr = generateRandomArray(maxSize, maxValue);
-//        printArray(arr);
-//        selectionSort(arr);
-//        printArray(arr);
     }
 }

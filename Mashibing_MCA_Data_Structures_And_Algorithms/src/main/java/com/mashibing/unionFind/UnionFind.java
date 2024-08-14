@@ -106,6 +106,7 @@ public class UnionFind<T> {
             return;
         }
 
+        // 注意：parentMap的key和value存放的都是并查集节点，而不是赝本数据的原始节点，用parentMap去get原始数据节点是不行的，所以必须先通过nodeMap把并查集节点先查出来
         UnionFindNode<T> ancestor1 = findAncestor(nodeMap.get(value1));
         UnionFindNode<T> ancestor2 = findAncestor(nodeMap.get(value2));
         Integer size1 = nodeSizeMap.get(ancestor1);
@@ -133,6 +134,9 @@ public class UnionFind<T> {
 
     /**
      * 把值包装成节点
+     * 这个包装节点并不是所有情况都需要的，当样本数据有重复值但代表不同样本数据时，由于Map的key会重复，所以需要外面包装一层，这个时候才需要这个UnionFindNode。
+     * 当不涉及这个场景时，可以直接使用样本数据本身作为并查集节点，这样还可以省掉nodeMap属性。当然无论什么情况都使用UnionFindNode包装一层也没有问题，只要使用
+     * UnionFindNode包装，就要有nodeMap属性来对样本数据和并查集节点做映射。
      *
      * @param <T>
      */

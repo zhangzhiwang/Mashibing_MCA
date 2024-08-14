@@ -1,5 +1,7 @@
 package com.mashibing.tree;
 
+import com.mashibing.others.DuiShuQiUtil;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -99,10 +101,16 @@ public class BinaryTreeByLevelSerialization {
         TreeNode<String> c = new TreeNode<>("c");
         TreeNode<String> d = new TreeNode<>("d");
         TreeNode<String> e = new TreeNode<>("e");
-//        a.left = b;
-//        a.right = c;
-//        b.right = d;
-//        c.left = e;
+        TreeNode<String> f = new TreeNode<>("f");
+        TreeNode<String> g = new TreeNode<>("g");
+        a.left = b;
+        a.right = c;
+//        b.left = d;
+        b.right = e;
+        e.left=d;
+        c.left = f;
+        c.right = g;
+        DuiShuQiUtil.printBinaryTree(a);
 
         Queue<String> res = serializeBinaryByLevel(a);
         System.out.println(res);

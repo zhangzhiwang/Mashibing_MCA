@@ -1,5 +1,7 @@
 package com.mashibing.heap;
 
+import com.mashibing.others.DuiShuQiUtil;
+
 /**
  * 用数组做一个大根堆
  * 课程：体系班课时48-51
@@ -82,20 +84,35 @@ public class BigHeapByArray {
     }
 
     public static void main(String[] args) {
-        BigHeapByArray hba = new BigHeapByArray(10);
+        BigHeapByArray hba = new BigHeapByArray(7);
+        hba.add(1);
+        hba.add(2);
+        hba.add(3);
+        hba.add(4);
         hba.add(5);
-        hba.add(20);
-        hba.add(10);
-        System.out.println(hba.peek());
-        System.out.println("size = " + hba.size());
-        System.out.println(hba.isEmpty());
+        hba.add(6);
+        hba.add(7);
+        System.out.println("peek = " + hba.peek());
+        DuiShuQiUtil.printArr(hba.arr);
+        System.out.println("pop = " + hba.pop());
+        System.out.println("peek = " + hba.peek());
+        DuiShuQiUtil.printArr(hba.arr);
         System.out.println("-----------");
-
-        System.out.println(hba.pop());
-        System.out.println(hba.pop());
-        System.out.println(hba.pop());
-        System.out.println("size = " + hba.size());
-        System.out.println(hba.isEmpty());
+        System.out.println("pop = " + hba.pop());
+        System.out.println("peek = " + hba.peek());
+        DuiShuQiUtil.printArr(hba.arr);
         System.out.println("-----------");
+        System.out.println("pop = " + hba.pop());
+        System.out.println("peek = " + hba.peek());
+        DuiShuQiUtil.printArr(hba.arr);
+        System.out.println("-----------");
+//        System.out.println("size = " + hba.size());
+//        System.out.println(hba.isEmpty());
+//
+//        System.out.println(hba.pop());
+//        System.out.println(hba.pop());
+//        System.out.println("size = " + hba.size());
+//        System.out.println(hba.isEmpty());
+//        System.out.println("-----------");
     }
 }

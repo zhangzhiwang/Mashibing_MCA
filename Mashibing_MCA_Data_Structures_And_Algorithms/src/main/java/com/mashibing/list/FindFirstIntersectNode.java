@@ -7,7 +7,7 @@ package com.mashibing.list;
  * 1、设置一个函数：返回成环链表的入环节点，如果链表没有环则返回null
  * （1）设置一个快指针和一个慢指针，首先先让快指针一次走两步，慢指针一次走一步，如果快指针达到null了说明链表没有环，返回null
  * （2）如果链表有环，那么快慢指针肯定会相遇，当快慢指针相遇时慢指针不动，快指针回到head。
- * 这里要说明的是：快走二慢走一算作一次循环，要么就不循环要么一旦循环快慢指针都要走，所以这里的"相遇"值的是慢走完之后追上了快（如果有环的话），因为慢走完之后本次循环结束，
+ * 这里要说明的是：快走二慢走一算作一次循环，要么就不循环要么一旦循环快慢指针都要走，所以这里的"相遇"指的是慢走完之后追上了快（如果有环的话），因为慢走完之后本次循环结束，
  * 下一次循环开始前发现快慢相遇了就结束了，就没有下一轮循环了，可不是指快走了两步之后和慢重合叫相遇，因为慢此时还没有走呢，慢还得往前走一步本次循环才结束，
  * 所以，这里的相遇指的是慢追上了快。
  * （3）快慢指针重新走，这回快慢指针都是一次只走一步，当快慢指针再次相遇时，相遇的节点就是入环的节点
@@ -74,7 +74,7 @@ public class FindFirstIntersectNode {
      * @return
      */
     private static SingleNode<Integer> loopInterNode(SingleNode<Integer> head1, SingleNode<Integer> head2, SingleNode<Integer> loopNode1, SingleNode<Integer> loopNode2) {
-        if(loopNode1 == loopNode2) {// 当loopNode1和loopNode2是同一个节点时，说明连个链表必相交，逻辑就是noLoopInterNode方法的逻辑
+        if(loopNode1 == loopNode2) {// 当loopNode1和loopNode2是同一个节点时，说明连个链表必相交且在入环前相交，逻辑就是noLoopInterNode方法的逻辑
             SingleNode<Integer> cur1 = head1;
             /*
              这里长度的初始值是0，下面while循环的判断条件可以是cur1 != null，而不需要是cur1.next != null，

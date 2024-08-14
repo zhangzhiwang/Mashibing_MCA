@@ -177,6 +177,10 @@ public class DuiShuQiUtil {
      * @param <T>
      */
     public static <T> void printBinaryTree(TreeNode<T> root) {
+        if(root == null) {
+            System.out.println("null");
+            return;
+        }
         init(root);
         List<TreeNode> nodes = new ArrayList<>();
         nodes.add(root);

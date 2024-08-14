@@ -68,7 +68,11 @@ public class NumberOfIslands2 {
                         int index = findIndex(i, j);
                         parentArr[index] = index;
                         sizeArr[index] = 1;
-                        size++;// 初始化的时候二维矩阵里面有多少个1并查集的size就是多少，可不是初始化的时候size为rowCount * colCount
+                        /*
+                         初始化的时候二维矩阵里面有多少个1并查集的size就是多少，可不是初始化的时候size为rowCount * colCount。
+                         要始终记住size是并查集的个数，而初始并查集的个数就是样本数据的个数，这个size一定要注意
+                         */
+                        size++;
                     }
                 }
             }

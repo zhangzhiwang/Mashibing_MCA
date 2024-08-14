@@ -68,10 +68,6 @@ public class BinarySearchFindMoreLeft_0305 {
     }
 
     public static void main(String[] args) {
-//        int[] arr = {1,2,3,3,3,6,9,11,13};
-//        int k = 19;
-//        System.out.println(binarySearchFindMoreLeft(arr, k));
-
         int testTime = 500000;
         int maxSize = 10;
         int maxValue = 100;

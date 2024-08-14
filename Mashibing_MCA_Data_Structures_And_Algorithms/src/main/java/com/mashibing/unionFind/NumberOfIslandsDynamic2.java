@@ -26,6 +26,10 @@ public class NumberOfIslandsDynamic2 {
     }
 
     static class UnionFind5 {
+        /*
+        这里value是String类型的，也就是直接将字符串作为代表节点，省去了并查集节点，也省去了nodeMap属性。
+        当然如果为了并查集组件的完整性，也可以使用并查集节点，定义一个节点类，将String类型包装进去，然后再定义一个nodeMap属性。
+         */
         private Map<String, String> parentMap;
         private Map<String, Integer> sizeMap;
         private Stack<String> stack;
@@ -51,6 +55,9 @@ public class NumberOfIslandsDynamic2 {
         }
 
         public void union(String key1, String key2) {
+            /*
+            上下左右遇到1时才合并，遇到0不合并，这个判断逻要么放在主函数中，如果主函数不判断就得在union里判断
+             */
             if(!parentMap.containsKey(key1) || !parentMap.containsKey(key2)) {// 说明要合并的两个节点有一个没有被初始化过，也就是有一个不是1
                 return;
             }
@@ -82,6 +89,7 @@ public class NumberOfIslandsDynamic2 {
             parentMap.put(key, key);
             sizeMap.put(key, 1);
 
+            // 上面的key是用双引号括起来的下划线，所以将int型转换为了String类型，其它地方要采用统一标准，测试时其它地方不小心将下划线用单引号扩了起来，导致计算结果不一致
             union(i + "_" + j, (i - 1) + "_" + j);
             union(i + "_" + j, (i + 1) + "_" + j);
             union(i + "_" + j, i + "_" + (j - 1));

@@ -47,7 +47,7 @@ public class CountOfRangeSum_0305 {
             }
 
             count += lE - lS;
-            p2++;
+            p2++;// 不能在循环条件里面对p2进行自增操作，要在最后对p2自增，因为中间要用到自增前的p2
         }
 
         long[] help = new long[R - L + 1];

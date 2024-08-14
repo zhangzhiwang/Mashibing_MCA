@@ -29,7 +29,7 @@ public class PaperFolding {
      */
     private static void f(int i, int N, boolean flag) {
         /*
-         base case：当任意指定的节点所在层次比整棵树的层次都高，这种节点不存在，直接返回。
+         base case：当任意指定的节点所在层次比整棵树的层次都高，这种节点不存在，直接返回，说明上一层就是叶子节点了，没有下一层。
          纸条对折N次，二叉树就有N层。
          */
         if(i > N) {

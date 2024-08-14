@@ -52,7 +52,7 @@ public class UnionFind2 {
         // 优化：从num及以上做扁平化处理
         // 由于栈是FILO，所以要倒序遍历数组
         for(int i = stackIndex - 1; i >= 0; i--) {
-            parentArr[stack[i]] = num;
+            parentArr[stack[i]] = num;// 注意：循环中用i代替stackIndex，所以这里要用stack[i]而不是stack[stackIndex]了
         }
 
         return num;

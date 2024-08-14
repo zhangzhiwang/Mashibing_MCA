@@ -26,7 +26,7 @@ public class TopologySort3 {
     }
 
     /**
-     * 辅助类，用于记录某个节点及遍历该节点后续节点的点次
+     * 辅助类，用于记录某个节点及遍历该节点后续节点的深度
      * 这个类是自定义的，非题目给定
      */
     static class Record {
@@ -55,7 +55,7 @@ public class TopologySort3 {
 
         // 用作缓存
         Map<DirectedGraphNode, Record> nodeCountMap = new HashMap<>();
-        // 把所有节点的点次都加入到缓存里
+        // 把所有节点的深度都加入到缓存里
         for(DirectedGraphNode node : graph) {
             recurse(node, nodeCountMap);
         }
@@ -69,7 +69,7 @@ public class TopologySort3 {
         recordList.sort(new Comparator<Record>() {
             @Override
             public int compare(Record o1, Record o2) {
-                return o2.deep - o1.deep;// 按照点次倒叙排序，点次越大的在拓扑序中越靠前（拓扑序越小）
+                return o2.deep - o1.deep;// 按照深度倒叙排序，深度越大的在拓扑序中越靠前（拓扑序越小）
             }
         });
 

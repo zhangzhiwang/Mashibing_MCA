@@ -140,6 +140,8 @@ public class NumberOfIslandsDynamic1 {
             /*
             判断(i,j)之前有没有改过1，有的话就直接返回现有的集合个数
             比如：positions=[[5,7],[5,8],[5,7]]，第二次输入的(5,7)是无效的，重复输入没有意义
+            为什么用sizeArr来判断而不用parentArr判断？因为本并查集使用数组来实现的，parentArr定义出来后元素初始化默认都是0，
+            所以不知道某个位置之前没有出现过，有可能已经出现过且它的代表结点是0，所以只能用sizeArr判断。
              */
             if(sizeArr[index] != 0) {// 说明该位置之前已经改过1了
                 return size;

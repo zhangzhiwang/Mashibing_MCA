@@ -54,11 +54,6 @@ public class BinarySearch_0221 {
     }
 
     public static void main(String[] args) {
-//        int[] arr = {1,2,3,5,7,8,9};
-//        int k = 9;
-//        boolean result = binarySearch(arr, k);
-//        System.out.println(result);
-
         int testTime = 500000;
         int maxSize = 10;
         int maxValue = 100;

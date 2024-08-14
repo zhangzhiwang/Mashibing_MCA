@@ -145,6 +145,50 @@ public class FriendCircles {
 //        int circleCount = friendCircleCount(arr);
 //        System.out.println(circleCount);
 
+        // 第四组测试数据
+        int[] a = new int[N];
+        a[0] = 1;
+        a[1] = 0;
+        a[2] = 0;
+        a[3] = 0;
+        a[4] = 0;
+        arr[0] = a;
+
+        a = new int[N];
+        a[0] = 0;
+        a[1] = 1;
+        a[2] = 0;
+        a[3] = 0;
+        a[4] = 0;
+        arr[1] = a;
+
+        a = new int[N];
+        a[0] = 0;
+        a[1] = 0;
+        a[2] = 1;
+        a[3] = 0;
+        a[4] = 0;
+        arr[2] = a;
+
+        a = new int[N];
+        a[0] = 0;
+        a[1] = 0;
+        a[2] = 0;
+        a[3] = 1;
+        a[4] = 0;
+        arr[3] = a;
+
+        a = new int[N];
+        a[0] = 0;
+        a[1] = 0;
+        a[2] = 0;
+        a[3] = 0;
+        a[4] = 1;
+        arr[4] = a;
+
+        int circleCount = friendCircleCount(arr);
+        System.out.println(circleCount);
+
         // 第三组测试数据
 //        N = 15;
 //        arr = new int[N][];
@@ -188,9 +232,9 @@ public class FriendCircles {
 //        System.out.println(map.get(s1));
 //        System.out.println(map.get(s2));
 
-        Character c1 = new Character('1');
-        if(c1.charValue() == '1') {
-            System.out.println("ok");
-        }
+//        Character c1 = new Character('1');
+//        if(c1.charValue() == '1') {
+//            System.out.println("ok");
+//        }
     }
 }

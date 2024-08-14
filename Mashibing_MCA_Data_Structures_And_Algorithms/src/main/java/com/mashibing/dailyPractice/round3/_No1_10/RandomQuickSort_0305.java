@@ -141,10 +141,6 @@ public class RandomQuickSort_0305 {
     }
 
     public static void main(String[] args) {
-//        int[] arr = {3,2,5,7,6,5,8};
-//        quickSort(arr);
-//        DuiShuQiUtil.printArr(arr);
-
         int testTime = 500000;
         int maxSize = 100;
         int maxValue = 100;

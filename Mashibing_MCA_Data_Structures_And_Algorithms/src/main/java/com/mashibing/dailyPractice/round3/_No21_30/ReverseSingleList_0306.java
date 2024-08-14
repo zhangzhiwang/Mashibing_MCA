@@ -89,15 +89,6 @@ public class ReverseSingleList_0306 {
     }
 
     public static void main(String[] args) {
-//        SingleNode<Integer> n1 = new SingleNode<>(1);
-//        SingleNode<Integer> n2 = new SingleNode<>(2);
-//        SingleNode<Integer> n3 = new SingleNode<>(3);
-//        n1.next = n2;
-//        n2.next = n3;
-//
-//        DuiShuQiUtil.printSingleList(n1);
-//        DuiShuQiUtil.printSingleList(reverseSingleList(n1));
-
         int len = 50;
         int value = 100;
         int testTime = 100000;

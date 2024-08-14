@@ -2,6 +2,8 @@ package com.mashibing.array.sort;
 
 import com.mashibing.others.DuiShuQiUtil;
 
+import java.util.Arrays;
+
 /**
  * 堆排序
  * 课程：体系班课时52-55
@@ -14,13 +16,17 @@ public class HeapSort {
         }
 
         /*
-         使用heapify从下往上建大根堆，时间复杂度是O(N)（如果使用heapInsert从上往下建堆的时间复杂度是O(N*logN)）。
-         可以这样认为：题目给定的原始数组看做是一个完全二叉树，数组的每一个元素都是构成这个完全二叉树的组成部分，只不过这个完全二叉树目前还不是大根堆，下面要做的就是把它调成大根堆。
-         调的方式就是使用heapify，从叶子节点开始逐层往上调，就是下面这个for循环干的事情，这个过程就是构建整个大根堆的过程。
+         下面建堆的过程虽然外层循环的时间复杂度是O(N)，循环内时间复杂度是O(logN)，但是整体的时间复杂度不是O(N * logN)，而是最终收敛于O(N)，
+         具体解释见com.mashibing.preInEclipse.senior.sort.HeapSort
          */
         int heapSize = arr.length;
         for(int i = arr.length - 1; i >= 0; i--) {// O(N)
-            heapify(arr, i, heapSize);
+            /*
+             heapSize不用动，千万不能自减
+             可以这样理解：把arr看做一棵完全二叉树，只不过它还不是堆，现在用heapify把它调整成堆，堆的大小就是完全二叉树的大小，
+             所以调整的过程中heapSize是不用变的，不要和pop的过程里面调用heapify混淆，那个是需要将heapSize减1的。
+             */
+            heapify(arr, i, heapSize);// O(logN)
         }
 
         swap(arr, 0, --heapSize);
@@ -53,9 +59,78 @@ public class HeapSort {
         arr[j] = tmp;
     }
 
+    // 对数器
+    // for test
+    public static void comparator(int[] arr) {
+        Arrays.sort(arr);
+    }
+
+    // for test
+    public static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
+        }
+        return arr;
+    }
+
+    // for test
+    public static int[] copyArray(int[] arr) {
+        if (arr == null) {
+            return null;
+        }
+        int[] res = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            res[i] = arr[i];
+        }
+        return res;
+    }
+
+    // for test
+    public static boolean isEqual(int[] arr1, int[] arr2) {
+        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
+            return false;
+        }
+        if (arr1 == null && arr2 == null) {
+            return true;
+        }
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // for test
+    public static void printArray(int[] arr) {
+        if (arr == null) {
+            return;
+        }
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        int[] arr = {1,3,5,7,9,2,4,6,8,0};
-        heapSort(arr);
-        DuiShuQiUtil.printArr(arr);
+        int testTime = 500000;
+        int maxSize = 100;
+        int maxValue = 100;
+        boolean succeed = true;
+        for (int i = 0; i < testTime; i++) {
+            int[] arr1 = generateRandomArray(maxSize, maxValue);
+            int[] arr2 = copyArray(arr1);
+            heapSort(arr1);
+            comparator(arr2);
+            if (!isEqual(arr1, arr2)) {
+                succeed = false;
+                break;
+            }
+        }
+        System.out.println(succeed ? "Nice!" : "Fucking fucked!");
     }
 }

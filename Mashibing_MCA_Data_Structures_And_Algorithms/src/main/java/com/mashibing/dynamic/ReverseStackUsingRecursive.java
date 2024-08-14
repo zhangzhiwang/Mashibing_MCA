@@ -26,7 +26,7 @@ public class ReverseStackUsingRecursive {
 
     private static Integer recurse(Stack<Integer> stack) {
         Integer result = stack.pop();
-        if(stack.isEmpty()) {// base case：如果弹出栈顶元素后栈为空，那么返回栈顶元素
+        if(stack.isEmpty()) {// base case：如果弹出元素后栈为空说明弹出的是栈顶元素，那么就将栈顶元素返回
             return result;
         } else {
             Integer last = recurse(stack);

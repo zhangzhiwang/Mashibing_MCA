@@ -35,10 +35,10 @@ public class PathSum_0306 {
     }
 
     private boolean recurse(TreeNode root, int targetSum, int sum) {
-        if (root == null) {// base case
+        if (root == null) {// base case1
             return false;
         }
-        if(root.left == null && root.right == null) {
+        if(root.left == null && root.right == null) {// base case2
             return sum + root.val == targetSum;
         }
 

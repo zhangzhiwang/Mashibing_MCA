@@ -72,10 +72,6 @@ public class BinarySearchFindLessRight_0306 {
     }
 
     public static void main(String[] args) {
-//        int[] arr = {1,2,3,3,3,6,9,11,13};
-//        int k = 3;
-//        System.out.println(binarySearchFindLessRight(arr, k));
-
         int testTime = 500000;
         int maxSize = 10;
         int maxValue = 100;

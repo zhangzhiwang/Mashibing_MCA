@@ -73,9 +73,6 @@ public class LocalLeastValue_0306 {
     }
 
     public static void main(String[] args) {
-//        int[] arr = {9, 8, 7, 9, 7, 4, 10, 9};
-//        System.out.println(localLeastValue(arr));
-
         int maxLen = 100;
         int maxValue = 200;
         int testTime = 1000000;
