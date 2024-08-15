@@ -1,16 +1,14 @@
-package com.mashibing.dailyPractice.round4;
+package com.mashibing.dailyPractice.round5;
 
 /**
  * 打印一个int整数的二进制表示形式
- * 位运算特性：
- * 1、与1与还原该位本身
- * 2、
  */
-public class PrintIntBinary_0719 {
-    public static void printBinary(int i) {
+public class PrintIntBinary_0815 {
+    public static void printIntBinary(int i) {
         for (int j = 31; j >= 0; j--) {
             System.out.print((i & (1 << j)) == 0 ? 0 : 1);
         }
+        System.out.println();
     }
 
     // 老师的代码
@@ -25,6 +23,6 @@ public class PrintIntBinary_0719 {
         System.out.println("correct ans:");
         print(13579);
         System.out.println("my ans:");
-        printBinary(13579);
+        printIntBinary(13579);
     }
 }
