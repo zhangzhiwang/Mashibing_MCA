@@ -51,12 +51,12 @@ public class RandomA2B_0721 {
     }
 
     public static void main(String[] args) {
-//        int[] range = RandomA2BUtil.randomRange(0, 20);
-//        System.out.println("n1-m1：");
-//        DuiShuQiUtil.printArr(range);
-//        range = RandomA2BUtil.randomRange(30, 100);
-//        System.out.println("n2-m2：");
-//        DuiShuQiUtil.printArr(range);
+        int[] range = RandomA2BUtil.randomRange(0, 20);
+        System.out.println("n1-m1：");
+        DuiShuQiUtil.printArr(range);
+        range = RandomA2BUtil.randomRange(30, 100);
+        System.out.println("n2-m2：");
+        DuiShuQiUtil.printArr(range);
 
         int[] arr = new int[100];
         for(int i = 0; i < 100_0000; i++) {

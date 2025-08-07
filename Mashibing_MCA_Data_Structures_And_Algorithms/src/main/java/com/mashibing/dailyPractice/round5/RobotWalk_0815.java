@@ -40,13 +40,13 @@ public class RobotWalk_0815 {
             return 0;
         }
 
-        int[][] buf = new int[m + 1][k + 1];
-        for (int i = 1; i < m + 1; i++) {
+        int[][] buf = new int[n + 1][k + 1];
+        for (int i = 1; i < n + 1; i++) {
             buf[i][0] = i == p ? 1 : 0;
         }
 
         for (int j = 1; j < k + 1; j++) {
-            for (int i = 1; i < m + 1; i++) {
+            for (int i = 1; i < n + 1; i++) {
                 if(i == 1) {
                     buf[i][j] = buf[2][j - 1];
                 } else if (i == n) {
@@ -94,8 +94,8 @@ public class RobotWalk_0815 {
     public static void main(String[] args) {
         int N = 5;
         int M = 2;
-        int K = 1;
-        int P = 3;
+        int K = 6;
+        int P = 4;
         System.out.println("correct ans:");
         System.out.println(ways1(N, M, P, K));
         System.out.println("my ans1:");

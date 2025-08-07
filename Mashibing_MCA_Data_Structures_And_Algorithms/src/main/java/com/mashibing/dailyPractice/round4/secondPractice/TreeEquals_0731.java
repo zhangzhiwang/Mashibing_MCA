@@ -38,4 +38,8 @@ public class TreeEquals_0731 {
 
         return recurse(p.left, q.left) && recurse(p.right, q.right);
     }
+
+    public static void main(String[] args) {
+        // leetcode：https://leetcode.com/problems/same-tree
+    }
 }

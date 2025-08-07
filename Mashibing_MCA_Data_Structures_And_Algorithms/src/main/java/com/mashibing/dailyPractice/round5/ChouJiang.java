@@ -13,12 +13,12 @@ public class ChouJiang {
 
     static {
         set.addAll(Arrays.asList(
-                71, 72, 87, 88, 78, 79, 84, 94, 85, 76,
-                77, 38, 39, 40, 80, 81, 76, 77, 38, 39,
-                40, 80, 81, 95, 96, 9, 47, 97, 37, 1,
-                74, 57, 100, 7, 63, 31, 58, 35, 23, 46,
-                36, 6, 69, 4, 92, 10, 3, 93
-        ));
+                26, 77, 43, 10, 67, 97, 7,
+                55, 86, 50, 96, 14, 74, 88,
+                51, 9, 56, 8, 29, 24, 99,
+                71, 46, 19, 66, 90, 53, 98,
+                85, 78, 4
+                ));
     }
 
     /**
@@ -32,16 +32,22 @@ public class ChouJiang {
     public static List<Integer> chouJiang(int start, int end, int count) {
         List<Integer> list = new ArrayList<>();
         if (count <= 0) {
+            throw new RuntimeException("参数有误！");
+        }
+        if (set.size() == 100) {
+            System.out.println("本轮抽奖已结束！");
             return list;
         }
 
+        Set<Integer> set2 = new HashSet<>();
         while (count > 0) {
             int num = (int) (Math.random() * (end - start + 1)) + start;
-            if (set.contains(num)) {
+            if (set.contains(num) || set2.contains(num)) {
                 continue;
             }
 
             list.add(num);
+            set2.add(num);
             count--;
         }
 
@@ -52,7 +58,7 @@ public class ChouJiang {
     public static void main(String[] args) {
         int start = 1;
         int end = 100;
-        int count = 5;
+        int count = 7;
         chouJiang(start, end, count);
     }
 }
